@@ -118,8 +118,8 @@
 				9BCFC10A28232D6900A4CD4A /* Assets.xcassets */,
 				9BCFC10C28232D6900A4CD4A /* LaunchScreen.storyboard */,
 				9BC7E5BB28244476002C7707 /* coord_filter.swift */,
-				9BCFC10F28232D6900A4CD4A /* Info.plist */,
 				9BC7E5BC28244476002C7707 /* database.swift */,
+				9BCFC10F28232D6900A4CD4A /* Info.plist */,
 			);
 			path = Lynx;
 			sourceTree = "<group>";

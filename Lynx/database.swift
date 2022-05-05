@@ -19,29 +19,8 @@ struct coord: Codable{
 }
 
 
-func getData1 (url: String, start: String, end: String) -> Array<coord> {
-    var url = "http://10.0.16.17:3000/coords"
-    url =  url + "?start=" + start + "&end=" + end
-    var out: [coord] = []
-    if let url = URL(string: url) {
-       URLSession.shared.dataTask(with: url) {data, response, error in
-    if let data = data {
-        let jsonDecoder = JSONDecoder()
-        do {
-        let parsedJSON = try jsonDecoder.decode([coord].self, from: data)
-            out = parsedJSON
-                } catch {
-        print(error)
-                }
-               }
-       }.resume()
-    }
-    return out
-}
-
-
 func getData (url: String, start: String, end: String) async throws -> Array<coord> {
-    var url = "http://10.0.16.17:3000/coords"
+    var url = "http://windmaster.ai/"+url
     url =  url + "?start=" + start + "&end=" + end
     var out: [coord] = []
     

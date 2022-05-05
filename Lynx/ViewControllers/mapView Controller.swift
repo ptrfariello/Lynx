@@ -24,9 +24,26 @@ class mapViewController: UIViewController {
         mapView?.delegate = self
         Task{
             do{
-        var path = await coord_to_display(start: "2022-05-01", end: "2022-05-03")
-        let polyline = MKPolyline(coordinates: &path, count: path.count)
-        self.mapView?.addOverlay(polyline)
+                var path = await coord_to_display(start: "2022-05-01", end: "2022-05-03")
+                
+                let maxLat = Double(path.map(\.latitude).max()!)
+                let maxLong = Double(path.map(\.longitude).max()!)
+                let minLat = Double(path.map(\.latitude).min()!)
+                let minLong = Double(path.map(\.longitude).min()!)
+                
+                let bottom_left = CLLocation(latitude: minLat, longitude: minLong)
+                let top_right = CLLocation(latitude: maxLat, longitude: maxLong)
+                
+                let zoom = bottom_left.distance(from: top_right)
+                let centerY = (maxLat + minLat) / 2
+                let centerX = (maxLong + minLong) / 2
+                let location = CLLocationCoordinate2D(latitude: centerY, longitude: centerX)
+                
+                let region =  MKCoordinateRegion(center: location, latitudinalMeters: zoom, longitudinalMeters: zoom)
+                self.mapView.setRegion(region, animated: true)
+                
+                let polyline = MKPolyline(coordinates: &path, count: path.count)
+                self.mapView?.addOverlay(polyline)
             }
         }
     }
