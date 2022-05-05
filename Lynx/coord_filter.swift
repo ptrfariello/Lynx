@@ -8,11 +8,15 @@
 import Foundation
 import MapKit
 
-func coord_to_display(start: String, end: String)->[CLLocationCoordinate2D]{
-    let input = getData(url: "coords", start: start, end: end)
+func coord_to_display(start: String, end: String) async ->[CLLocationCoordinate2D]{
+    var out: [CLLocationCoordinate2D]  = []
+    do{
+    let input = try await getData(url: "coords", start: start, end: end)
     var points: [CLLocationCoordinate2D] = []
     for point in input{
         points.append(CLLocationCoordinate2D(latitude: point.Lat, longitude: point.Long))
     }
-    return points
+    out = points
+    }catch{}
+    return out
 }
