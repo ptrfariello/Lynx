@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B05DE35282518AB00FEDE47 /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B05DE34282518AB00FEDE47 /* functions.swift */; };
 		9BC7E5BD28244476002C7707 /* coord_filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC7E5BB28244476002C7707 /* coord_filter.swift */; };
 		9BC7E5BE28244476002C7707 /* database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC7E5BC28244476002C7707 /* database.swift */; };
 		9BCFC10228232D6800A4CD4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCFC10128232D6800A4CD4A /* AppDelegate.swift */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9B05DE34282518AB00FEDE47 /* functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = functions.swift; sourceTree = "<group>"; };
 		9BC7E5BB28244476002C7707 /* coord_filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = coord_filter.swift; sourceTree = "<group>"; };
 		9BC7E5BC28244476002C7707 /* database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = database.swift; sourceTree = "<group>"; };
 		9BCFC0FE28232D6800A4CD4A /* Lynx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lynx.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +82,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B1C9384282517AE00D78676 /* mapFunctions */ = {
+			isa = PBXGroup;
+			children = (
+				9BC7E5BB28244476002C7707 /* coord_filter.swift */,
+				9BC7E5BC28244476002C7707 /* database.swift */,
+				9B05DE34282518AB00FEDE47 /* functions.swift */,
+			);
+			path = mapFunctions;
+			sourceTree = "<group>";
+		};
 		9BC7E5C128244767002C7707 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,14 +123,13 @@
 		9BCFC10028232D6800A4CD4A /* Lynx */ = {
 			isa = PBXGroup;
 			children = (
+				9B1C9384282517AE00D78676 /* mapFunctions */,
 				9BC7E5C128244767002C7707 /* ViewControllers */,
 				9BCFC10128232D6800A4CD4A /* AppDelegate.swift */,
 				9BCFC10328232D6800A4CD4A /* SceneDelegate.swift */,
 				9BCFC10728232D6800A4CD4A /* Main.storyboard */,
 				9BCFC10A28232D6900A4CD4A /* Assets.xcassets */,
 				9BCFC10C28232D6900A4CD4A /* LaunchScreen.storyboard */,
-				9BC7E5BB28244476002C7707 /* coord_filter.swift */,
-				9BC7E5BC28244476002C7707 /* database.swift */,
 				9BCFC10F28232D6900A4CD4A /* Info.plist */,
 			);
 			path = Lynx;
@@ -277,6 +288,7 @@
 				9BCFC10228232D6800A4CD4A /* AppDelegate.swift in Sources */,
 				9BC7E5BE28244476002C7707 /* database.swift in Sources */,
 				9BCFC10428232D6800A4CD4A /* SceneDelegate.swift in Sources */,
+				9B05DE35282518AB00FEDE47 /* functions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
