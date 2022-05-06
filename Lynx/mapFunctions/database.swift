@@ -60,7 +60,8 @@ struct coord: Codable{
 
 
 func getData (url: String, start: String, end: String) async throws -> [Place] {
-    var url = "http://windmaster.ai/"+url
+    //var url = "http://windmaster.ai/"+url
+    var url = "http://10.0.16.17:3000/"+url
     url =  url + "?start=" + start + "&end=" + end
     var out: [Place] = []
     

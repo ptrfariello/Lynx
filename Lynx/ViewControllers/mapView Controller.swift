@@ -11,10 +11,12 @@ import MapKit
 class mapViewController: UIViewController {
 
     @IBOutlet private var mapView: MKMapView!
+    @IBOutlet weak var markerLabel: UILabel!
+    @IBOutlet weak var markerText: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        main(url: "coords", start: "2022-04-01", end: "2022-05-30")
+        main(url: "coords", start: "2021-04-01", end: "2022-05-30")
        
     }
     
@@ -35,9 +37,7 @@ class mapViewController: UIViewController {
     func drawBoat(points: [Place]){
         let boat_place = points.last
         if points.last == nil{return}
-        let boatLabelFormatter = DateFormatter()
-        boatLabelFormatter.dateFormat = "HH:mm, d MMM y"
-        boat_place?.title = boatLabelFormatter.string(from: boat_place!.time)
+        boat_place?.title = print_date(date: boat_place!.time, hour: true)
         let boat = (boat_place ?? Place(time: Date.now, sog: 0, cog: 0, lat: 37.695670, lon: 24.060816, tws: 0, twa: 0, twd: 0)) as MKAnnotation
         mapView.addAnnotation(boat)
     }
@@ -83,5 +83,14 @@ extension mapViewController: MKMapViewDelegate {
         return MKOverlayRenderer()
     }
     
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let annotation = view.annotation as? Marker {
+            markerText.text = annotation.print_info()
+            markerLabel.text = ""
+            geoCode(location: annotation.coordinate, text: markerLabel)
+            markerText.isHidden = false
+            markerLabel.isHidden = false
+        }
+    }
 }
 

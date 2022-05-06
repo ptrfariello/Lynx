@@ -16,21 +16,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="hybrid" translatesAutoresizingMaskIntoConstraints="NO" id="13N-0E-fQf">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="hybrid" pitchEnabled="NO" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="13N-0E-fQf">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </mapView>
+                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.84999999999999998" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bCW-9L-p4Q">
+                                <rect key="frame" x="0.0" y="656.5" width="414" height="239.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.84999999999999998" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfJ-Kk-6xG">
+                                <rect key="frame" x="0.0" y="631" width="414" height="25.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="bCW-9L-p4Q" secondAttribute="bottom" id="K3h-Mh-M6x"/>
+                            <constraint firstItem="zfJ-Kk-6xG" firstAttribute="centerX" secondItem="bCW-9L-p4Q" secondAttribute="centerX" id="OUz-Co-pwk"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bCW-9L-p4Q" secondAttribute="trailing" id="OgP-Hs-fF8"/>
                             <constraint firstAttribute="trailing" secondItem="13N-0E-fQf" secondAttribute="trailing" id="PYi-PY-cnW"/>
+                            <constraint firstItem="bCW-9L-p4Q" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ddA-lK-7Bc"/>
                             <constraint firstItem="13N-0E-fQf" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="fSD-6H-JXm"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="zfJ-Kk-6xG" secondAttribute="trailing" id="h57-8O-tSe"/>
+                            <constraint firstItem="bCW-9L-p4Q" firstAttribute="top" secondItem="zfJ-Kk-6xG" secondAttribute="bottom" id="hNs-6C-9cN"/>
                             <constraint firstItem="13N-0E-fQf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="m5z-Gu-pIB"/>
                             <constraint firstAttribute="bottom" secondItem="13N-0E-fQf" secondAttribute="bottom" id="p3n-cv-Eil"/>
+                            <constraint firstItem="zfJ-Kk-6xG" firstAttribute="leading" relation="lessThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="wLN-Uh-oEZ"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="13N-0E-fQf" id="eGk-qM-ThI"/>
+                        <outlet property="markerLabel" destination="zfJ-Kk-6xG" id="N8I-XJ-pA8"/>
+                        <outlet property="markerText" destination="bCW-9L-p4Q" id="ZoU-w2-5qk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -39,6 +63,9 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

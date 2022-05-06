@@ -21,10 +21,28 @@ class Marker: Place{
         self.stays = 1
         super.init(time: spot.time, coord: spot.coordinate)
     }
+    func print_info()-> String{
+        var txt = ""
+        for (i, arrival) in arrival.enumerated() {
+            let stay = departure[i]-arrival
+            let date = arrival.addingTimeInterval(stay)
+            if stay>3600{
+                txt = txt + print_time(interval: stay, minutes: false)+" hours"
+            }else{
+                txt = txt + print_time(interval: stay, minutes: true)+" minutes"
+            }
+            
+            txt = txt + ", on " + print_date(date: date, hour: false)+"\n"
+        }
+        txt = txt + "\n"
+        return txt
+    }
 }
+
 func distance(p1: Place, p2: Place)->Double{
    return MKMapPoint(p1.coordinate).distance(to: MKMapPoint(p2.coordinate))
 }
+
 func avgSpeed(p1: Place, p2: Place)->Double{
     let dist = distance(p1: p1, p2: p2)*0.000539957
     var time = p2.time - p1.time
@@ -32,6 +50,7 @@ func avgSpeed(p1: Place, p2: Place)->Double{
     time = time / (60 * 60)
     return abs(dist/time)
 }
+
 func sameSpot(p1: Place, p2: Place)->Bool{
     return avgSpeed(p1: p1, p2: p2) < 3.3
 }
@@ -81,7 +100,8 @@ func marker_return(markers: [Marker])->[Marker]{
         i -= 1
     }
     for marker in markers {
-        marker.title = String(marker.stays)
+        let stays = marker.stays
+        marker.title = (stays>1) ? String(stays) : ""
     }
     return markers
 }
@@ -128,6 +148,21 @@ func deg2rad(_ number: Double) -> Double {
     return number * Double.pi / 180
 }
 
+func print_date(date: Date, hour: Bool) -> String{
+    let dateFormatter = DateFormatter()
+    dateFormatter.timeZone = TimeZone(abbreviation: "EEST")
+    if hour{dateFormatter.dateFormat = "HH:mm, d MMM y"}
+    else {dateFormatter.dateFormat = "d MMM y"}
+    return dateFormatter.string(from: date)
+}
+
+func print_time(interval: TimeInterval, minutes: Bool) -> String{
+    let timeFormatter = DateComponentsFormatter()
+    if minutes {timeFormatter.allowedUnits = [.hour, .minute]}
+    else {timeFormatter.allowedUnits = [.hour]}
+    return timeFormatter.string(from: interval) ?? ""
+}
+
 func place_avg(places: [Place])-> Place{
     var avgInterval = 0.0
     var avgLat = 0.0
@@ -150,14 +185,11 @@ func place_avg(places: [Place])-> Place{
 
 
 
-
 extension Date {
     static func - (lhs: Date, rhs: Date) -> Double {
         return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
     }
 }
-
-
 extension Array where Element: FloatingPoint {
     
     var sum: Element {
