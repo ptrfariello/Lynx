@@ -16,6 +16,7 @@ class mapViewController: UIViewController {
     @IBOutlet weak var markerLabel: UILabel!
     @IBOutlet weak var markerText: UITextView!
     @IBOutlet weak var loadingWheel: UIActivityIndicatorView!
+    @IBOutlet weak var milesLabel: UILabel!
     @IBAction func mrkBtnClicked(_ sender: Any) {
         show_marker_info(opt: true)
     }
@@ -33,8 +34,13 @@ class mapViewController: UIViewController {
                 points = delete_imp(points: points, num: 6, min_dist: 0.01, angle: 10, s: 50)
                 let path = points.map { $0.getCoord()}
                 drawPath(path: path)
-                let markers = marker_return(markers: markers(points: points))
+                let result = markers(points: points)
+                let markers = marker_return(markers: result.0)
+                let total_dist = Int(result.1)
+                milesLabel.text = "\(total_dist) miles"
                 drawBoat(points: points)
+                loadingWheel.stopAnimating()
+                milesLabel.isHidden = false
                 mapView?.addAnnotations(markers)
             }
         }
@@ -65,7 +71,6 @@ class mapViewController: UIViewController {
         let location = CLLocationCoordinate2D(latitude: centerY, longitude: centerX)
         
         let region =  MKCoordinateRegion(center: location, latitudinalMeters: zoom, longitudinalMeters: zoom)
-        loadingWheel.stopAnimating()
         self.mapView.setRegion(region, animated: true)
         
         

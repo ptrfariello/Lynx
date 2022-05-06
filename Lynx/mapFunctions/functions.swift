@@ -55,13 +55,15 @@ func sameSpot(p1: Place, p2: Place)->Bool{
     return avgSpeed(p1: p1, p2: p2) < 1.5
 }
 
-func markers(points: [Place])->[Marker]{
+func markers(points: [Place])->([Marker], Double){
+    var dist = 0.0
     var j=0
     var spot = false
     var markers: [Marker] = []
-    for i in 0...points.count-2 {
+    for i in 0...points.count-1-1 {
         let point = points[i]
         let nextPoint = points[i+1]
+        dist += distance(p1: point, p2: nextPoint)
         let basePoint = points[i-j]
         if sameSpot(p1: point, p2: nextPoint){
             let stay = (nextPoint.time - basePoint.time)/60
@@ -82,7 +84,7 @@ func markers(points: [Place])->[Marker]{
     let OlympicMarine = Marker(spot: Place(time: Date.now, coord: OlMaCoords), dep: Date.now)
     OlympicMarine.stays = 0
     markers.append(OlympicMarine)
-    return markers
+    return (markers, dist*0.000539957)
 }
 
 func marker_return(markers: [Marker])->[Marker]{

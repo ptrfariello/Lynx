@@ -47,17 +47,27 @@
                                 <rect key="frame" x="192" y="434" width="30" height="28"/>
                                 <color key="color" systemColor="systemRedColor"/>
                             </activityIndicatorView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="krS-yi-TyW">
+                                <rect key="frame" x="177.5" y="44" width="59" height="30"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="krS-yi-TyW" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="1Wf-NR-L59"/>
                             <constraint firstItem="Vdm-qI-1UB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4ri-HZ-WIJ"/>
+                            <constraint firstItem="krS-yi-TyW" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="6wj-tJ-ozr"/>
                             <constraint firstItem="Vdm-qI-1UB" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="HPM-Mt-A3x"/>
                             <constraint firstItem="KEk-mA-WU1" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="IBS-tb-FEG"/>
                             <constraint firstAttribute="bottom" secondItem="bCW-9L-p4Q" secondAttribute="bottom" id="K3h-Mh-M6x"/>
+                            <constraint firstItem="krS-yi-TyW" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="MNZ-Hl-AX8"/>
                             <constraint firstItem="zfJ-Kk-6xG" firstAttribute="centerX" secondItem="bCW-9L-p4Q" secondAttribute="centerX" id="OUz-Co-pwk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bCW-9L-p4Q" secondAttribute="trailing" id="OgP-Hs-fF8"/>
                             <constraint firstAttribute="trailing" secondItem="13N-0E-fQf" secondAttribute="trailing" id="PYi-PY-cnW"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="krS-yi-TyW" secondAttribute="trailing" id="RcL-Z4-P6p"/>
                             <constraint firstItem="zfJ-Kk-6xG" firstAttribute="top" secondItem="KEk-mA-WU1" secondAttribute="bottom" id="SYQ-BX-MwN"/>
                             <constraint firstItem="bCW-9L-p4Q" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ddA-lK-7Bc"/>
                             <constraint firstItem="13N-0E-fQf" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="fSD-6H-JXm"/>
@@ -73,6 +83,7 @@
                         <outlet property="mapView" destination="13N-0E-fQf" id="eGk-qM-ThI"/>
                         <outlet property="markerLabel" destination="zfJ-Kk-6xG" id="N8I-XJ-pA8"/>
                         <outlet property="markerText" destination="bCW-9L-p4Q" id="ZoU-w2-5qk"/>
+                        <outlet property="milesLabel" destination="krS-yi-TyW" id="CUu-2g-1fQ"/>
                         <outlet property="mrkCloseBtn" destination="KEk-mA-WU1" id="sNq-9z-kFd"/>
                     </connections>
                 </viewController>
