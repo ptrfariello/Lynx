@@ -52,7 +52,7 @@ func avgSpeed(p1: Place, p2: Place)->Double{
 }
 
 func sameSpot(p1: Place, p2: Place)->Bool{
-    return avgSpeed(p1: p1, p2: p2) < 3.3
+    return avgSpeed(p1: p1, p2: p2) < 1.5
 }
 
 func markers(points: [Place])->[Marker]{
@@ -78,6 +78,10 @@ func markers(points: [Place])->[Marker]{
             j = 0
         }
     }
+    let OlMaCoords = CLLocationCoordinate2D(latitude: 37.695670, longitude: 24.060816)
+    let OlympicMarine = Marker(spot: Place(time: Date.now, coord: OlMaCoords), dep: Date.now)
+    OlympicMarine.stays = 0
+    markers.append(OlympicMarine)
     return markers
 }
 
@@ -103,6 +107,8 @@ func marker_return(markers: [Marker])->[Marker]{
         let stays = marker.stays
         marker.title = (stays>1) ? String(stays) : ""
     }
+    markers.last?.arrival.remove(at: 0)
+    markers.last?.departure.remove(at: 0)
     return markers
 }
 

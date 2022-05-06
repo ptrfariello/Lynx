@@ -34,14 +34,31 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KEk-mA-WU1">
+                                <rect key="frame" x="369" y="600" width="45" height="31"/>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="x.circle.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="mrkBtnClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gAf-07-zC2"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Vdm-qI-1UB">
+                                <rect key="frame" x="192" y="434" width="30" height="28"/>
+                                <color key="color" systemColor="systemRedColor"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Vdm-qI-1UB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4ri-HZ-WIJ"/>
+                            <constraint firstItem="Vdm-qI-1UB" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="HPM-Mt-A3x"/>
+                            <constraint firstItem="KEk-mA-WU1" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="IBS-tb-FEG"/>
                             <constraint firstAttribute="bottom" secondItem="bCW-9L-p4Q" secondAttribute="bottom" id="K3h-Mh-M6x"/>
                             <constraint firstItem="zfJ-Kk-6xG" firstAttribute="centerX" secondItem="bCW-9L-p4Q" secondAttribute="centerX" id="OUz-Co-pwk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bCW-9L-p4Q" secondAttribute="trailing" id="OgP-Hs-fF8"/>
                             <constraint firstAttribute="trailing" secondItem="13N-0E-fQf" secondAttribute="trailing" id="PYi-PY-cnW"/>
+                            <constraint firstItem="zfJ-Kk-6xG" firstAttribute="top" secondItem="KEk-mA-WU1" secondAttribute="bottom" id="SYQ-BX-MwN"/>
                             <constraint firstItem="bCW-9L-p4Q" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ddA-lK-7Bc"/>
                             <constraint firstItem="13N-0E-fQf" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="fSD-6H-JXm"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="zfJ-Kk-6xG" secondAttribute="trailing" id="h57-8O-tSe"/>
@@ -52,9 +69,11 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="loadingWheel" destination="Vdm-qI-1UB" id="2m2-bL-Rno"/>
                         <outlet property="mapView" destination="13N-0E-fQf" id="eGk-qM-ThI"/>
                         <outlet property="markerLabel" destination="zfJ-Kk-6xG" id="N8I-XJ-pA8"/>
                         <outlet property="markerText" destination="bCW-9L-p4Q" id="ZoU-w2-5qk"/>
+                        <outlet property="mrkCloseBtn" destination="KEk-mA-WU1" id="sNq-9z-kFd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -63,11 +82,15 @@
         </scene>
     </scenes>
     <resources>
+        <image name="x.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -9,7 +9,7 @@ import Foundation
 import MapKit
 
 
-func geoCode(location: CLLocationCoordinate2D, text: UILabel){
+func geoCode(location: CLLocationCoordinate2D, marker_text: UILabel){
     var out = ""
     let geocoder = CLGeocoder()
     let location = CLLocation(latitude: location.latitude, longitude: location.longitude)
@@ -25,7 +25,7 @@ func geoCode(location: CLLocationCoordinate2D, text: UILabel){
             out = (name != "") ? out+", \(name)" : out
             out = (locality != "") ? out+", \(locality)" : out
             out = (gr != "") ? out+", \(gr)" : out
-            text.text = out
+            marker_text.text = out
         }
     })
 }

@@ -10,14 +10,20 @@ import MapKit
 
 class mapViewController: UIViewController {
 
+    // MARK: - Connections to StoryBoard
+    @IBOutlet weak var mrkCloseBtn: UIButton!
     @IBOutlet private var mapView: MKMapView!
     @IBOutlet weak var markerLabel: UILabel!
     @IBOutlet weak var markerText: UITextView!
+    @IBOutlet weak var loadingWheel: UIActivityIndicatorView!
+    @IBAction func mrkBtnClicked(_ sender: Any) {
+        show_marker_info(opt: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        main(url: "coords", start: "2021-04-01", end: "2022-05-30")
-       
+        main(url: "coords", start: "2022-04-01", end: "2022-05-30")
     }
     
     func main(url: String, start: String, end: String){
@@ -41,7 +47,6 @@ class mapViewController: UIViewController {
         let boat = (boat_place ?? Place(time: Date.now, sog: 0, cog: 0, lat: 37.695670, lon: 24.060816, tws: 0, twa: 0, twd: 0)) as MKAnnotation
         mapView.addAnnotation(boat)
     }
-    
 
     func drawPath(path: [CLLocationCoordinate2D]) {
         mapView?.delegate = self
@@ -60,14 +65,21 @@ class mapViewController: UIViewController {
         let location = CLLocationCoordinate2D(latitude: centerY, longitude: centerX)
         
         let region =  MKCoordinateRegion(center: location, latitudinalMeters: zoom, longitudinalMeters: zoom)
+        loadingWheel.stopAnimating()
         self.mapView.setRegion(region, animated: true)
+        
         
         let polyline = MKPolyline(coordinates: &path, count: path.count)
         self.mapView?.addOverlay(polyline)
         
     }
+    
+    func show_marker_info(opt: Bool){
+        markerText.isHidden = opt
+        markerLabel.isHidden = opt
+        mrkCloseBtn.isHidden = opt
+    }
 }
-
 
 
 extension mapViewController: MKMapViewDelegate {
@@ -87,10 +99,14 @@ extension mapViewController: MKMapViewDelegate {
         if let annotation = view.annotation as? Marker {
             markerText.text = annotation.print_info()
             markerLabel.text = ""
-            geoCode(location: annotation.coordinate, text: markerLabel)
-            markerText.isHidden = false
-            markerLabel.isHidden = false
+            if (annotation.coordinate.latitude == 37.695670){
+                markerLabel.text = "Fast Sailing, Olympic Marine"
+            }else{
+            geoCode(location: annotation.coordinate, marker_text: markerLabel)
+            }
+            show_marker_info(opt: false)
         }
     }
+    
 }
 
