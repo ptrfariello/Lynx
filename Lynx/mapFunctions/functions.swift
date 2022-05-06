@@ -28,9 +28,9 @@ func distance(p1: Place, p2: Place)->Double{
 func avgSpeed(p1: Place, p2: Place)->Double{
     let dist = distance(p1: p1, p2: p2)*0.000539957
     var time = p2.time - p1.time
-    if time*1000<1{return Double.infinity}
+    if abs(time)*1000<1{return Double.infinity}
     time = time / (60 * 60)
-    return dist/time
+    return abs(dist/time)
 }
 func sameSpot(p1: Place, p2: Place)->Bool{
     return avgSpeed(p1: p1, p2: p2) < 3.3
@@ -95,16 +95,14 @@ func get_angle(point1: Place, point2: Place, point3: Place, min_distance: Double
         let num = side1*side1 + side2*side2 - side3*side3
         let denom = 2 * side1 * side2
         var fraction = num/denom
-        print(fraction)
         fraction = (abs(fraction)<1) ? fraction : 1
         let angle = acos(fraction)
-        print(angle)
         return angle
     }
     return 0
 }
 
-func delete_imp(points: [Place], min_dist: Double, angle: Double, s: Double)->[Place]{
+func delete_imp(points: [Place], num: Int, min_dist: Double, angle: Double, s: Double)->[Place]{
     var points = points
     let speed_threshold = s
     let angle_threshold = deg2rad(angle)
@@ -113,10 +111,11 @@ func delete_imp(points: [Place], min_dist: Double, angle: Double, s: Double)->[P
         let angle = get_angle(point1: points[i-2], point2: points[i-1], point3: points[i], min_distance: min_dist)
         if angle > (2*Double.pi-angle_threshold) || angle < angle_threshold{
             points.remove(at: i-1)
-            
         }
-        if i < (points.count - 1){
-            if avgSpeed(p1: points[i-1], p2: points[i])>speed_threshold{
+        if i < (points.count - num - 1){
+            let mean = place_avg(places: Array(points[i...i+num]))
+            let avgSpeed = avgSpeed(p1: mean, p2: points[i-1])
+            if avgSpeed > speed_threshold{
                 points.remove(at: i-1)
             }
         }
@@ -129,11 +128,35 @@ func deg2rad(_ number: Double) -> Double {
     return number * Double.pi / 180
 }
 
+func place_avg(places: [Place])-> Place{
+    var avgInterval = 0.0
+    var avgLat = 0.0
+    var avgLon = 0.0
+    let start = places[0].time
+    for place in places{
+        let interval = place.time - start
+        avgLat += place.coordinate.latitude
+        avgLon += place.coordinate.longitude
+        avgInterval += interval
+    }
+    let length = Double(places.count)
+    avgLon = avgLon/length
+    avgLat = avgLat/length
+    avgInterval = avgInterval/length
+    let coord = CLLocationCoordinate2D(latitude: avgLat, longitude: avgLon)
+    let date = start.addingTimeInterval(avgInterval)
+    return Place(time: date, coord: coord)
+}
+
+
+
+
 extension Date {
     static func - (lhs: Date, rhs: Date) -> Double {
         return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
     }
 }
+
 
 extension Array where Element: FloatingPoint {
     
@@ -147,5 +170,4 @@ extension Array where Element: FloatingPoint {
         }
         return sum / Element(count)
     }
-
 }

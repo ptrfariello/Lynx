@@ -14,7 +14,6 @@ class mapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        // Initial Location
         main(url: "coords", start: "2022-04-01", end: "2022-05-30")
        
     }
@@ -23,14 +22,24 @@ class mapViewController: UIViewController {
         Task{
             do{
                 var points = try await getData(url: url, start: start, end: end)
-                points = delete_imp(points: points, min_dist: 0.01, angle: 10, s: 50)
+                points = delete_imp(points: points, num: 6, min_dist: 0.01, angle: 10, s: 50)
                 let path = points.map { $0.getCoord()}
                 drawPath(path: path)
-                mapView.addAnnotation(points.last ?? Place(time: Date.now, sog: 0, cog: 0, lat: 37.695670, lon: 24.060816, tws: 0, twa: 0, twd: 0))
                 let markers = marker_return(markers: markers(points: points))
+                drawBoat(points: points)
                 mapView?.addAnnotations(markers)
             }
         }
+    }
+    
+    func drawBoat(points: [Place]){
+        let boat_place = points.last
+        if points.last == nil{return}
+        let boatLabelFormatter = DateFormatter()
+        boatLabelFormatter.dateFormat = "HH:mm, d MMM y"
+        boat_place?.title = boatLabelFormatter.string(from: boat_place!.time)
+        let boat = (boat_place ?? Place(time: Date.now, sog: 0, cog: 0, lat: 37.695670, lon: 24.060816, tws: 0, twa: 0, twd: 0)) as MKAnnotation
+        mapView.addAnnotation(boat)
     }
     
 
