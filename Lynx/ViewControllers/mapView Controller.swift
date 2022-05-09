@@ -8,8 +8,10 @@
 import UIKit
 import MapKit
 
-class mapViewController: UIViewController {
+let fast_sailing = CLLocationCoordinate2D(latitude: 37.695670, longitude: 24.060816)
 
+class mapViewController: UIViewController {
+    
     // MARK: - Connections to StoryBoard
     @IBOutlet weak var mrkCloseBtn: UIButton!
     @IBOutlet private var mapView: MKMapView!
@@ -17,45 +19,67 @@ class mapViewController: UIViewController {
     @IBOutlet weak var markerText: UITextView!
     @IBOutlet weak var loadingWheel: UIActivityIndicatorView!
     @IBOutlet weak var milesLabel: UILabel!
+    @IBOutlet weak var startDateLabel: UILabel!
+    @IBOutlet weak var endDateLabel: UILabel!
     @IBAction func mrkBtnClicked(_ sender: Any) {
         show_marker_info(opt: true)
     }
+    @IBAction func srtBtnClicked(_ sender: Any) {
+        
+    }
+    
+    
+    var start: Date = Date.now.addingTimeInterval(-3600*24*14)
+    var end: Date = Date.now
+    
+    var points: [Place] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        main(url: "coords", start: "2022-04-01", end: "2022-05-30")
+        get_and_update()
     }
     
-    func main(url: String, start: String, end: String){
-        Task{
-            do{
-                var points = try await getData(url: url, start: start, end: end)
-                points = delete_imp(points: points, num: 6, min_dist: 0.01, angle: 10, s: 50)
-                let path = points.map { $0.getCoord()}
-                drawPath(path: path)
-                let result = markers(points: points)
-                let markers = marker_return(markers: result.0)
-                let total_dist = Int(result.1)
-                milesLabel.text = "\(total_dist) miles"
-                drawBoat(points: points)
-                loadingWheel.stopAnimating()
-                milesLabel.isHidden = false
-                mapView?.addAnnotations(markers)
-            }
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        main(points: points, start: start, end: end)
+    }
+    
+    func main(points: [Place], start: Date, end: Date){
+        mapClear()
+        startDateLabel.text = "\(print_date(date: start, hour: false))"
+        endDateLabel.text = "\(print_date(date: end, hour: false))"
+        let points = select_points(points: points, from: start, to: end)
+        let path = points.map{ $0.getCoord()}
+        drawPath(path: path)
+        let result = markers(points: points)
+        let markers = marker_return(markers: result.0)
+        let total_dist = Int(result.1)
+        
+        milesLabel.text = "\(total_dist) nm"
+        drawBoat(points: points)
+        loadingWheel.stopAnimating()
+        milesLabel.isHidden = false
+        mapView?.addAnnotations(markers)
+    }
+    
+    func mapClear(){
+        let overlays = mapView.overlays
+        mapView.removeOverlays(overlays)
+        let annotations = mapView.annotations
+        mapView.removeAnnotations(annotations)
     }
     
     func drawBoat(points: [Place]){
+        mapView?.delegate = self
         let boat_place = points.last
         if points.last == nil{return}
         boat_place?.title = print_date(date: boat_place!.time, hour: true)
-        let boat = (boat_place ?? Place(time: Date.now, sog: 0, cog: 0, lat: 37.695670, lon: 24.060816, tws: 0, twa: 0, twd: 0)) as MKAnnotation
+        let boat = (boat_place ?? Place(time: Date.now, coord: fast_sailing)) as MKAnnotation
         mapView.addAnnotation(boat)
     }
-
+    
     func drawPath(path: [CLLocationCoordinate2D]) {
-        mapView?.delegate = self
         var path = path
         let maxLat = Double(path.map(\.latitude).max() ?? 37.759779)
         let maxLong = Double(path.map(\.longitude).max() ?? 24.140416)
@@ -72,8 +96,6 @@ class mapViewController: UIViewController {
         
         let region =  MKCoordinateRegion(center: location, latitudinalMeters: zoom, longitudinalMeters: zoom)
         self.mapView.setRegion(region, animated: true)
-        
-        
         let polyline = MKPolyline(coordinates: &path, count: path.count)
         self.mapView?.addOverlay(polyline)
         
@@ -83,7 +105,39 @@ class mapViewController: UIViewController {
         markerText.isHidden = opt
         markerLabel.isHidden = opt
         mrkCloseBtn.isHidden = opt
+        startDateLabel.isHidden = opt
+        endDateLabel.isHidden = opt
     }
+    
+    func get_and_update(){
+        points = get_saved()
+        Task {
+            do{
+                let updated = try await update_saved(points: self.points)
+                if updated{
+                    get_and_update()
+                }
+            }
+        }
+    }
+    
+    
+    //MARK: - Segue Functions
+    @IBAction func cancelToMapViewController(_ segue: UIStoryboardSegue) {
+    }
+    
+    @IBAction func saveDate(_ segue: UIStoryboardSegue) {
+        if segue.identifier == "start"
+        {
+            if let date_picker = segue.source as? dateSelController
+            {
+                start = date_picker.startDatePicker.date
+                end = date_picker.endDatePicker.date
+                main(points: points, start: start, end: end)
+            }
+        }
+    }
+    
 }
 
 
@@ -95,7 +149,7 @@ extension mapViewController: MKMapViewDelegate {
             renderer.strokeColor = UIColor.orange
             renderer.lineWidth = 2
             return renderer
-        
+            
         }
         return MKOverlayRenderer()
     }
@@ -107,11 +161,19 @@ extension mapViewController: MKMapViewDelegate {
             if (annotation.coordinate.latitude == 37.695670){
                 markerLabel.text = "Fast Sailing, Olympic Marine"
             }else{
-            geoCode(location: annotation.coordinate, marker_text: markerLabel)
+                geoCode(location: annotation.coordinate, marker_text: markerLabel)
             }
             show_marker_info(opt: false)
         }
     }
     
+    func mapView(_ MapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+        if annotation is Marker {
+            return nil
+        }
+        view.markerTintColor = .blue
+        return view
+    }
 }
 
