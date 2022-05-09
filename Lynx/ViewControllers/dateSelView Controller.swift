@@ -10,13 +10,25 @@ import UIKit
 
 class dateSelController: UIViewController {
     
+    var start: Date = Date.now
+    var end: Date = Date.now
+    
+    
     @IBOutlet weak var startDatePicker: UIDatePicker!
     @IBOutlet weak var endDatePicker: UIDatePicker!
+    
+    
     @IBAction func srtDateChanged(_ sender: Any) {
         endDatePicker.minimumDate = startDatePicker.date
     }
     @IBAction func endDateChanged(_ sender: Any) {
-        endDatePicker.maximumDate = endDatePicker.date
+        startDatePicker.maximumDate = endDatePicker.date
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        startDatePicker.setDate(start, animated: false)
+        endDatePicker.setDate(end, animated: false)
+        endDatePicker.maximumDate = Date.now
     }
 }
 

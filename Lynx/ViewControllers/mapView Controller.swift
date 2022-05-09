@@ -22,7 +22,7 @@ class mapViewController: UIViewController {
     @IBOutlet weak var startDateLabel: UILabel!
     @IBOutlet weak var endDateLabel: UILabel!
     @IBAction func mrkBtnClicked(_ sender: Any) {
-        show_marker_info(opt: true)
+        hide_marker_info(opt: true)
     }
     @IBAction func srtBtnClicked(_ sender: Any) {
         
@@ -47,8 +47,8 @@ class mapViewController: UIViewController {
     
     func main(points: [Place], start: Date, end: Date){
         mapClear()
-        startDateLabel.text = "\(print_date(date: start, hour: false))"
-        endDateLabel.text = "\(print_date(date: end, hour: false))"
+        startDateLabel.text = "" //"\(print_date(date: start, hour: false))"
+        endDateLabel.text = "" //"\(print_date(date: end, hour: false))"
         let points = select_points(points: points, from: start, to: end)
         let path = points.map{ $0.getCoord()}
         drawPath(path: path)
@@ -56,7 +56,7 @@ class mapViewController: UIViewController {
         let markers = marker_return(markers: result.0)
         let total_dist = Int(result.1)
         
-        milesLabel.text = "\(total_dist) nm"
+        milesLabel.text = "\(total_dist) miles"
         drawBoat(points: points)
         loadingWheel.stopAnimating()
         milesLabel.isHidden = false
@@ -101,7 +101,11 @@ class mapViewController: UIViewController {
         
     }
     
-    func show_marker_info(opt: Bool){
+    func hide_marker_info(opt: Bool){
+        if opt{
+            markerText.text = ""
+            markerLabel.text = ""
+        }
         markerText.isHidden = opt
         markerLabel.isHidden = opt
         mrkCloseBtn.isHidden = opt
@@ -113,9 +117,13 @@ class mapViewController: UIViewController {
         points = get_saved()
         Task {
             do{
+                let last_point: Date = points.last?.time ?? Date.distantPast
                 let updated = try await update_saved(points: self.points)
                 if updated{
                     get_and_update()
+                    if last_point < end{
+                        main(points: points, start: start, end: end)
+                    }
                 }
             }
         }
@@ -127,7 +135,7 @@ class mapViewController: UIViewController {
     }
     
     @IBAction func saveDate(_ segue: UIStoryboardSegue) {
-        if segue.identifier == "start"
+        if segue.identifier == "apply_dates"
         {
             if let date_picker = segue.source as? dateSelController
             {
@@ -138,6 +146,14 @@ class mapViewController: UIViewController {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "dates_to_picker") {
+            if let date_picker = segue.destination as? dateSelController {
+                date_picker.start = self.start
+                date_picker.end = self.end
+            }
+        }
+    }
 }
 
 
@@ -163,7 +179,7 @@ extension mapViewController: MKMapViewDelegate {
             }else{
                 geoCode(location: annotation.coordinate, marker_text: markerLabel)
             }
-            show_marker_info(opt: false)
+            hide_marker_info(opt: false)
         }
     }
     

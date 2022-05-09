@@ -14,19 +14,21 @@ func geoCode(location: CLLocationCoordinate2D, marker_text: UILabel){
     let geocoder = CLGeocoder()
     let location = CLLocation(latitude: location.latitude, longitude: location.longitude)
     geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
-        for placemark in placemarks! {
-            var sea = placemark.ocean ?? ""
-            var name = placemark.name ?? ""
-            var locality = placemark.locality ?? ""
-            let gr = placemark.isoCountryCode ?? ""
-            if (locality == name){locality = ""}
-            if (name == sea){name = ""}
-            out = add_to_string(base: out, add: sea)
-            out = add_to_string(base: out, add: name)
-            out = add_to_string(base: out, add: locality)
-            out = add_to_string(base: out, add: gr)
-            marker_text.text = out
+        if placemarks != nil{
+            for placemark in placemarks! {
+                let sea = placemark.ocean ?? ""
+                var name = placemark.name ?? ""
+                var locality = placemark.locality ?? ""
+                let gr = placemark.isoCountryCode ?? ""
+                if (locality == name){locality = ""}
+                if (name == sea){name = ""}
+                out = add_to_string(base: out, add: sea)
+                out = add_to_string(base: out, add: name)
+                out = add_to_string(base: out, add: locality)
+                out = add_to_string(base: out, add: gr)
+            }
         }
+        marker_text.text = out
     })
 }
 
