@@ -46,13 +46,13 @@ struct pointStorage: Codable{
     
     init(place: Place) {
         self.Time = place.time.timeIntervalSince1970
-        self.SOG = place.sog ?? 0
-        self.COG = place.cog ?? 0
-        self.Lat = place.lat ?? 0
-        self.Long = place.lon ?? 0
-        self.TWS = place.tws ?? 0
-        self.TWA = place.twa ?? 0
-        self.TWD = place.twd ?? 0
+        self.SOG = place.sog
+        self.COG = place.cog
+        self.Lat = place.lat
+        self.Long = place.lon
+        self.TWS = place.tws
+        self.TWA = place.twa
+        self.TWD = place.twd
     }
     
     init(crd: coord){
@@ -67,29 +67,29 @@ struct pointStorage: Codable{
     }
 }
 
-public class Place: NSObject, MKAnnotation {
+class DataPoint: Place{
+    var data: Float = 0.0
+    var color = UIColor.red
+    var type: String = ""
+    
+    init(parent: Place, color: UIColor, type: String){
+        super.init(time: parent.time, sog: parent.sog, cog: parent.cog, lat: parent.lat, lon: parent.lon, tws: parent.tws, twa: parent.twa, twd: parent.twa)
+        self.color = color
+        self.type = type
+    }
+}
+
+class Place: NSObject, MKAnnotation {
 
     public var title: String?
     var time: Date
-    var sog: Float? = 0.0
-    var cog: Float? = 0.0
-    var lat: Double? = 0.0
-    var lon: Double? = 0.0
-    var tws: Float? = 0.0
-    var twa: Float? = 0.0
-    var twd: Float? = 0.0
-    
-    enum Key:String{
-        case title = "title"
-        case time = "time"
-        case sog = "sog"
-        case cog = "cog"
-        case lat = "lat"
-        case lon = "lon"
-        case tws = "tws"
-        case twa = "twa"
-        case twd = "twd"
-    }
+    var sog: Float = 0.0
+    var cog: Float = 0.0
+    var lat: Double = 0.0
+    var lon: Double = 0.0
+    var tws: Float = 0.0
+    var twa: Float = 0.0
+    var twd: Float = 0.0
     
     public var coordinate: CLLocationCoordinate2D
     
@@ -135,6 +135,7 @@ public class Place: NSObject, MKAnnotation {
         self.coordinate = CLLocationCoordinate2D(latitude: point.Lat, longitude: point.Long)
     }
     
+    
     func getCoord() -> CLLocationCoordinate2D{
         return self.coordinate
     }
@@ -144,6 +145,9 @@ class Marker: Place{
     var arrival: [Date]
     var departure: [Date]
     var stays: Int
+    var data: [Float] = []
+    var isData: Bool = false
+    
     
     init(spot: Place, dep: Date) {
         self.arrival = [spot.time]
@@ -152,10 +156,7 @@ class Marker: Place{
         super.init(time: spot.time, coord: spot.coordinate)
     }
     
-    public required convenience init?(coder decoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    func print_info()-> String{
+    func print_info()->String{
         var txt = ""
         for (i, arrival) in arrival.enumerated() {
             let stay = departure[i]-arrival
@@ -171,6 +172,7 @@ class Marker: Place{
         txt.removeLast()
         return txt
     }
+    
 }
 
 func distance(p1: Place, p2: Place)->Double{
@@ -192,6 +194,7 @@ func sameSpot(p1: Place, p2: Place)->Bool{
 func markers(points: [Place])->([Marker], Double){
     var dist = 0.0
     var j=0
+    
     var spot = false
     var markers: [Marker] = []
     if points.count < 2{

@@ -15,10 +15,11 @@
 		9B05DE35282518AB00FEDE47 /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B05DE34282518AB00FEDE47 /* functions.swift */; };
 		9B5D1BFE282A5BCE00E0A1B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B5D1BFD282A5BCE00E0A1B3 /* Main.storyboard */; };
 		9B5D1C0B282A5E1D00E0A1B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B5D1C0A282A5E1D00E0A1B3 /* LaunchScreen.storyboard */; };
-		9BA9AB66282AD5D900C183AF /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9BA9AB65282AD5D900C183AF /* Map.storyboard */; };
 		9BAAF8BD28257B5F000EC8A5 /* geocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAAF8BC28257B5F000EC8A5 /* geocoder.swift */; };
 		9BBD6E13282A63B000E68312 /* sharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBD6E12282A63B000E68312 /* sharedData.swift */; };
-		9BBD6E15282A6F8400E68312 /* menu View Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBD6E14282A6F8400E68312 /* menu View Controller.swift */; };
+		9BBD6E15282A6F8400E68312 /* 4xView Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBD6E14282A6F8400E68312 /* 4xView Controller.swift */; };
+		9BC7099E282B07590064A969 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC7099C282B03D50064A969 /* MapKit.framework */; };
+		9BC7099F282B07590064A969 /* MapKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC7099C282B03D50064A969 /* MapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9BC7E5BD28244476002C7707 /* coord_filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC7E5BB28244476002C7707 /* coord_filter.swift */; };
 		9BC7E5BE28244476002C7707 /* database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC7E5BC28244476002C7707 /* database.swift */; };
 		9BCFC10228232D6800A4CD4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCFC10128232D6800A4CD4A /* AppDelegate.swift */; };
@@ -47,6 +48,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		9BC709A0282B07590064A969 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9BC7099F282B07590064A969 /* MapKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		9A4CCD212828E94C005401B3 /* dateFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dateFunctions.swift; sourceTree = "<group>"; };
 		9A4CCD232828E95E005401B3 /* PlacesMarkersFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesMarkersFunctions.swift; sourceTree = "<group>"; };
@@ -56,10 +71,10 @@
 		9B05DE34282518AB00FEDE47 /* functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = functions.swift; sourceTree = "<group>"; };
 		9B5D1BFD282A5BCE00E0A1B3 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9B5D1C0A282A5E1D00E0A1B3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		9BA9AB65282AD5D900C183AF /* Map.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		9BAAF8BC28257B5F000EC8A5 /* geocoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = geocoder.swift; sourceTree = "<group>"; };
 		9BBD6E12282A63B000E68312 /* sharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sharedData.swift; sourceTree = "<group>"; };
-		9BBD6E14282A6F8400E68312 /* menu View Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "menu View Controller.swift"; sourceTree = "<group>"; };
+		9BBD6E14282A6F8400E68312 /* 4xView Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "4xView Controller.swift"; sourceTree = "<group>"; };
+		9BC7099C282B03D50064A969 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		9BC7E5BB28244476002C7707 /* coord_filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = coord_filter.swift; sourceTree = "<group>"; };
 		9BC7E5BC28244476002C7707 /* database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = database.swift; sourceTree = "<group>"; };
 		9BCFC0FE28232D6800A4CD4A /* Lynx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lynx.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BC7099E282B07590064A969 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,11 +135,18 @@
 		9B5D1BFF282A5BDC00E0A1B3 /* StoryBoards */ = {
 			isa = PBXGroup;
 			children = (
-				9BA9AB65282AD5D900C183AF /* Map.storyboard */,
 				9B5D1C0A282A5E1D00E0A1B3 /* LaunchScreen.storyboard */,
 				9B5D1BFD282A5BCE00E0A1B3 /* Main.storyboard */,
 			);
 			path = StoryBoards;
+			sourceTree = "<group>";
+		};
+		9BC7099B282B03D50064A969 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9BC7099C282B03D50064A969 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		9BC7E5C128244767002C7707 /* ViewControllers */ = {
@@ -131,7 +154,7 @@
 			children = (
 				9BCFC10528232D6800A4CD4A /* mapView Controller.swift */,
 				9A4CCD272828F9FE005401B3 /* dateSelView Controller.swift */,
-				9BBD6E14282A6F8400E68312 /* menu View Controller.swift */,
+				9BBD6E14282A6F8400E68312 /* 4xView Controller.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -143,6 +166,7 @@
 				9BCFC11728232D6A00A4CD4A /* LynxTests */,
 				9BCFC12128232D6A00A4CD4A /* LynxUITests */,
 				9BCFC0FF28232D6800A4CD4A /* Products */,
+				9BC7099B282B03D50064A969 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -197,6 +221,7 @@
 				9BCFC0FA28232D6800A4CD4A /* Sources */,
 				9BCFC0FB28232D6800A4CD4A /* Frameworks */,
 				9BCFC0FC28232D6800A4CD4A /* Resources */,
+				9BC709A0282B07590064A969 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -294,7 +319,6 @@
 				9BCFC10B28232D6900A4CD4A /* Assets.xcassets in Resources */,
 				9B5D1C0B282A5E1D00E0A1B3 /* LaunchScreen.storyboard in Resources */,
 				9B5D1BFE282A5BCE00E0A1B3 /* Main.storyboard in Resources */,
-				9BA9AB66282AD5D900C183AF /* Map.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,7 +355,7 @@
 				9A4CCD262828E9DD005401B3 /* extensions.swift in Sources */,
 				9BCFC10428232D6800A4CD4A /* SceneDelegate.swift in Sources */,
 				9BBD6E13282A63B000E68312 /* sharedData.swift in Sources */,
-				9BBD6E15282A6F8400E68312 /* menu View Controller.swift in Sources */,
+				9BBD6E15282A6F8400E68312 /* 4xView Controller.swift in Sources */,
 				9B05DE35282518AB00FEDE47 /* functions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -488,14 +512,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = JHBG89953Q;
+				DEVELOPMENT_TEAM = YYJ246MB2L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Lynx/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "SV Lynx";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -503,9 +531,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sailmaster.Lynx;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.windmaster.lynx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -517,14 +546,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = JHBG89953Q;
+				DEVELOPMENT_TEAM = YYJ246MB2L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Lynx/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "SV Lynx";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarHidden = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -532,9 +565,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sailmaster.Lynx;
+				MARKETING_VERSION = 0.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.windmaster.lynx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

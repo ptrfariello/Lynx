@@ -20,14 +20,19 @@ class mapViewController: UIViewController {
     @IBOutlet weak var markerText: UITextView!
     @IBOutlet weak var loadingWheel: UIActivityIndicatorView!
     
+    @IBAction func goToPlaceTap(_ sender: UITapGestureRecognizer) {
+        showOpenMapsAlert()
+    }
+    
     @IBOutlet weak var startDateLabel: UILabel!
     @IBOutlet weak var endDateLabel: UILabel!
     @IBAction func mrkBtnClicked(_ sender: Any) {
         hide_marker_info(opt: true)
     }
     
+    var active_Marker: Marker?
     
-    var start: Date = Date.distantPast
+    var start: Date = Date.now.addingTimeInterval(-3600*24*28)
     var end: Date = Date.now
     
     var points: [Place] = []
@@ -54,7 +59,6 @@ class mapViewController: UIViewController {
         let result = markers(points: points)
         let markers = marker_return(markers: result.0)
         let total_dist = Int(result.1)
-        
         milesLabel.text = "\(total_dist) miles"
         milesLabel.isHidden = false
         drawBoat(points: points)
@@ -82,6 +86,26 @@ class mapViewController: UIViewController {
             self.main(points: self.points, start: self.start, end: self.end)
         }))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showOpenMapsAlert() {
+        let alert = UIAlertController(title: "Open in Maps", message: "Open this location in Maps?", preferredStyle: UIAlertController.Style.alert)
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: { _ in
+            //Cancel Action
+        }))
+        alert.addAction(UIAlertAction(title: "Yes", style: UIAlertAction.Style.default, handler: { [self](_: UIAlertAction!) in
+            self.open_maps()
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func open_maps(){
+        let coordinate = active_Marker?.coordinate ?? fast_sailing
+        let placemark = MKPlacemark(coordinate: coordinate)
+        let map_item = MKMapItem(placemark: placemark)
+        map_item.name = markerLabel.text
+        map_item.openInMaps()
     }
     
     func mapClear(){
@@ -200,15 +224,17 @@ extension mapViewController: MKMapViewDelegate {
             }else{
                 geoCode(location: annotation.coordinate, marker_text: markerLabel)
             }
+            active_Marker = annotation
             hide_marker_info(opt: false)
         }
     }
     
     func mapView(_ MapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "pin")
-        if annotation is Marker {
+        if let data_point = annotation as? DataPoint {
             return nil
         }
+        if annotation is Marker{return nil}
         view.markerTintColor = .blue
         return view
     }
