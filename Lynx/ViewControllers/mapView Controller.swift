@@ -13,35 +13,34 @@ let fast_sailing = CLLocationCoordinate2D(latitude: 37.695670, longitude: 24.060
 class mapViewController: UIViewController {
     
     // MARK: - Connections to StoryBoard
+    @IBOutlet weak var milesLabel: UILabel!
     @IBOutlet weak var mrkCloseBtn: UIButton!
     @IBOutlet private var mapView: MKMapView!
     @IBOutlet weak var markerLabel: UILabel!
     @IBOutlet weak var markerText: UITextView!
     @IBOutlet weak var loadingWheel: UIActivityIndicatorView!
-    @IBOutlet weak var milesLabel: UILabel!
+    
     @IBOutlet weak var startDateLabel: UILabel!
     @IBOutlet weak var endDateLabel: UILabel!
     @IBAction func mrkBtnClicked(_ sender: Any) {
         hide_marker_info(opt: true)
     }
-    @IBAction func srtBtnClicked(_ sender: Any) {
-        
-    }
     
     
-    var start: Date = Date.now.addingTimeInterval(-3600*24*14)
+    var start: Date = Date.distantPast
     var end: Date = Date.now
     
     var points: [Place] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        get_and_update()
+        mapView?.delegate = self
+       
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        get_and_update()
         main(points: points, start: start, end: end)
     }
     
@@ -57,10 +56,32 @@ class mapViewController: UIViewController {
         let total_dist = Int(result.1)
         
         milesLabel.text = "\(total_dist) miles"
+        milesLabel.isHidden = false
         drawBoat(points: points)
         loadingWheel.stopAnimating()
-        milesLabel.isHidden = false
         mapView?.addAnnotations(markers)
+        if points.count < 3 {showDownloadingAlert(); loadingWheel.startAnimating()}
+    }
+    
+    func showDownloadingAlert() {
+        let alert = UIAlertController(title: "Downloading", message: "We are downloading data for the first time, this might take a little while", preferredStyle: UIAlertController.Style.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
+            //Cancel Action
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showReloadAlert() {
+        let alert = UIAlertController(title: "New Data", message: "There is new available data for the selected dates", preferredStyle: UIAlertController.Style.alert)
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: { _ in
+            //Cancel Action
+        }))
+        alert.addAction(UIAlertAction(title: "Reload", style: UIAlertAction.Style.default, handler: { [self](_: UIAlertAction!) in
+            self.main(points: self.points, start: self.start, end: self.end)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     func mapClear(){
@@ -71,7 +92,6 @@ class mapViewController: UIViewController {
     }
     
     func drawBoat(points: [Place]){
-        mapView?.delegate = self
         let boat_place = points.last
         if points.last == nil{return}
         boat_place?.title = print_date(date: boat_place!.time, hour: true)
@@ -102,7 +122,7 @@ class mapViewController: UIViewController {
     }
     
     func hide_marker_info(opt: Bool){
-        if opt{
+        if opt {
             markerText.text = ""
             markerLabel.text = ""
         }
@@ -115,14 +135,15 @@ class mapViewController: UIViewController {
     
     func get_and_update(){
         points = get_saved()
+        if points.count < 3 {showDownloadingAlert()}
         Task {
             do{
                 let last_point: Date = points.last?.time ?? Date.distantPast
                 let updated = try await update_saved(points: self.points)
                 if updated{
                     get_and_update()
-                    if last_point < end{
-                        main(points: points, start: start, end: end)
+                    if last_point < end && points.count > 3{
+                        showReloadAlert()
                     }
                 }
             }

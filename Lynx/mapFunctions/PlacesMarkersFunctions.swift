@@ -9,6 +9,137 @@ import Foundation
 import MapKit
 
 
+let fullISO8610Formatter = DateFormatter()
+
+
+struct coord: Codable{
+    var Time: String
+    var SOG: Float
+    var COG: Float
+    var Lat: Double
+    var Long: Double
+    var TWS: Float
+    var TWA: Float
+    var TWD: Float
+    
+    init(time: String, sog: Float, cog: Float, lat: Double, lon:Double, tws: Float, twa: Float, twd: Float) {
+        self.Time = time
+        self.SOG = sog
+        self.COG = cog
+        self.Lat = lat
+        self.Long = lon
+        self.TWS = tws
+        self.TWA = twa
+        self.TWD = twd
+    }
+}
+
+struct pointStorage: Codable{
+    var Time: Float64
+    var SOG: Float
+    var COG: Float
+    var Lat: Double
+    var Long: Double
+    var TWS: Float
+    var TWA: Float
+    var TWD: Float
+    
+    init(place: Place) {
+        self.Time = place.time.timeIntervalSince1970
+        self.SOG = place.sog ?? 0
+        self.COG = place.cog ?? 0
+        self.Lat = place.lat ?? 0
+        self.Long = place.lon ?? 0
+        self.TWS = place.tws ?? 0
+        self.TWA = place.twa ?? 0
+        self.TWD = place.twd ?? 0
+    }
+    
+    init(crd: coord){
+        self.Time = fullISO8610Formatter.date(from: crd.Time)?.timeIntervalSince1970 ?? 0
+        self.TWD = crd.TWD
+        self.TWA = crd.TWA
+        self.TWS = crd.TWS
+        self.Long = crd.Long
+        self.Lat = crd.Lat
+        self.COG = crd.COG
+        self.SOG = crd.SOG
+    }
+}
+
+public class Place: NSObject, MKAnnotation {
+
+    public var title: String?
+    var time: Date
+    var sog: Float? = 0.0
+    var cog: Float? = 0.0
+    var lat: Double? = 0.0
+    var lon: Double? = 0.0
+    var tws: Float? = 0.0
+    var twa: Float? = 0.0
+    var twd: Float? = 0.0
+    
+    enum Key:String{
+        case title = "title"
+        case time = "time"
+        case sog = "sog"
+        case cog = "cog"
+        case lat = "lat"
+        case lon = "lon"
+        case tws = "tws"
+        case twa = "twa"
+        case twd = "twd"
+    }
+    
+    public var coordinate: CLLocationCoordinate2D
+    
+    init(time: Date, sog: Float, cog: Float, lat: Double, lon:Double, tws: Float, twa: Float, twd: Float){
+        self.time = time
+        self.sog = sog
+        self.cog = cog
+        self.lat = lat
+        self.lon = lon
+        self.tws = tws
+        self.twa = twa
+        self.twd = twd
+        self.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        
+    }
+    
+    init(time: Date, coord: CLLocationCoordinate2D){
+        self.time = time
+        self.coordinate = coord
+    }
+    
+    init(crd: coord){
+        self.time = fullISO8610Formatter.date(from: crd.Time) ?? Date.distantFuture
+        self.twd = crd.TWD
+        self.twa = crd.TWA
+        self.tws = crd.TWS
+        self.lon = crd.Long
+        self.lat = crd.Lat
+        self.cog = crd.COG
+        self.sog = crd.SOG
+        self.coordinate = CLLocationCoordinate2D(latitude: crd.Lat, longitude: crd.Long)
+    }
+    
+    init(point: pointStorage){
+        self.time = Date(timeIntervalSince1970: point.Time)
+        self.twd = point.TWD
+        self.twa = point.TWA
+        self.tws = point.TWS
+        self.lon = point.Long
+        self.lat = point.Lat
+        self.cog = point.COG
+        self.sog = point.SOG
+        self.coordinate = CLLocationCoordinate2D(latitude: point.Lat, longitude: point.Long)
+    }
+    
+    func getCoord() -> CLLocationCoordinate2D{
+        return self.coordinate
+    }
+}
+
 class Marker: Place{
     var arrival: [Date]
     var departure: [Date]
@@ -37,7 +168,7 @@ class Marker: Place{
             
             txt = txt + ", on " + print_date(date: date, hour: false)+"\n"
         }
-        txt = txt + "\n"
+        txt.removeLast()
         return txt
     }
 }

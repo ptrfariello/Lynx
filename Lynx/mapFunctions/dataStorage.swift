@@ -122,12 +122,11 @@ public class Storage {
 }
 
 func get_saved()->[Place]{
-    let defau: [coord] = []
-    let points = Storage.retrieve(points_filename, from: .caches, as: [coord].self) ?? defau
+    let defau: [pointStorage] = []
+    let points = Storage.retrieve(points_filename, from: .caches, as: [pointStorage].self) ?? defau
     var out: [Place] = []
-    for point in points {
-        out.append(Place(crd: point))
-    }
+    out.reserveCapacity(points.count)
+    out = points.map{Place(point: $0)}
     return out
 }
 
@@ -146,9 +145,9 @@ func update_saved(points: [Place]) async throws -> Bool{
     var points: [Place] = points
     points = points + new_points
     points = delete_imp(points: points, num: 6, min_dist: 0.01, angle: 10, s: 50)
-    var to_save: [coord] = []
+    var to_save: [pointStorage] = []
     for point in points {
-        to_save.append(point.toCoord())
+        to_save.append(pointStorage(place: point))
     }
     Storage.store(to_save, to: .caches, as: points_filename)
     print("Saved")
