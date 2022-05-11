@@ -11,18 +11,17 @@ import WebKit
 
 class websiteViewController: UIViewController, WKNavigationDelegate {
     
-    var webView: WKWebView!
+    @IBOutlet weak var webView: WKWebView!
     
     override func loadView() {
-        webView = WKWebView()
+        super.loadView()
         webView.navigationDelegate = self
-        view = webView
     }
     override func viewDidLoad() {
+        super.viewDidLoad()
         let url = URL(string: "https://catamaran-outremer.com/en/catamarans/outremer-4x/")!
         webView.load(URLRequest(url: url))
         webView.allowsBackForwardNavigationGestures = true
     }
-    
 }
 

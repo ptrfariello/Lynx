@@ -29,6 +29,7 @@ class dateSelController: UIViewController {
         startDatePicker.setDate(start, animated: false)
         endDatePicker.setDate(end, animated: false)
         endDatePicker.maximumDate = Date.now
+        startDatePicker.maximumDate = endDatePicker.date
     }
 }
 

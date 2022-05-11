@@ -16,8 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vqi-Df-ky4">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                            <wkWebView contentMode="scaleToFill" allowsBackForwardNavigationGestures="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vqi-Df-ky4">
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -28,17 +28,20 @@
                         <viewLayoutGuide key="safeArea" id="ZVW-PA-GXh"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="vqi-Df-ky4" firstAttribute="top" secondItem="e3Y-pI-g3s" secondAttribute="top" id="3CD-fb-d1n"/>
+                            <constraint firstItem="vqi-Df-ky4" firstAttribute="top" secondItem="ZVW-PA-GXh" secondAttribute="top" id="3CD-fb-d1n"/>
                             <constraint firstItem="vqi-Df-ky4" firstAttribute="leading" secondItem="e3Y-pI-g3s" secondAttribute="leading" id="Cot-F3-6tF"/>
                             <constraint firstAttribute="trailing" secondItem="vqi-Df-ky4" secondAttribute="trailing" id="eZO-Ec-3wD"/>
                             <constraint firstItem="ZVW-PA-GXh" firstAttribute="bottom" secondItem="vqi-Df-ky4" secondAttribute="bottom" id="wPh-JT-2ID"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" tag="1" title="The Boat" image="globe" catalog="system" id="l0k-3e-4AN"/>
+                    <connections>
+                        <outlet property="webView" destination="vqi-Df-ky4" id="D2X-uo-vd8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yH4-xA-2qN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-568" y="841"/>
+            <point key="canvasLocation" x="-568.1159420289855" y="840.40178571428567"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="s20-lX-UeG">
@@ -47,7 +50,7 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="w4W-qj-sEv">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemGray3Color"/>
                         <color key="barTintColor" systemColor="systemGray6Color"/>
                     </tabBar>
                     <connections>
@@ -67,8 +70,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="hybrid" pitchEnabled="NO" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hpz-ag-SWQ">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="hybrid" pitchEnabled="NO" showsBuildings="NO" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hpz-ag-SWQ">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                             </mapView>
                             <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="duration - date " textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yVu-oA-M0N">
                                 <rect key="frame" x="0.0" y="776.5" width="414" height="36.5"/>
@@ -112,13 +115,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="miles" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OU1-Ux-zg4">
-                                <rect key="frame" x="10" y="41" width="70" height="37"/>
+                                <rect key="frame" x="172" y="85" width="70" height="37"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u6y-8k-Efr">
-                                <rect key="frame" x="319" y="44" width="85" height="31"/>
+                                <rect key="frame" x="164.5" y="44" width="85" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="calendar" catalog="system" title="Dates"/>
                                 <connections>
@@ -135,25 +138,25 @@
                             <constraint firstItem="qAN-EC-fNs" firstAttribute="top" secondItem="07d-Qz-CyS" secondAttribute="bottom" id="6GB-Ft-KQN"/>
                             <constraint firstItem="07d-Qz-CyS" firstAttribute="trailing" secondItem="o6f-Uc-Rsz" secondAttribute="trailing" id="7gN-Y9-4bf"/>
                             <constraint firstItem="FgI-lR-Ojb" firstAttribute="centerY" secondItem="uHq-JL-FUB" secondAttribute="centerY" id="9tv-KE-J6z"/>
-                            <constraint firstItem="OU1-Ux-zg4" firstAttribute="leading" secondItem="o6f-Uc-Rsz" secondAttribute="leading" constant="10" id="Crc-uC-aln"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qAN-EC-fNs" secondAttribute="trailing" id="Cum-ds-bua"/>
                             <constraint firstItem="hpz-ag-SWQ" firstAttribute="top" secondItem="uHq-JL-FUB" secondAttribute="top" id="IJX-7B-gUO"/>
                             <constraint firstItem="qAN-EC-fNs" firstAttribute="leading" relation="lessThanOrEqual" secondItem="uHq-JL-FUB" secondAttribute="leading" id="Kym-u2-38P"/>
                             <constraint firstItem="cdH-bY-2Sj" firstAttribute="leading" secondItem="o6f-Uc-Rsz" secondAttribute="leading" constant="10" id="SAQ-BZ-efr"/>
                             <constraint firstItem="yVu-oA-M0N" firstAttribute="top" secondItem="qAN-EC-fNs" secondAttribute="bottom" id="SAz-2a-NDc"/>
-                            <constraint firstItem="o6f-Uc-Rsz" firstAttribute="trailing" secondItem="u6y-8k-Efr" secondAttribute="trailing" constant="10" id="UnG-rE-BfV"/>
+                            <constraint firstItem="u6y-8k-Efr" firstAttribute="centerX" secondItem="o6f-Uc-Rsz" secondAttribute="centerX" id="UnG-rE-BfV"/>
                             <constraint firstItem="hpz-ag-SWQ" firstAttribute="leading" secondItem="uHq-JL-FUB" secondAttribute="leading" id="VTR-8P-5sl"/>
                             <constraint firstItem="u6y-8k-Efr" firstAttribute="top" secondItem="o6f-Uc-Rsz" secondAttribute="top" id="Vfe-yA-AzR"/>
                             <constraint firstItem="vGz-vu-Au6" firstAttribute="centerY" secondItem="cdH-bY-2Sj" secondAttribute="centerY" id="WrJ-gF-r90"/>
                             <constraint firstAttribute="trailing" secondItem="yVu-oA-M0N" secondAttribute="trailing" id="YTP-OT-plc"/>
                             <constraint firstItem="o6f-Uc-Rsz" firstAttribute="bottom" secondItem="yVu-oA-M0N" secondAttribute="bottom" id="aJ5-fC-rZp"/>
                             <constraint firstItem="07d-Qz-CyS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="o6f-Uc-Rsz" secondAttribute="leading" id="bo0-fE-sza"/>
-                            <constraint firstAttribute="bottom" secondItem="hpz-ag-SWQ" secondAttribute="bottom" id="d1D-47-KFW"/>
+                            <constraint firstItem="o6f-Uc-Rsz" firstAttribute="bottom" secondItem="hpz-ag-SWQ" secondAttribute="bottom" id="d1D-47-KFW"/>
                             <constraint firstItem="vGz-vu-Au6" firstAttribute="centerY" secondItem="uHq-JL-FUB" secondAttribute="centerY" id="fgF-cH-mFY"/>
                             <constraint firstItem="qAN-EC-fNs" firstAttribute="centerX" secondItem="yVu-oA-M0N" secondAttribute="centerX" id="goT-Vl-UOG"/>
                             <constraint firstItem="FgI-lR-Ojb" firstAttribute="centerX" secondItem="uHq-JL-FUB" secondAttribute="centerX" id="hCE-aN-2e6"/>
-                            <constraint firstItem="u6y-8k-Efr" firstAttribute="centerY" secondItem="OU1-Ux-zg4" secondAttribute="centerY" id="pSt-MZ-RFN"/>
+                            <constraint firstItem="u6y-8k-Efr" firstAttribute="bottom" secondItem="OU1-Ux-zg4" secondAttribute="top" constant="-10" id="pSt-MZ-RFN"/>
                             <constraint firstItem="vGz-vu-Au6" firstAttribute="trailing" secondItem="o6f-Uc-Rsz" secondAttribute="trailing" constant="-10" id="pUu-K6-MXP"/>
+                            <constraint firstItem="u6y-8k-Efr" firstAttribute="centerX" secondItem="OU1-Ux-zg4" secondAttribute="centerX" id="pf4-2s-yFN"/>
                             <constraint firstItem="yVu-oA-M0N" firstAttribute="leading" secondItem="uHq-JL-FUB" secondAttribute="leading" id="yyw-ah-wD2"/>
                         </constraints>
                     </view>
@@ -179,7 +182,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-600" y="71"/>
+            <point key="canvasLocation" x="-600" y="70.982142857142847"/>
         </scene>
         <!--Date Sel Controller-->
         <scene sceneID="clt-LW-gXR">
@@ -333,6 +336,9 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray3Color">
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

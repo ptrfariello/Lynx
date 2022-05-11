@@ -53,7 +53,12 @@ class mapViewController: UIViewController {
         mapClear()
         startDateLabel.text = "" //"\(print_date(date: start, hour: false))"
         endDateLabel.text = "" //"\(print_date(date: end, hour: false))"
+        let data_present = points.count > 3
         let points = select_points(points: points, from: start, to: end)
+        if data_present && points.count < 3{
+            print(data_present, points.count<3)
+            showNoDataAlert()
+        }
         let path = points.map{ $0.getCoord()}
         drawPath(path: path)
         let result = markers(points: points)
@@ -65,10 +70,20 @@ class mapViewController: UIViewController {
         loadingWheel.stopAnimating()
         mapView?.addAnnotations(markers)
         if points.count < 3 {showDownloadingAlert(); loadingWheel.startAnimating()}
+        draw_data_points()
     }
     
     func showDownloadingAlert() {
         let alert = UIAlertController(title: "Downloading", message: "We are downloading data for the first time, this might take a little while", preferredStyle: UIAlertController.Style.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
+            //Cancel Action
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showNoDataAlert() {
+        let alert = UIAlertController(title: "No Data", message: "There is no data for the selected dates", preferredStyle: UIAlertController.Style.alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
             //Cancel Action
@@ -174,6 +189,29 @@ class mapViewController: UIViewController {
         }
     }
     
+    func draw_data_points(){
+        let start = date_to_iso(date: start)
+        let end = date_to_iso(date: end)
+        Task{
+            do{
+                var temp_place = try await getData(url: "maxSpeed", start: start, end: end)[0]
+                var title = "\(myRound(value: temp_place.sog, decimalPlaces: 1.0)) kts"
+                let fastest_speed = DataMarker(place: temp_place, color: UIColor.green, title: title)
+                
+                temp_place = try await getData(url: "maxTWS", start: start, end: end)[0]
+                title = "\(myRound(value: temp_place.tws, decimalPlaces: 1.0)) kts"
+                let fastest_wind = DataMarker(place: temp_place, color: UIColor.blue, title: title)
+                
+                temp_place = try await getData(url: "depth", start: start, end: end)[0]
+                title = "\(myRound(value: temp_place.depth, decimalPlaces: 1.0)) m"
+                let min_depth = DataMarker(place: temp_place, color: UIColor.orange, title: title)
+                
+                mapView.addAnnotations([fastest_speed, fastest_wind, min_depth])
+            }
+        }
+        
+    }
+
     
     //MARK: - Segue Functions
     @IBAction func cancelToMapViewController(_ segue: UIStoryboardSegue) {
@@ -231,11 +269,12 @@ extension mapViewController: MKMapViewDelegate {
     
     func mapView(_ MapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "pin")
-        if let data_point = annotation as? DataPoint {
-            return nil
+        var color = UIColor.blue
+        if let data_point = annotation as? DataMarker {
+            color = data_point.color
         }
         if annotation is Marker{return nil}
-        view.markerTintColor = .blue
+        view.markerTintColor = color
         return view
     }
 }

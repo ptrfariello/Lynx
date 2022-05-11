@@ -12,15 +12,27 @@ import MapKit
 let fullISO8610Formatter = DateFormatter()
 
 
+class DataMarker: Place{
+    var color: UIColor = UIColor.red
+    
+    init(place: Place, color: UIColor, title: String){
+        super.init(time: place.time, sog: place.sog, cog: place.cog, lat: place.lat, lon: place.lon, tws: place.tws, twa: place.twa, twd: place.twd)
+        self.color = color
+        self.title = title
+    }
+}
+
 struct coord: Codable{
-    var Time: String
-    var SOG: Float
-    var COG: Float
-    var Lat: Double
-    var Long: Double
-    var TWS: Float
-    var TWA: Float
-    var TWD: Float
+    var Time: String? = ""
+    var SOG: Float? = 0.0
+    var COG: Float? = 0.0
+    var Lat: Double? = 0.0
+    var Long: Double? = 0.0
+    var TWS: Float? = 0.0
+    var TWA: Float? = 0.0
+    var TWD: Float? = 0.0
+    var Depth: Float? = 0.0
+    var Temp: Float? = 0.0
     
     init(time: String, sog: Float, cog: Float, lat: Double, lon:Double, tws: Float, twa: Float, twd: Float) {
         self.Time = time
@@ -55,29 +67,9 @@ struct pointStorage: Codable{
         self.TWD = place.twd
     }
     
-    init(crd: coord){
-        self.Time = fullISO8610Formatter.date(from: crd.Time)?.timeIntervalSince1970 ?? 0
-        self.TWD = crd.TWD
-        self.TWA = crd.TWA
-        self.TWS = crd.TWS
-        self.Long = crd.Long
-        self.Lat = crd.Lat
-        self.COG = crd.COG
-        self.SOG = crd.SOG
-    }
 }
 
-class DataPoint: Place{
-    var data: Float = 0.0
-    var color = UIColor.red
-    var type: String = ""
-    
-    init(parent: Place, color: UIColor, type: String){
-        super.init(time: parent.time, sog: parent.sog, cog: parent.cog, lat: parent.lat, lon: parent.lon, tws: parent.tws, twa: parent.twa, twd: parent.twa)
-        self.color = color
-        self.type = type
-    }
-}
+
 
 class Place: NSObject, MKAnnotation {
 
@@ -90,6 +82,7 @@ class Place: NSObject, MKAnnotation {
     var tws: Float = 0.0
     var twa: Float = 0.0
     var twd: Float = 0.0
+    var depth: Float = 0.0
     
     public var coordinate: CLLocationCoordinate2D
     
@@ -112,15 +105,16 @@ class Place: NSObject, MKAnnotation {
     }
     
     init(crd: coord){
-        self.time = fullISO8610Formatter.date(from: crd.Time) ?? Date.distantFuture
-        self.twd = crd.TWD
-        self.twa = crd.TWA
-        self.tws = crd.TWS
-        self.lon = crd.Long
-        self.lat = crd.Lat
-        self.cog = crd.COG
-        self.sog = crd.SOG
-        self.coordinate = CLLocationCoordinate2D(latitude: crd.Lat, longitude: crd.Long)
+        self.time = fullISO8610Formatter.date(from: crd.Time ?? "") ?? Date.distantFuture
+        self.twd = crd.TWD ?? 0
+        self.twa = crd.TWA ?? 0
+        self.tws = crd.TWS ?? 0
+        self.lon = crd.Long ?? 0
+        self.lat = crd.Lat ?? 0
+        self.cog = crd.COG ?? 0
+        self.sog = crd.SOG ?? 0
+        self.depth = crd.Depth ?? 0
+        self.coordinate = CLLocationCoordinate2D(latitude: crd.Lat ?? 0, longitude: crd.Long ?? 0)
     }
     
     init(point: pointStorage){

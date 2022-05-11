@@ -18,9 +18,6 @@
 		9BAAF8BD28257B5F000EC8A5 /* geocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAAF8BC28257B5F000EC8A5 /* geocoder.swift */; };
 		9BBD6E13282A63B000E68312 /* sharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBD6E12282A63B000E68312 /* sharedData.swift */; };
 		9BBD6E15282A6F8400E68312 /* 4xView Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBD6E14282A6F8400E68312 /* 4xView Controller.swift */; };
-		9BC7099E282B07590064A969 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC7099C282B03D50064A969 /* MapKit.framework */; };
-		9BC7099F282B07590064A969 /* MapKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC7099C282B03D50064A969 /* MapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9BC7E5BD28244476002C7707 /* coord_filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC7E5BB28244476002C7707 /* coord_filter.swift */; };
 		9BC7E5BE28244476002C7707 /* database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC7E5BC28244476002C7707 /* database.swift */; };
 		9BCFC10228232D6800A4CD4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCFC10128232D6800A4CD4A /* AppDelegate.swift */; };
 		9BCFC10428232D6800A4CD4A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCFC10328232D6800A4CD4A /* SceneDelegate.swift */; };
@@ -48,20 +45,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		9BC709A0282B07590064A969 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9BC7099F282B07590064A969 /* MapKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		9A4CCD212828E94C005401B3 /* dateFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dateFunctions.swift; sourceTree = "<group>"; };
 		9A4CCD232828E95E005401B3 /* PlacesMarkersFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesMarkersFunctions.swift; sourceTree = "<group>"; };
@@ -75,7 +58,6 @@
 		9BBD6E12282A63B000E68312 /* sharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sharedData.swift; sourceTree = "<group>"; };
 		9BBD6E14282A6F8400E68312 /* 4xView Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "4xView Controller.swift"; sourceTree = "<group>"; };
 		9BC7099C282B03D50064A969 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		9BC7E5BB28244476002C7707 /* coord_filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = coord_filter.swift; sourceTree = "<group>"; };
 		9BC7E5BC28244476002C7707 /* database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = database.swift; sourceTree = "<group>"; };
 		9BCFC0FE28232D6800A4CD4A /* Lynx.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lynx.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BCFC10128232D6800A4CD4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,7 +77,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9BC7099E282B07590064A969 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,7 +102,6 @@
 			children = (
 				9B05DE34282518AB00FEDE47 /* functions.swift */,
 				9A4CCD212828E94C005401B3 /* dateFunctions.swift */,
-				9BC7E5BB28244476002C7707 /* coord_filter.swift */,
 				9A4CCD232828E95E005401B3 /* PlacesMarkersFunctions.swift */,
 				9BAAF8BC28257B5F000EC8A5 /* geocoder.swift */,
 				9A4CCD252828E9DD005401B3 /* extensions.swift */,
@@ -221,7 +201,6 @@
 				9BCFC0FA28232D6800A4CD4A /* Sources */,
 				9BCFC0FB28232D6800A4CD4A /* Frameworks */,
 				9BCFC0FC28232D6800A4CD4A /* Resources */,
-				9BC709A0282B07590064A969 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -349,7 +328,6 @@
 				9A4CE26E2828744F00FBA993 /* dataStorage.swift in Sources */,
 				9A4CCD282828F9FE005401B3 /* dateSelView Controller.swift in Sources */,
 				9A4CCD222828E94C005401B3 /* dateFunctions.swift in Sources */,
-				9BC7E5BD28244476002C7707 /* coord_filter.swift in Sources */,
 				9BCFC10228232D6800A4CD4A /* AppDelegate.swift in Sources */,
 				9BC7E5BE28244476002C7707 /* database.swift in Sources */,
 				9A4CCD262828E9DD005401B3 /* extensions.swift in Sources */,
@@ -443,7 +421,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -497,7 +475,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -512,6 +490,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -546,6 +525,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

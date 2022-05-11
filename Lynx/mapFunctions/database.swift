@@ -14,8 +14,6 @@ import CoreData
 let webSite_url = "http://windmaster.ai:3000/"
 
 
-
-
 func getData (url: String, start: String, end: String) async throws -> [Place] {
     var url = webSite_url+url
     //var url = "http://10.0.16.17:3000/"+url
@@ -28,6 +26,7 @@ func getData (url: String, start: String, end: String) async throws -> [Place] {
     }
     
     let (data, _) = try await URLSession.shared.data(from: url)
-    out = try extract_Json(data: data)
+    out = try extract_coord_Json(data: data)
     return out
 }
+
