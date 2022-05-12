@@ -26,6 +26,9 @@
 		9BCFC11928232D6A00A4CD4A /* LynxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCFC11828232D6A00A4CD4A /* LynxTests.swift */; };
 		9BCFC12328232D6A00A4CD4A /* LynxUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCFC12228232D6A00A4CD4A /* LynxUITests.swift */; };
 		9BCFC12528232D6A00A4CD4A /* LynxUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCFC12428232D6A00A4CD4A /* LynxUITestsLaunchTests.swift */; };
+		9BF75F29282D7CDE00D58E78 /* CoreLocationUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF75F28282D7CDE00D58E78 /* CoreLocationUI.framework */; };
+		9BF75F2A282D7CE200D58E78 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC7099C282B03D50064A969 /* MapKit.framework */; };
+		9BF75F2B282D7CF900D58E78 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF75F26282D7C8200D58E78 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +73,8 @@
 		9BCFC11E28232D6A00A4CD4A /* LynxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LynxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BCFC12228232D6A00A4CD4A /* LynxUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LynxUITests.swift; sourceTree = "<group>"; };
 		9BCFC12428232D6A00A4CD4A /* LynxUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LynxUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		9BF75F26282D7C8200D58E78 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		9BF75F28282D7CDE00D58E78 /* CoreLocationUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocationUI.framework; path = System/Library/Frameworks/CoreLocationUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +82,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BF75F2B282D7CF900D58E78 /* CoreLocation.framework in Frameworks */,
+				9BF75F2A282D7CE200D58E78 /* MapKit.framework in Frameworks */,
+				9BF75F29282D7CDE00D58E78 /* CoreLocationUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +132,8 @@
 		9BC7099B282B03D50064A969 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9BF75F28282D7CDE00D58E78 /* CoreLocationUI.framework */,
+				9BF75F26282D7C8200D58E78 /* CoreLocation.framework */,
 				9BC7099C282B03D50064A969 /* MapKit.framework */,
 			);
 			name = Frameworks;
@@ -498,6 +508,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Lynx/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "SV Lynx";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "To show you where you are";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -505,7 +516,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -533,6 +544,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Lynx/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "SV Lynx";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "To show you where you are";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -540,7 +552,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

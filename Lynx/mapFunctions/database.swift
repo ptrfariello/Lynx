@@ -14,11 +14,11 @@ import CoreData
 let webSite_url = "http://windmaster.ai:3000/"
 
 
-func getData (url: String, start: String, end: String) async throws -> [Place] {
+func getData (url: String, start: String, end: String) async throws -> [Point] {
     var url = webSite_url+url
     //var url = "http://10.0.16.17:3000/"+url
     url =  url + "?start=" + start + "&end=" + end
-    var out: [Place] = []
+    var out: [Point] = []
     
     guard let url = URL(string: url) else{
         print("invalid url")

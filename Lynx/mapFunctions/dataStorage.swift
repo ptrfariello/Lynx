@@ -121,33 +121,33 @@ public class Storage {
     }
 }
 
-func get_saved()->[Place]{
-    let defau: [pointStorage] = []
-    let points = Storage.retrieve(points_filename, from: .caches, as: [pointStorage].self) ?? defau
-    var out: [Place] = []
+func get_saved()->[Point]{
+    let defau: [storage_point] = []
+    let points = Storage.retrieve(points_filename, from: .caches, as: [storage_point].self) ?? defau
+    var out: [Point] = []
     out.reserveCapacity(points.count)
-    out = points.map{Place(point: $0)}
+    out = points.map{Point(point: $0)}
     return out
 }
 
-func select_points(points: [Place], from:Date, to:Date)->[Place]{
+func select_points(points: [Point], from:Date, to:Date)->[Point]{
         let out = points.filter{$0.time > from && $0.time < to}
         return out
 }
 
-func update_saved(points: [Place]) async throws -> Bool{
+func update_saved(points: [Point]) async throws -> Bool{
     let end = date_to_iso(date: Date.now)
     let start = date_to_iso(date: points.last?.time ?? Date.distantPast)
     let new_points = try await getData(url: "coords", start: start, end: end)
     if new_points.count < 2{
         return false
     }
-    var points: [Place] = points
+    var points: [Point] = points
     points = points + new_points
     points = delete_imp(points: points, num: 6, min_dist: 0.01, angle: 10, s: 50)
-    var to_save: [pointStorage] = []
+    var to_save: [storage_point] = []
     for point in points {
-        to_save.append(pointStorage(place: point))
+        to_save.append(storage_point(place: point))
     }
     Storage.store(to_save, to: .caches, as: points_filename)
     print("Saved")

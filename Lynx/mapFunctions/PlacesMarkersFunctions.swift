@@ -12,17 +12,7 @@ import MapKit
 let fullISO8610Formatter = DateFormatter()
 
 
-class DataMarker: Place{
-    var color: UIColor = UIColor.red
-    
-    init(place: Place, color: UIColor, title: String){
-        super.init(time: place.time, sog: place.sog, cog: place.cog, lat: place.lat, lon: place.lon, tws: place.tws, twa: place.twa, twd: place.twd)
-        self.color = color
-        self.title = title
-    }
-}
-
-struct coord: Codable{
+struct database_point: Codable{
     var Time: String? = ""
     var SOG: Float? = 0.0
     var COG: Float? = 0.0
@@ -33,20 +23,9 @@ struct coord: Codable{
     var TWD: Float? = 0.0
     var Depth: Float? = 0.0
     var Temp: Float? = 0.0
-    
-    init(time: String, sog: Float, cog: Float, lat: Double, lon:Double, tws: Float, twa: Float, twd: Float) {
-        self.Time = time
-        self.SOG = sog
-        self.COG = cog
-        self.Lat = lat
-        self.Long = lon
-        self.TWS = tws
-        self.TWA = twa
-        self.TWD = twd
-    }
 }
 
-struct pointStorage: Codable{
+struct storage_point: Codable{
     var Time: Float64
     var SOG: Float
     var COG: Float
@@ -56,7 +35,7 @@ struct pointStorage: Codable{
     var TWA: Float
     var TWD: Float
     
-    init(place: Place) {
+    init(place: Point) {
         self.Time = place.time.timeIntervalSince1970
         self.SOG = place.sog
         self.COG = place.cog
@@ -71,7 +50,7 @@ struct pointStorage: Codable{
 
 
 
-class Place: NSObject, MKAnnotation {
+class Point: NSObject, MKAnnotation {
 
     public var title: String?
     var time: Date
@@ -83,6 +62,9 @@ class Place: NSObject, MKAnnotation {
     var twa: Float = 0.0
     var twd: Float = 0.0
     var depth: Float = 0.0
+    var temp: Float = 0.0
+    var color: UIColor = UIColor.gray
+    var to_print: String = ""
     
     public var coordinate: CLLocationCoordinate2D
     
@@ -104,7 +86,7 @@ class Place: NSObject, MKAnnotation {
         self.coordinate = coord
     }
     
-    init(crd: coord){
+    init(crd: database_point){
         self.time = fullISO8610Formatter.date(from: crd.Time ?? "") ?? Date.distantFuture
         self.twd = crd.TWD ?? 0
         self.twa = crd.TWA ?? 0
@@ -117,7 +99,7 @@ class Place: NSObject, MKAnnotation {
         self.coordinate = CLLocationCoordinate2D(latitude: crd.Lat ?? 0, longitude: crd.Long ?? 0)
     }
     
-    init(point: pointStorage){
+    init(point: storage_point){
         self.time = Date(timeIntervalSince1970: point.Time)
         self.twd = point.TWD
         self.twa = point.TWA
@@ -135,7 +117,7 @@ class Place: NSObject, MKAnnotation {
     }
 }
 
-class Marker: Place{
+class StopMarker: Point{
     var arrival: [Date]
     var departure: [Date]
     var stays: Int
@@ -143,7 +125,7 @@ class Marker: Place{
     var isData: Bool = false
     
     
-    init(spot: Place, dep: Date) {
+    init(spot: Point, dep: Date) {
         self.arrival = [spot.time]
         self.departure = [dep]
         self.stays = 1
@@ -169,11 +151,11 @@ class Marker: Place{
     
 }
 
-func distance(p1: Place, p2: Place)->Double{
+func distance(p1: Point, p2: Point)->Double{
    return MKMapPoint(p1.coordinate).distance(to: MKMapPoint(p2.coordinate))
 }
 
-func avgSpeed(p1: Place, p2: Place)->Double{
+func avgSpeed(p1: Point, p2: Point)->Double{
     let dist = distance(p1: p1, p2: p2)*0.000539957
     var time = p2.time - p1.time
     if abs(time)*1000<1{return Double.infinity}
@@ -181,16 +163,16 @@ func avgSpeed(p1: Place, p2: Place)->Double{
     return abs(dist/time)
 }
 
-func sameSpot(p1: Place, p2: Place)->Bool{
+func sameSpot(p1: Point, p2: Point)->Bool{
     return avgSpeed(p1: p1, p2: p2) < 1.5
 }
 
-func markers(points: [Place])->([Marker], Double){
+func markers(points: [Point])->([StopMarker], Double){
     var dist = 0.0
     var j=0
     
     var spot = false
-    var markers: [Marker] = []
+    var markers: [StopMarker] = []
     if points.count < 2{
         return (markers, 0)
     }
@@ -207,20 +189,20 @@ func markers(points: [Place])->([Marker], Double){
             }
         }else{
             if spot{
-                let place = Marker(spot: basePoint, dep: point.time)
+                let place = StopMarker(spot: basePoint, dep: point.time)
                 markers.append(place)
             }
             spot = false
             j = 0
         }
     }
-    let OlympicMarine = Marker(spot: Place(time: Date.now, coord: fast_sailing), dep: Date.now)
+    let OlympicMarine = StopMarker(spot: Point(time: Date.now, coord: fast_sailing), dep: Date.now)
     OlympicMarine.stays = 0
     markers.append(OlympicMarine)
     return (markers, dist*0.000539957)
 }
 
-func marker_return(markers: [Marker])->[Marker]{
+func marker_return(markers: [StopMarker])->[StopMarker]{
     var markers = markers
     var i = markers.count-1
     while i > 0{
@@ -247,7 +229,7 @@ func marker_return(markers: [Marker])->[Marker]{
     return markers
 }
 
-func get_angle(point1: Place, point2: Place, point3: Place, min_distance: Double)->Double{
+func get_angle(point1: Point, point2: Point, point3: Point, min_distance: Double)->Double{
     let side1 = distance(p1: point1, p2: point2)
     let side2 = distance(p1: point2, p2: point3)
     let side3 = distance(p1: point3, p2: point1)
@@ -263,7 +245,7 @@ func get_angle(point1: Place, point2: Place, point3: Place, min_distance: Double
     return 0
 }
 
-func delete_imp(points: [Place], num: Int, min_dist: Double, angle: Double, s: Double)->[Place]{
+func delete_imp(points: [Point], num: Int, min_dist: Double, angle: Double, s: Double)->[Point]{
     var points = points
     let speed_threshold = s
     let angle_threshold = deg2rad(angle)
@@ -285,7 +267,7 @@ func delete_imp(points: [Place], num: Int, min_dist: Double, angle: Double, s: D
     return points
 }
 
-func place_avg(places: [Place])-> Place{
+func place_avg(places: [Point])-> Point{
     var avgInterval = 0.0
     var avgLat = 0.0
     var avgLon = 0.0
@@ -302,5 +284,5 @@ func place_avg(places: [Place])-> Place{
     avgInterval = avgInterval/length
     let coord = CLLocationCoordinate2D(latitude: avgLat, longitude: avgLon)
     let date = start.addingTimeInterval(avgInterval)
-    return Place(time: date, coord: coord)
+    return Point(time: date, coord: coord)
 }

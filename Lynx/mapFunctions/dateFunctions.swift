@@ -10,7 +10,7 @@ import Foundation
 func print_date(date: Date, hour: Bool) -> String{
     let dateFormatter = DateFormatter()
     dateFormatter.timeZone = TimeZone(abbreviation: "EEST")
-    if hour{dateFormatter.dateFormat = "HH:mm, d MMM y"}
+    if hour{dateFormatter.dateFormat = "d MMM 'at' HH:mm"}
     else {dateFormatter.dateFormat = "d MMM y"}
     return dateFormatter.string(from: date)
 }

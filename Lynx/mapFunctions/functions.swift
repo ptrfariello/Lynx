@@ -14,12 +14,12 @@ func deg2rad(_ number: Double) -> Double {
 
 
 
-func extract_coord_Json(data: Data) throws -> [Place]{
-    var out: [Place] = []
-    let parsedJSON = try JSONDecoder().decode([coord].self, from: data)
+func extract_coord_Json(data: Data) throws -> [Point]{
+    var out: [Point] = []
+    let parsedJSON = try JSONDecoder().decode([database_point].self, from: data)
     fullISO8610Formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
     for point in parsedJSON{
-        out.append(Place(crd: point))
+        out.append(Point(crd: point))
     }
     return out
 }
