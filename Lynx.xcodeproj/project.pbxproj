@@ -31,7 +31,7 @@
 		9BF75F31282E268900D58E78 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF75F26282D7C8200D58E78 /* CoreLocation.framework */; };
 		9BF75F34282E64FE00D58E78 /* Markers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF75F33282E64FE00D58E78 /* Markers.swift */; };
 		9BF75F36282E657E00D58E78 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF75F35282E657E00D58E78 /* Routes.swift */; };
-		9BF75F38282E740700D58E78 /* routeView Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF75F37282E740700D58E78 /* routeView Controller.swift */; };
+		9BF75F38282E740700D58E78 /* routeDetails View Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF75F37282E740700D58E78 /* routeDetails View Controller.swift */; };
 		9BF75F41282E8FE200D58E78 /* routesTableVIewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF75F40282E8FE200D58E78 /* routesTableVIewController.swift */; };
 		9BF75F43282E974800D58E78 /* routeTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF75F42282E974800D58E78 /* routeTableCell.swift */; };
 		9BF75F45282EA1A200D58E78 /* routesFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF75F44282EA1A200D58E78 /* routesFunctions.swift */; };
@@ -83,7 +83,7 @@
 		9BF75F28282D7CDE00D58E78 /* CoreLocationUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocationUI.framework; path = System/Library/Frameworks/CoreLocationUI.framework; sourceTree = SDKROOT; };
 		9BF75F33282E64FE00D58E78 /* Markers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markers.swift; sourceTree = "<group>"; };
 		9BF75F35282E657E00D58E78 /* Routes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routes.swift; sourceTree = "<group>"; };
-		9BF75F37282E740700D58E78 /* routeView Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "routeView Controller.swift"; sourceTree = "<group>"; };
+		9BF75F37282E740700D58E78 /* routeDetails View Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "routeDetails View Controller.swift"; sourceTree = "<group>"; };
 		9BF75F40282E8FE200D58E78 /* routesTableVIewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = routesTableVIewController.swift; sourceTree = "<group>"; };
 		9BF75F42282E974800D58E78 /* routeTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = routeTableCell.swift; sourceTree = "<group>"; };
 		9BF75F44282EA1A200D58E78 /* routesFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = routesFunctions.swift; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 				9BCFC10528232D6800A4CD4A /* mapView Controller.swift */,
 				9A4CCD272828F9FE005401B3 /* dateSelView Controller.swift */,
 				9BBD6E14282A6F8400E68312 /* 4xView Controller.swift */,
-				9BF75F37282E740700D58E78 /* routeView Controller.swift */,
+				9BF75F37282E740700D58E78 /* routeDetails View Controller.swift */,
 				9BF75F40282E8FE200D58E78 /* routesTableVIewController.swift */,
 			);
 			path = ViewControllers;
@@ -365,7 +365,7 @@
 				9A4CCD282828F9FE005401B3 /* dateSelView Controller.swift in Sources */,
 				9A4CCD222828E94C005401B3 /* dateFunctions.swift in Sources */,
 				9BCFC10228232D6800A4CD4A /* AppDelegate.swift in Sources */,
-				9BF75F38282E740700D58E78 /* routeView Controller.swift in Sources */,
+				9BF75F38282E740700D58E78 /* routeDetails View Controller.swift in Sources */,
 				9BF75F43282E974800D58E78 /* routeTableCell.swift in Sources */,
 				9BF75F36282E657E00D58E78 /* Routes.swift in Sources */,
 				9BC7E5BE28244476002C7707 /* database.swift in Sources */,

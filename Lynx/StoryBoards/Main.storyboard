@@ -256,7 +256,7 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
-                                        <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="hybrid" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsBuildings="NO" showsCompass="NO" showsPointsOfInterest="NO" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AQW-g6-tgq">
+                                        <mapView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" mapType="hybrid" zoomEnabled="NO" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" showsBuildings="NO" showsCompass="NO" showsPointsOfInterest="NO" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AQW-g6-tgq">
                                             <rect key="frame" x="20" y="162" width="374" height="100"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="100" id="ldq-zH-Jbx"/>
@@ -280,7 +280,7 @@
                                     <outlet property="routeDescription" destination="bE2-NF-NxS" id="iC3-ey-zeR"/>
                                     <outlet property="routeMap" destination="AQW-g6-tgq" id="9yo-9l-xxv"/>
                                     <outlet property="routeName" destination="Npg-jT-V4y" id="8gb-Od-VIU"/>
-                                    <segue destination="UAu-yO-pQJ" kind="show" id="uaM-cg-pSm"/>
+                                    <segue destination="NuU-d5-c65" kind="show" identifier="show_route_details" id="WZB-w5-s8V"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -296,34 +296,35 @@
             </objects>
             <point key="canvasLocation" x="1031.8840579710145" y="320.75892857142856"/>
         </scene>
-        <!--Table View Controller-->
-        <scene sceneID="nPa-PV-Rwg">
+        <!--Route Detail View Controller-->
+        <scene sceneID="z7K-QM-RJn">
             <objects>
-                <tableViewController id="UAu-yO-pQJ" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="yAc-cX-hLi">
+                <viewController id="NuU-d5-c65" customClass="routeDetailViewController" customModule="Lynx" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hre-pZ-e49">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="hybrid" pitchEnabled="NO" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8Y-Ip-VFT">
+                                <rect key="frame" x="0.0" y="306" width="414" height="536"/>
+                            </mapView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="mCC-LT-K6P"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="LpW-PY-nDL">
-                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LpW-PY-nDL" id="3G5-Pz-sjP">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="UAu-yO-pQJ" id="m8u-NC-a7E"/>
-                            <outlet property="delegate" destination="UAu-yO-pQJ" id="T4J-1Z-r8p"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="TOh-AE-Ut3"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4y3-1T-2Wo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                        <constraints>
+                            <constraint firstItem="f8Y-Ip-VFT" firstAttribute="leading" secondItem="mCC-LT-K6P" secondAttribute="leading" id="PXa-da-s5h"/>
+                            <constraint firstItem="f8Y-Ip-VFT" firstAttribute="top" secondItem="mCC-LT-K6P" secondAttribute="top" constant="250" id="V8K-8m-eq6"/>
+                            <constraint firstAttribute="bottom" secondItem="f8Y-Ip-VFT" secondAttribute="bottom" id="j3b-9O-QGM"/>
+                            <constraint firstItem="mCC-LT-K6P" firstAttribute="trailing" secondItem="f8Y-Ip-VFT" secondAttribute="trailing" id="y9e-e2-I3x"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Dg5-e2-OLD"/>
+                    <connections>
+                        <outlet property="routeMapView" destination="f8Y-Ip-VFT" id="wa6-7U-Z09"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zG5-O7-5St" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1949" y="321"/>
+            <point key="canvasLocation" x="2032" y="321"/>
         </scene>
         <!--Date Sel Controller-->
         <scene sceneID="clt-LW-gXR">

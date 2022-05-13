@@ -16,8 +16,8 @@ class Route{
     var length: Double = 0.0
     
     init(start: StopMarker, end: StopMarker, dist: Double){
-        self.startMarker = StopMarker(marker: start)
-        self.endMarker = StopMarker(marker: end)
+        self.startMarker = start
+        self.endMarker = end
         self.start = start.departure[0]
         self.end = end.arrival[0]
         self.length = dist

@@ -158,22 +158,11 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     
     func drawPath(path: [CLLocationCoordinate2D]) {
         var path = path
-        let maxLat = Double(path.map(\.latitude).max() ?? 37.759779)
-        let maxLong = Double(path.map(\.longitude).max() ?? 24.140416)
-        let minLat = Double(path.map(\.latitude).min() ?? 37.642514)
-        let minLong = Double(path.map(\.longitude).min() ?? 24.010306)
         
-        let bottom_left = CLLocation(latitude: minLat, longitude: minLong)
-        let top_right = CLLocation(latitude: maxLat, longitude: maxLong)
-        
-        let zoom = bottom_left.distance(from: top_right)
-        let centerY = (maxLat + minLat) / 2
-        let centerX = (maxLong + minLong) / 2
-        let location = CLLocationCoordinate2D(latitude: centerY, longitude: centerX)
-        
-        let region =  MKCoordinateRegion(center: location, latitudinalMeters: zoom, longitudinalMeters: zoom)
-        self.mapView.setRegion(region, animated: true)
         let polyline = MKPolyline(coordinates: &path, count: path.count)
+        
+        mapView.setVisibleMapRect(polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 10.0, left: 20.0, bottom: 10.0, right: 20.0), animated: false)
+       
         self.mapView?.addOverlay(polyline)
         
     }

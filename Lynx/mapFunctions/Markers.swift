@@ -24,12 +24,6 @@ class StopMarker: Point{
        
     }
     
-    init(marker: StopMarker){
-        self.arrival = marker.arrival
-        self.departure = marker.departure
-        self.locationName = marker.locationName
-        super.init(time: marker.arrival[0], coord: marker.coordinate)
-    }
     
     func print_info()->String{
         var txt = ""

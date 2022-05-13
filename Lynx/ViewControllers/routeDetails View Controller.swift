@@ -9,10 +9,9 @@ import Foundation
 import UIKit
 import MapKit
 
-class routeViewController: UIViewController, MKMapViewDelegate {
+class routeDetailViewController: UIViewController, MKMapViewDelegate {
     var points: [Point] = []
-    var routes: [Route] = []
-    
+    var route: Route?
     
     @IBOutlet weak var routeMapView: MKMapView!
     
@@ -23,7 +22,7 @@ class routeViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        drawRoute(route: routes[5])
+        drawRoute(route: route!)
     }
     
     
@@ -36,24 +35,14 @@ class routeViewController: UIViewController, MKMapViewDelegate {
     
     func drawRoute(route: Route) {
         mapClear()
+        route.startMarker.color = UIColor.green
+        route.startMarker.color = UIColor.blue
         let points = select_points(points: points, from: route.start, to: route.end)
         let path = points.map{ $0.getCoord()}
-        let start = path.first ?? fast_sailing
-        let end = path.last ?? fast_sailing
-        
-        let centerLat = (start.latitude+end.latitude)/2
-        let centerLon = (start.longitude+end.longitude)/2
-        let center = CLLocationCoordinate2D(latitude: centerLat, longitude: centerLon)
-        
-        let heading = getBearingBetweenTwoPoints(point1: start, point2: end)
-        let start_CL = CLLocation(latitude: start.latitude, longitude: start.longitude)
-        let end_CL = CLLocation(latitude: end.latitude, longitude: end.longitude)
-        
-        let distance = start_CL.distance(from: end_CL)
-        
-        self.routeMapView.camera = MKMapCamera(lookingAtCenter: center, fromDistance: distance, pitch: 0, heading: heading+90)
-        //self.routeMapView.setRegion(region, animated: true)
         let polyline = MKPolyline(coordinates: path, count: path.count)
+        
+        routeMapView.setVisibleMapRect(polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 50.0, left: 50.0, bottom: 50.0, right: 50.0), animated: false)
+       
         self.routeMapView?.addOverlay(polyline)
         
         routeMapView.addAnnotations([route.startMarker, route.endMarker])
@@ -86,4 +75,14 @@ class routeViewController: UIViewController, MKMapViewDelegate {
         }
         return MKOverlayRenderer()
     }
-}
+    
+    func mapView(_ MapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if let _ = annotation as? MKUserLocation {return nil}
+        let view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+        var color = UIColor.gray
+        if let marker = annotation as? StopMarker {
+            color = marker.color
+        }
+        view.markerTintColor = color
+        return view
+    }}

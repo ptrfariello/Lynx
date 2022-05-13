@@ -71,8 +71,6 @@ class routeTableCell: UITableViewCell, MKMapViewDelegate {
         let orientation = abs((90-abs(heading))/90)
         let distance = distance_visible_rect*orientation + distance_calc*(1-orientation)
         self.routeCellMapview.camera = MKMapCamera(lookingAtCenter: center, fromDistance: distance, pitch: 0, heading: heading+90)
-        
-        print(heading, orientation)
         }
         
     
