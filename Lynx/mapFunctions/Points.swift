@@ -11,7 +11,6 @@ import MapKit
 
 let fullISO8610Formatter = DateFormatter()
 
-
 struct database_point: Codable{
     var Time: String? = ""
     var SOG: Float? = 0.0
@@ -47,8 +46,6 @@ struct storage_point: Codable{
     }
     
 }
-
-
 
 class Point: NSObject, MKAnnotation {
 
@@ -117,39 +114,6 @@ class Point: NSObject, MKAnnotation {
     }
 }
 
-class StopMarker: Point{
-    var arrival: [Date]
-    var departure: [Date]
-    var stays: Int
-    var data: [Float] = []
-    var isData: Bool = false
-    
-    
-    init(spot: Point, dep: Date) {
-        self.arrival = [spot.time]
-        self.departure = [dep]
-        self.stays = 1
-        super.init(time: spot.time, coord: spot.coordinate)
-    }
-    
-    func print_info()->String{
-        var txt = ""
-        for (i, arrival) in arrival.enumerated() {
-            let stay = departure[i]-arrival
-            let date = arrival.addingTimeInterval(stay)
-            if stay>3600{
-                txt = txt + print_time(interval: stay, minutes: false)+" hours"
-            }else{
-                txt = txt + print_time(interval: stay, minutes: true)+" minutes"
-            }
-            
-            txt = txt + ", on " + print_date(date: date, hour: false)+"\n"
-        }
-        txt.removeLast()
-        return txt
-    }
-    
-}
 
 func distance(p1: Point, p2: Point)->Double{
    return MKMapPoint(p1.coordinate).distance(to: MKMapPoint(p2.coordinate))
@@ -167,67 +131,6 @@ func sameSpot(p1: Point, p2: Point)->Bool{
     return avgSpeed(p1: p1, p2: p2) < 1.5
 }
 
-func markers(points: [Point])->([StopMarker], Double){
-    var dist = 0.0
-    var j=0
-    
-    var spot = false
-    var markers: [StopMarker] = []
-    if points.count < 2{
-        return (markers, 0)
-    }
-    for i in 0...points.count-1-1 {
-        let point = points[i]
-        let nextPoint = points[i+1]
-        dist += distance(p1: point, p2: nextPoint)
-        let basePoint = points[i-j]
-        if sameSpot(p1: point, p2: nextPoint){
-            let stay = (nextPoint.time - basePoint.time)/60
-            j+=1
-            if stay > 45 && !spot{
-                spot = true
-            }
-        }else{
-            if spot{
-                let place = StopMarker(spot: basePoint, dep: point.time)
-                markers.append(place)
-            }
-            spot = false
-            j = 0
-        }
-    }
-    let OlympicMarine = StopMarker(spot: Point(time: Date.now, coord: fast_sailing), dep: Date.now)
-    OlympicMarine.stays = 0
-    markers.append(OlympicMarine)
-    return (markers, dist*0.000539957)
-}
-
-func marker_return(markers: [StopMarker])->[StopMarker]{
-    var markers = markers
-    var i = markers.count-1
-    while i > 0{
-        let marker1 = markers[i]
-        for k in (0...i-1).reversed(){
-            let marker2 = markers[k]
-            let dist = distance(p1: marker1, p2: marker2)*0.000539957
-            if dist < 0.25 {
-                markers[i].arrival = markers[i].arrival + markers[k].arrival
-                markers[i].departure = markers[i].departure + markers[k].departure
-                i -= 1
-                markers.remove(at: k)
-                markers[i].stays += 1
-            }
-        }
-        i -= 1
-    }
-    for marker in markers {
-        let stays = marker.stays
-        marker.title = (stays>1) ? String(stays) : ""
-    }
-    markers.last?.arrival.remove(at: 0)
-    markers.last?.departure.remove(at: 0)
-    return markers
-}
 
 func get_angle(point1: Point, point2: Point, point3: Point, min_distance: Double)->Double{
     let side1 = distance(p1: point1, p2: point2)

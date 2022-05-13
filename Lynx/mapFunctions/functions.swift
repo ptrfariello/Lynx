@@ -29,6 +29,9 @@ func myRound(value: Float, decimalPlaces: Float = 1.0)-> Float {
     return round(powerTen * value) / powerTen;
 }
 
+func radiansToDegrees(radians: Double) -> Double { return radians * 180.0 / .pi }
+
+
 
 
 

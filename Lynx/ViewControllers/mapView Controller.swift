@@ -35,6 +35,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     var start: Date = Date.now.addingTimeInterval(-3600*24*28)
     var end: Date = Date.now
     var points: [Point] = []
+    var routes: [Route] = []
     
     func locationButtonFunc(){
         let locationButton = MKUserTrackingButton(mapView: mapView)
@@ -66,18 +67,28 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         let points = select_points(points: points, from: start, to: end)
         let path = points.map{ $0.getCoord()}
         drawPath(path: path)
+        
         let result = markers(points: points)
-        let markers = marker_return(markers: result.0)
-        let total_dist = Int(result.1)
+        let markers = result.0
+        let displayMarkers = marker_return(markers: markers)
+        mapView?.addAnnotations(displayMarkers)
+        
+        routes = getRoutes(markers: markers, lengths: result.1)
+        
+        let total_dist = Int(result.2)
         milesLabel.text = "\(total_dist) miles"
         milesLabel.isHidden = false
+        
         drawBoat(points: points)
+        
         loadingWheel.stopAnimating()
-        mapView?.addAnnotations(markers)
+        
         if data_present && points.count < 3{
             showNoDataAlert()
         }
+        geoCodeMarkers(markers: displayMarkers)
         draw_data_points(disabled: points.count<3)
+        
     }
     
     func showDownloadingAlert() {
@@ -260,6 +271,14 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
                 date_picker.end = self.end
             }
         }
+        if (segue.identifier == "show_routes") {
+            if let navController = segue.destination as? UINavigationController{
+                if let routes_view = navController.viewControllers[0] as? routesTableVIewController {
+                    routes_view.routes = routes
+                    routes_view.points = points
+                }
+            }
+        }
     }
 }
 
@@ -274,7 +293,6 @@ extension mapViewController: MKMapViewDelegate {
             renderer.strokeColor = UIColor.orange
             renderer.lineWidth = 2
             return renderer
-            
         }
         return MKOverlayRenderer()
     }
@@ -287,7 +305,7 @@ extension mapViewController: MKMapViewDelegate {
                 bottomLabel.text = "Fast Sailing, Olympic Marine"
                 return
             }
-            geoCode(location: stopMarker.coordinate, marker_text: bottomLabel)
+            bottomLabel.text = stopMarker.locationName
             active_Marker = stopMarker
             hide_marker_info(opt: false)
         }
@@ -309,5 +327,6 @@ extension mapViewController: MKMapViewDelegate {
         view.markerTintColor = color
         return view
     }
+    
 }
 
