@@ -31,6 +31,9 @@ class Route{
 
 func getRoutes(markers: [StopMarker], lengths: [Double])->[Route]{
     var routes: [Route] = []
+    if markers.count<2{
+        return routes
+    }
     for i in 0...markers.count-3{
         let route = Route(start: markers[i], end: markers[i+1], dist: lengths[i+1])
         if route.length > 1.3{

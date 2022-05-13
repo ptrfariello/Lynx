@@ -41,7 +41,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yH4-xA-2qN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-568.1159420289855" y="840.40178571428567"/>
+            <point key="canvasLocation" x="-801" y="989"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="s20-lX-UeG">
@@ -60,7 +60,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Fb-I3-nAk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1458" y="537"/>
+            <point key="canvasLocation" x="-1928" y="541"/>
         </scene>
         <!--mapView Controller-->
         <scene sceneID="B7S-DD-vFP">
@@ -161,6 +161,14 @@
                                     <constraint firstItem="ml1-nc-9jI" firstAttribute="top" secondItem="by8-J6-wWc" secondAttribute="bottom" id="w9I-pK-RmG"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H1M-hM-k7w">
+                                <rect key="frame" x="20" y="87" width="35" height="35"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="H1M-hM-k7w" secondAttribute="height" id="FYQ-Wl-7Nq"/>
+                                    <constraint firstAttribute="width" constant="35" id="bmS-yW-9Fe"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="o6f-Uc-Rsz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -175,6 +183,7 @@
                             <constraint firstItem="o6f-Uc-Rsz" firstAttribute="trailing" secondItem="mp8-UW-fDV" secondAttribute="trailing" constant="10" id="FJ2-oC-PWv"/>
                             <constraint firstItem="hpz-ag-SWQ" firstAttribute="top" secondItem="uHq-JL-FUB" secondAttribute="top" id="IJX-7B-gUO"/>
                             <constraint firstItem="qAN-EC-fNs" firstAttribute="leading" relation="lessThanOrEqual" secondItem="uHq-JL-FUB" secondAttribute="leading" id="Kym-u2-38P"/>
+                            <constraint firstItem="H1M-hM-k7w" firstAttribute="leading" secondItem="o6f-Uc-Rsz" secondAttribute="leading" constant="20" id="Qiv-oA-U6j"/>
                             <constraint firstItem="yVu-oA-M0N" firstAttribute="top" secondItem="qAN-EC-fNs" secondAttribute="bottom" id="SAz-2a-NDc"/>
                             <constraint firstItem="hpz-ag-SWQ" firstAttribute="leading" secondItem="uHq-JL-FUB" secondAttribute="leading" id="VTR-8P-5sl"/>
                             <constraint firstAttribute="trailing" secondItem="yVu-oA-M0N" secondAttribute="trailing" id="YTP-OT-plc"/>
@@ -184,6 +193,7 @@
                             <constraint firstItem="o6f-Uc-Rsz" firstAttribute="bottom" secondItem="hpz-ag-SWQ" secondAttribute="bottom" id="d1D-47-KFW"/>
                             <constraint firstItem="qAN-EC-fNs" firstAttribute="centerX" secondItem="yVu-oA-M0N" secondAttribute="centerX" id="goT-Vl-UOG"/>
                             <constraint firstItem="FgI-lR-Ojb" firstAttribute="centerX" secondItem="uHq-JL-FUB" secondAttribute="centerX" id="hCE-aN-2e6"/>
+                            <constraint firstItem="mp8-UW-fDV" firstAttribute="centerY" secondItem="H1M-hM-k7w" secondAttribute="centerY" id="xIH-ax-V3F"/>
                             <constraint firstItem="yVu-oA-M0N" firstAttribute="leading" secondItem="uHq-JL-FUB" secondAttribute="leading" id="yyw-ah-wD2"/>
                         </constraints>
                     </view>
@@ -195,6 +205,7 @@
                         <outlet property="bottomLabel" destination="qAN-EC-fNs" id="Mka-UE-Q24"/>
                         <outlet property="bottomText" destination="yVu-oA-M0N" id="067-Vk-dKv"/>
                         <outlet property="buttonView" destination="mp8-UW-fDV" id="pVW-KT-vkn"/>
+                        <outlet property="compassView" destination="H1M-hM-k7w" id="LOg-XF-ok9"/>
                         <outlet property="loadingWheel" destination="FgI-lR-Ojb" id="VM0-rf-BtF"/>
                         <outlet property="locationButtonView" destination="ml1-nc-9jI" id="ncH-rA-7zy"/>
                         <outlet property="mapView" destination="hpz-ag-SWQ" id="hPf-hh-c4O"/>
@@ -209,7 +220,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-600" y="70.982142857142847"/>
+            <point key="canvasLocation" x="-801.44927536231887" y="-283.25892857142856"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="zeQ-f2-UUQ">
@@ -225,7 +236,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZRV-dk-5eA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="206" y="321"/>
+            <point key="canvasLocation" x="0.0" y="115"/>
         </scene>
         <!--Routes-->
         <scene sceneID="2IR-bZ-xyu">
@@ -294,7 +305,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fmn-ex-Z23" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1031.8840579710145" y="320.75892857142856"/>
+            <point key="canvasLocation" x="852" y="-283"/>
         </scene>
         <!--Route Detail View Controller-->
         <scene sceneID="z7K-QM-RJn">
@@ -324,7 +335,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zG5-O7-5St" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2032" y="321"/>
+            <point key="canvasLocation" x="1757" y="-283"/>
         </scene>
         <!--Date Sel Controller-->
         <scene sceneID="clt-LW-gXR">
@@ -465,7 +476,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SWh-0F-OEM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="TGi-DU-vvZ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="252" y="-389"/>
+            <point key="canvasLocation" x="0.0" y="-1090"/>
         </scene>
     </scenes>
     <resources>

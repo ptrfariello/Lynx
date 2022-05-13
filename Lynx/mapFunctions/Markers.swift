@@ -30,6 +30,7 @@ class StopMarker: Point{
         for (i, arrival) in arrival.enumerated() {
             let stay = departure[i]-arrival
             let date = arrival.addingTimeInterval(stay)
+            if stay/60 < 46.0 {return "Haven't left yet"}
             if stay>3600{
                 txt = txt + print_time(interval: stay, minutes: false)+" hours"
             }else{
@@ -91,13 +92,17 @@ func markers(points: [Point])->([StopMarker], [Double], Double){
             j+=1
             if stay > 45 && !spot{
                 spot = true
+                routeDist = routeDist*0.000539957
+                routesLength.append(routeDist)
+                let place = StopMarker(spot: basePoint, dep: point.time)
+                markers.append(place)
+                routeDist = 0
             }
         }else{
             if spot{
                 let place = StopMarker(spot: basePoint, dep: point.time)
+                _ = markers.popLast()
                 markers.append(place)
-                routeDist = routeDist*0.000539957
-                routesLength.append(routeDist)
                 routeDist = 0
             }
             spot = false

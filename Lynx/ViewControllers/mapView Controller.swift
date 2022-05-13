@@ -14,10 +14,11 @@ let fast_sailing = CLLocationCoordinate2D(latitude: 37.695670, longitude: 24.060
 
 class mapViewController: UIViewController, CLLocationManagerDelegate {
     
+    let defaults = UserDefaults.standard
+    
     // MARK: - Connections to StoryBoard
     @IBOutlet weak var milesLabel: UILabel!
     @IBOutlet weak var mrkCloseBtn: UIButton!
-    @IBOutlet weak var datesButton: UIButton!
     @IBOutlet private var mapView: MKMapView!
     @IBOutlet weak var bottomLabel: UILabel!
     @IBOutlet weak var bottomText: UITextView!
@@ -30,9 +31,10 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     }
     @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var locationButtonView: UIView!
+    @IBOutlet weak var compassView: UIView!
     
     var active_Marker: StopMarker?
-    var start: Date = Date.now.addingTimeInterval(-3600*24*28)
+    var start: Date = Date.now.addingTimeInterval(-3600*24*14)
     var end: Date = Date.now
     var points: [Point] = []
     var routes: [Route] = []
@@ -49,12 +51,25 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         locationButton.trailingAnchor.constraint(equalTo: locationButtonView.trailingAnchor).isActive = true
     }
     
+    func show_compass(){
+        let compass = MKCompassButton(mapView: mapView)
+        compassView.addSubview(compass)
+        compass.compassVisibility = .adaptive
+        compass.translatesAutoresizingMaskIntoConstraints = false
+        compass.topAnchor.constraint(equalTo: compassView.topAnchor).isActive = true
+        compass.leadingAnchor.constraint(equalTo: compassView.leadingAnchor).isActive = true
+        compassView.backgroundColor = UIColor.clear
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView?.delegate = self
         get_and_update()
         main(points: points, start: start, end: end)
         locationButtonFunc()
+        show_compass()
+        start = defaults.object(forKey: "startDate") as? Date ?? start
+        end = defaults.object(forKey: "endDate") as? Date ?? end
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -249,6 +264,8 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
                 start = date_picker.startDatePicker.date
                 end = date_picker.endDatePicker.date
                 main(points: points, start: start, end: end)
+                defaults.set(start, forKey: "startDate")
+                defaults.set(end, forKey: "endDate")
             }
         }
     }
