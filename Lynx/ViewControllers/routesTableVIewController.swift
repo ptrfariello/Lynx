@@ -11,11 +11,20 @@ class routesTableVIewController: UITableViewController {
 
     var routes: [Route] = []
     var points: [Point] = []
-    
+    var fastest = 0
+    var longest = 0
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        for route in routes {
+            route.loadData()
+        }
+        var maxSpeed: Float = 0.0, maxDist = 0.0
+        for (i, route) in routes.enumerated() {
+            if route.avgSpeed > maxSpeed {fastest = i; maxSpeed = route.avgSpeed}
+            if route.length > maxDist{longest = i; maxDist = route.length}
+        }
     }
 
     // MARK: - Table view data source
@@ -39,7 +48,9 @@ class routesTableVIewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "routeCell", for: indexPath) as? routeTableCell ?? routeTableCell(style: .default, reuseIdentifier: "routeCell")
 
         let route = routes[indexPath.row]
-        let title = "Route \(indexPath.row+1) - \(myRound(value: Float(route.length), decimalPlaces: 0)) miles"
+        var title = "Route \(indexPath.row+1) - \(Int(myRound(value: Float(route.length), decimalPlaces: 0))) miles"
+        if indexPath.row == fastest {title += " - FASTEST"}
+        if indexPath.row == longest {title += " - LONGEST"}
         
         var description = ""
         if route.startMarker.locationName != ""{

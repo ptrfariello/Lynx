@@ -8,12 +8,18 @@
 import Foundation
 import UIKit
 import MapKit
+import SwiftUI
 
 class routeDetailViewController: UIViewController, MKMapViewDelegate {
+    
     var points: [Point] = []
-    var route: Route?
+    var route: Route!
     
     @IBOutlet weak var routeMapView: MKMapView!
+    @IBOutlet weak var startText: UITextView!
+    @IBOutlet weak var endText: UITextView!
+    @IBOutlet weak var maxSpeedLabel: UILabel!
+    @IBOutlet weak var avgSpeedLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,8 +29,25 @@ class routeDetailViewController: UIViewController, MKMapViewDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         drawRoute(route: route!)
+        startEndText()
+        speedText()
     }
     
+    func startEndText(){
+        var text = "\(print_date(date: route.start, hour: true))\n\n\(route.startMarker.locationName)"
+        startText.text = text
+        text = "\(print_date(date: route.end, hour: true))\n\n\(route.endMarker.locationName)"
+        endText.text = text
+    }
+    
+    func speedText(){
+        
+        var text = "Max Speed: \(myRound(value: route.maxSpeed?.sog ?? 0, decimalPlaces: 1)) kts"
+        maxSpeedLabel.text = text
+        
+        text = "Average Speed: \(myRound(value: route.avgSpeed, decimalPlaces: 1)) kts"
+        avgSpeedLabel.text = text
+    }
     
     func mapClear(){
         let overlays = routeMapView.overlays
@@ -36,7 +59,7 @@ class routeDetailViewController: UIViewController, MKMapViewDelegate {
     func drawRoute(route: Route) {
         mapClear()
         route.startMarker.color = UIColor.green
-        route.startMarker.color = UIColor.blue
+        route.endMarker.color = UIColor.blue
         let points = select_points(points: points, from: route.start, to: route.end)
         let path = points.map{ $0.getCoord()}
         let polyline = MKPolyline(coordinates: path, count: path.count)
@@ -49,22 +72,6 @@ class routeDetailViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-    func getBearingBetweenTwoPoints(point1 : CLLocationCoordinate2D, point2 : CLLocationCoordinate2D) -> Double {
-
-        let lat1 = deg2rad(point1.latitude)
-        let lon1 = deg2rad(point1.longitude)
-
-        let lat2 = deg2rad(point2.latitude)
-        let lon2 = deg2rad(point2.longitude)
-
-        let dLon = lon2 - lon1
-
-        let y = sin(dLon) * cos(lat2)
-        let x = cos(lat1) * sin(lat2) - sin(lat1) * cos(lat2) * cos(dLon)
-        let radiansBearing = atan2(y, x)
-
-        return radiansToDegrees(radians: radiansBearing)
-    }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKPolyline {
@@ -85,4 +92,6 @@ class routeDetailViewController: UIViewController, MKMapViewDelegate {
         }
         view.markerTintColor = color
         return view
-    }}
+    }
+    
+}

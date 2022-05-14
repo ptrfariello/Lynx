@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import CoreLocation
+import MapKit
 
 let points_filename = "pointsData.json"
+let markers_filename = "markersData.json"
 
 public class Storage {
     
@@ -121,7 +124,9 @@ public class Storage {
     }
 }
 
-func get_saved()->[Point]{
+
+
+func get_saved_points()->[Point]{
     let defau: [storage_point] = []
     let points = Storage.retrieve(points_filename, from: .caches, as: [storage_point].self) ?? defau
     var out: [Point] = []
@@ -135,7 +140,7 @@ func select_points(points: [Point], from:Date, to:Date)->[Point]{
         return out
 }
 
-func update_saved(points: [Point]) async throws -> Bool{
+func update_saved_points(points: [Point]) async throws -> Bool{
     let end = date_to_iso(date: Date.now)
     let start = date_to_iso(date: points.last?.time ?? Date.distantPast)
     let new_points = try await getData(url: "coords", start: start, end: end)
@@ -152,4 +157,29 @@ func update_saved(points: [Point]) async throws -> Bool{
     Storage.store(to_save, to: .caches, as: points_filename)
     print("Saved")
     return true
+}
+
+
+
+func select_location(marker: StopMarker, locations: [geocodedLocation])->String{
+    let markerLocation = MKMapPoint(marker.coordinate)
+    for location in locations {
+        let locCoord =  MKMapPoint(CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
+        if markerLocation.distance(to: locCoord)*0.000539957 < 0.25{
+            return location.locationName
+        }
+    }
+    return ""
+}
+
+func get_saved_locations()->[geocodedLocation]{
+    let defau: [geocodedLocation] = []
+    let locations = Storage.retrieve(markers_filename, from: .caches, as: [geocodedLocation].self) ?? defau
+    return locations
+}
+
+func update_saved_markers(marker: StopMarker){
+    var saved = get_saved_locations()
+    saved.append(geocodedLocation(marker: marker))
+    Storage.store(saved, to: .caches, as: markers_filename)
 }

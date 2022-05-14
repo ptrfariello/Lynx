@@ -16,7 +16,6 @@
 		9B5D1BFE282A5BCE00E0A1B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B5D1BFD282A5BCE00E0A1B3 /* Main.storyboard */; };
 		9B5D1C0B282A5E1D00E0A1B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B5D1C0A282A5E1D00E0A1B3 /* LaunchScreen.storyboard */; };
 		9BAAF8BD28257B5F000EC8A5 /* geocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BAAF8BC28257B5F000EC8A5 /* geocoder.swift */; };
-		9BBD6E13282A63B000E68312 /* sharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBD6E12282A63B000E68312 /* sharedData.swift */; };
 		9BBD6E15282A6F8400E68312 /* 4xView Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBD6E14282A6F8400E68312 /* 4xView Controller.swift */; };
 		9BC7E5BE28244476002C7707 /* database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BC7E5BC28244476002C7707 /* database.swift */; };
 		9BCFC10228232D6800A4CD4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCFC10128232D6800A4CD4A /* AppDelegate.swift */; };
@@ -64,7 +63,6 @@
 		9B5D1BFD282A5BCE00E0A1B3 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9B5D1C0A282A5E1D00E0A1B3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9BAAF8BC28257B5F000EC8A5 /* geocoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = geocoder.swift; sourceTree = "<group>"; };
-		9BBD6E12282A63B000E68312 /* sharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sharedData.swift; sourceTree = "<group>"; };
 		9BBD6E14282A6F8400E68312 /* 4xView Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "4xView Controller.swift"; sourceTree = "<group>"; };
 		9BC7099C282B03D50064A969 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		9BC7E5BC28244476002C7707 /* database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = database.swift; sourceTree = "<group>"; };
@@ -129,7 +127,6 @@
 				9A4CCD252828E9DD005401B3 /* extensions.swift */,
 				9BC7E5BC28244476002C7707 /* database.swift */,
 				9A4CE26D2828744F00FBA993 /* dataStorage.swift */,
-				9BBD6E12282A63B000E68312 /* sharedData.swift */,
 				9BF75F44282EA1A200D58E78 /* routesFunctions.swift */,
 			);
 			path = mapFunctions;
@@ -243,6 +240,8 @@
 			dependencies = (
 			);
 			name = Lynx;
+			packageProductDependencies = (
+			);
 			productName = Lynx;
 			productReference = 9BCFC0FE28232D6800A4CD4A /* Lynx.app */;
 			productType = "com.apple.product-type.application";
@@ -315,6 +314,8 @@
 				Base,
 			);
 			mainGroup = 9BCFC0F528232D6800A4CD4A;
+			packageReferences = (
+			);
 			productRefGroup = 9BCFC0FF28232D6800A4CD4A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -373,7 +374,6 @@
 				9BF75F45282EA1A200D58E78 /* routesFunctions.swift in Sources */,
 				9A4CCD262828E9DD005401B3 /* extensions.swift in Sources */,
 				9BCFC10428232D6800A4CD4A /* SceneDelegate.swift in Sources */,
-				9BBD6E13282A63B000E68312 /* sharedData.swift in Sources */,
 				9BBD6E15282A6F8400E68312 /* 4xView Controller.swift in Sources */,
 				9B05DE35282518AB00FEDE47 /* functions.swift in Sources */,
 				9BF75F34282E64FE00D58E78 /* Markers.swift in Sources */,

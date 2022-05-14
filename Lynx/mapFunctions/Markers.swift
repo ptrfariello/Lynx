@@ -8,6 +8,8 @@
 import Foundation
 import MapKit
 
+let sameSpotDistance = 0.25 //nm
+
 class StopMarker: Point{
     var arrival: [Date]
     var departure: [Date]
@@ -21,11 +23,11 @@ class StopMarker: Point{
         self.arrival = [spot.time]
         self.departure = [dep]
         super.init(time: spot.time, coord: spot.coordinate)
-       
     }
     
     
     func print_info()->String{
+        
         var txt = ""
         for (i, arrival) in arrival.enumerated() {
             let stay = departure[i]-arrival
@@ -43,32 +45,31 @@ class StopMarker: Point{
         return txt
     }
     
-    func geoCode(){
-        var out = ""
-        let coordinate = self.coordinate
-        let geocoder = CLGeocoder()
-        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
-            if placemarks != nil{
-                for placemark in placemarks! {
-                    let sea = placemark.ocean ?? ""
-                    var name = placemark.name ?? ""
-                    var locality = placemark.locality ?? ""
-                    let gr = placemark.isoCountryCode ?? ""
-                    if (locality == name){locality = ""}
-                    if (name == sea){name = ""}
-                    out = add_to_string(base: out, add: sea)
-                    out = add_to_string(base: out, add: name)
-                    out = add_to_string(base: out, add: locality)
-                    out = add_to_string(base: out, add: gr)
-                }
-            }
-            self.locationName = out
-        })
+    func getLocationName(savedLocation: [geocodedLocation]){
+        if self.locationName.count > 3 {return}
+        self.locationName = select_location(marker: self, locations: savedLocation)
+        if self.locationName == "" {
+            Task{do{
+            self.locationName = await geoCode(coordinate: self.coordinate)
+            update_saved_markers(marker: self)
+            }}
+        }
     }
-    
 }
 
+struct geocodedLocation: Codable{
+    var lat = 0.0
+    var lon = 0.0
+    var locationName = ""
+    
+    init(marker: StopMarker) {
+        self.lat = marker.coordinate.latitude
+        self.lon = marker.coordinate.longitude
+        self.locationName = marker.locationName
+    }
+}
+
+        
 func markers(points: [Point])->([StopMarker], [Double], Double){
     var dist = 0.0
     var routeDist = 0.0
@@ -111,6 +112,7 @@ func markers(points: [Point])->([StopMarker], [Double], Double){
     }
     let OlympicMarine = StopMarker(spot: Point(time: Date.now, coord: fast_sailing), dep: Date.now)
     OlympicMarine.stays = 0
+    OlympicMarine.locationName = "Fast Sailing, Olympic Marine"
     markers.append(OlympicMarine)
     return (markers, routesLength, dist*0.000539957)
 }
@@ -142,10 +144,5 @@ func marker_return(markers: [StopMarker])->[StopMarker]{
     return markers
 }
 
-func geoCodeMarkers(markers: [StopMarker]){
-    Task{do{
-        for marker in markers{
-        marker.geoCode()
-        }
-    }}
-}
+
+

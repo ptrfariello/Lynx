@@ -38,6 +38,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     var end: Date = Date.now
     var points: [Point] = []
     var routes: [Route] = []
+    var locations: [geocodedLocation] = []
     
     func locationButtonFunc(){
         let locationButton = MKUserTrackingButton(mapView: mapView)
@@ -50,7 +51,6 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         locationButton.leadingAnchor.constraint(equalTo: locationButtonView.leadingAnchor).isActive = true
         locationButton.trailingAnchor.constraint(equalTo: locationButtonView.trailingAnchor).isActive = true
     }
-    
     func show_compass(){
         let compass = MKCompassButton(mapView: mapView)
         compassView.addSubview(compass)
@@ -63,13 +63,14 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        start = defaults.object(forKey: "startDate") as? Date ?? start
+        end = defaults.object(forKey: "endDate") as? Date ?? end
         mapView?.delegate = self
         get_and_update()
+        locations = get_saved_locations()
         main(points: points, start: start, end: end)
         locationButtonFunc()
         show_compass()
-        start = defaults.object(forKey: "startDate") as? Date ?? start
-        end = defaults.object(forKey: "endDate") as? Date ?? end
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -85,6 +86,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         
         let result = markers(points: points)
         let markers = result.0
+        updateMarkers(markers: markers)
         let displayMarkers = marker_return(markers: markers)
         mapView?.addAnnotations(displayMarkers)
         
@@ -101,7 +103,6 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         if data_present && points.count < 3{
             showNoDataAlert()
         }
-        geoCodeMarkers(markers: displayMarkers)
         draw_data_points(disabled: points.count<3)
         
     }
@@ -193,18 +194,27 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func get_and_update(){
-        points = get_saved()
+        points = get_saved_points()
         if points.count < 3 {loadingWheel.startAnimating(); sleep(1); showDownloadingAlert(); }
         Task {
             do{
                 let last_point: Date = points.last?.time ?? Date.distantPast
-                let updated = try await update_saved(points: self.points)
+                let updated = try await update_saved_points(points: self.points)
                 if updated{
                     get_and_update()
                     if last_point < end && points.count > 3{
                         showReloadAlert()
                     }
                 }
+            }
+        }
+    }
+    
+    func updateMarkers(markers: [StopMarker]){
+        DispatchQueue.global().async {
+            for marker in markers{
+                marker.getLocationName(savedLocation: self.locations)
+                usleep(1000000/2)
             }
         }
     }
@@ -218,7 +228,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
                 let fastest_speed = try await getData(url: "maxSpeed", start: start_string, end: end_string)[0]
                 
                 var title = "\(myRound(value: fastest_speed.sog, decimalPlaces: 1.0)) kts"
-                var to_print = "The fastest speed over a minute between \(print_date(date: start, hour: false)) and \(print_date(date: end, hour: false)) was \(title) on \(print_date(date: fastest_speed.time, hour: true))"
+                var to_print = "The fastest speed over a minute between \(print_date(date: start, hour: false)) and \(print_date(date: end, hour: false)) was \(title) on \(print_date(date: fastest_speed.time, hour: true)) with \(myRound(value: fastest_speed.tws, decimalPlaces: 1.0)) kts of wind"
                 
                 fastest_speed.color = UIColor.green; fastest_speed.title = title
                 fastest_speed.to_print = to_print
@@ -307,13 +317,13 @@ extension mapViewController: MKMapViewDelegate {
         if let stopMarker = view.annotation as? StopMarker {
             bottomText.text = stopMarker.print_info()
             bottomLabel.text = ""
-            if (stopMarker.coordinate.latitude == 37.695670){
-                bottomLabel.text = "Fast Sailing, Olympic Marine"
-                return
-            }
-            bottomLabel.text = stopMarker.locationName
-            active_Marker = stopMarker
-            hide_marker_info(opt: false)
+            Task{do{
+                stopMarker.getLocationName(savedLocation: locations)
+                bottomLabel.text = stopMarker.locationName
+                active_Marker = stopMarker
+                hide_marker_info(opt: false)
+            }}
+            
         }
         else if let point = view.annotation as? Point {
             bottomText.text = point.to_print
