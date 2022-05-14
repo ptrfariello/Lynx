@@ -125,7 +125,7 @@ func marker_return(markers: [StopMarker])->[StopMarker]{
         for k in (0...i-1).reversed(){
             let marker2 = markers[k]
             let dist = distance(p1: marker1, p2: marker2)*0.000539957
-            if dist < 0.25 {
+            if dist < sameSpotDistance {
                 markers[i].arrival = markers[i].arrival + markers[k].arrival
                 markers[i].departure = markers[i].departure + markers[k].departure
                 i -= 1

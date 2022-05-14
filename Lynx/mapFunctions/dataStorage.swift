@@ -165,7 +165,7 @@ func select_location(marker: StopMarker, locations: [geocodedLocation])->String{
     let markerLocation = MKMapPoint(marker.coordinate)
     for location in locations {
         let locCoord =  MKMapPoint(CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
-        if markerLocation.distance(to: locCoord)*0.000539957 < 0.25{
+        if markerLocation.distance(to: locCoord)*0.000539957 < sameSpotDistance{
             return location.locationName
         }
     }
