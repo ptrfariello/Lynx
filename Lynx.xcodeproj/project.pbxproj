@@ -6,6 +6,20 @@
 	objectVersion = 55;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		9BF27DDF283027A7005D88FA /* Periphery */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 9BF27DE0283027A7005D88FA /* Build configuration list for PBXAggregateTarget "Periphery" */;
+			buildPhases = (
+				9BF27DE3283027B3005D88FA /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Periphery;
+			productName = Periphery;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		9A4CCD222828E94C005401B3 /* dateFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CCD212828E94C005401B3 /* dateFunctions.swift */; };
 		9A4CCD242828E95E005401B3 /* Points.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CCD232828E95E005401B3 /* Points.swift */; };
@@ -25,8 +39,9 @@
 		9BCFC11928232D6A00A4CD4A /* LynxTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCFC11828232D6A00A4CD4A /* LynxTests.swift */; };
 		9BCFC12328232D6A00A4CD4A /* LynxUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCFC12228232D6A00A4CD4A /* LynxUITests.swift */; };
 		9BCFC12528232D6A00A4CD4A /* LynxUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCFC12428232D6A00A4CD4A /* LynxUITestsLaunchTests.swift */; };
+		9BF27DD32830012D005D88FA /* MRCalcSaveGet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF27DD22830012D005D88FA /* MRCalcSaveGet.swift */; };
+		9BF27DDE283025DB005D88FA /* CoreLocationUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF75F28282D7CDE00D58E78 /* CoreLocationUI.framework */; };
 		9BF75F2C282E268700D58E78 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC7099C282B03D50064A969 /* MapKit.framework */; };
-		9BF75F2F282E268800D58E78 /* CoreLocationUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF75F28282D7CDE00D58E78 /* CoreLocationUI.framework */; };
 		9BF75F31282E268900D58E78 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF75F26282D7C8200D58E78 /* CoreLocation.framework */; };
 		9BF75F34282E64FE00D58E78 /* Markers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF75F33282E64FE00D58E78 /* Markers.swift */; };
 		9BF75F36282E657E00D58E78 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF75F35282E657E00D58E78 /* Routes.swift */; };
@@ -77,6 +92,7 @@
 		9BCFC11E28232D6A00A4CD4A /* LynxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LynxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BCFC12228232D6A00A4CD4A /* LynxUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LynxUITests.swift; sourceTree = "<group>"; };
 		9BCFC12428232D6A00A4CD4A /* LynxUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LynxUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		9BF27DD22830012D005D88FA /* MRCalcSaveGet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRCalcSaveGet.swift; sourceTree = "<group>"; };
 		9BF75F26282D7C8200D58E78 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9BF75F28282D7CDE00D58E78 /* CoreLocationUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocationUI.framework; path = System/Library/Frameworks/CoreLocationUI.framework; sourceTree = SDKROOT; };
 		9BF75F33282E64FE00D58E78 /* Markers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Markers.swift; sourceTree = "<group>"; };
@@ -92,8 +108,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BF27DDE283025DB005D88FA /* CoreLocationUI.framework in Frameworks */,
 				9BF75F31282E268900D58E78 /* CoreLocation.framework in Frameworks */,
-				9BF75F2F282E268800D58E78 /* CoreLocationUI.framework in Frameworks */,
 				9BF75F2C282E268700D58E78 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -128,6 +144,7 @@
 				9BC7E5BC28244476002C7707 /* database.swift */,
 				9A4CE26D2828744F00FBA993 /* dataStorage.swift */,
 				9BF75F44282EA1A200D58E78 /* routesFunctions.swift */,
+				9BF27DD22830012D005D88FA /* MRCalcSaveGet.swift */,
 			);
 			path = mapFunctions;
 			sourceTree = "<group>";
@@ -303,6 +320,9 @@
 						CreatedOnToolsVersion = 13.3.1;
 						TestTargetID = 9BCFC0FD28232D6800A4CD4A;
 					};
+					9BF27DDF283027A7005D88FA = {
+						CreatedOnToolsVersion = 13.3.1;
+					};
 				};
 			};
 			buildConfigurationList = 9BCFC0F928232D6800A4CD4A /* Build configuration list for PBXProject "Lynx" */;
@@ -323,6 +343,7 @@
 				9BCFC0FD28232D6800A4CD4A /* Lynx */,
 				9BCFC11328232D6A00A4CD4A /* LynxTests */,
 				9BCFC11D28232D6A00A4CD4A /* LynxUITests */,
+				9BF27DDF283027A7005D88FA /* Periphery */,
 			);
 		};
 /* End PBXProject section */
@@ -354,6 +375,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		9BF27DE3283027B3005D88FA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nperiphery scan\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9BCFC0FA28232D6800A4CD4A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -367,6 +408,7 @@
 				9A4CCD222828E94C005401B3 /* dateFunctions.swift in Sources */,
 				9BCFC10228232D6800A4CD4A /* AppDelegate.swift in Sources */,
 				9BF75F38282E740700D58E78 /* routeDetails View Controller.swift in Sources */,
+				9BF27DD32830012D005D88FA /* MRCalcSaveGet.swift in Sources */,
 				9BF75F43282E974800D58E78 /* routeTableCell.swift in Sources */,
 				9BF75F36282E657E00D58E78 /* Routes.swift in Sources */,
 				9BC7E5BE28244476002C7707 /* database.swift in Sources */,
@@ -675,6 +717,22 @@
 			};
 			name = Release;
 		};
+		9BF27DE1283027A7005D88FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9BF27DE2283027A7005D88FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -710,6 +768,15 @@
 			buildConfigurations = (
 				9BCFC12F28232D6A00A4CD4A /* Debug */,
 				9BCFC13028232D6A00A4CD4A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9BF27DE0283027A7005D88FA /* Build configuration list for PBXAggregateTarget "Periphery" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9BF27DE1283027A7005D88FA /* Debug */,
+				9BF27DE2283027A7005D88FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

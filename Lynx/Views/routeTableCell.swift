@@ -64,7 +64,7 @@ class routeTableCell: UITableViewCell, MKMapViewDelegate {
         let distance_calc = start_CL.distance(from: end_CL)
         let polyline = MKPolyline(coordinates: path, count: path.count)
         self.routeCellMapview?.addOverlay(polyline)
-        routeCellMapview.addAnnotations([route.endMarker, route.startMarker])
+        routeCellMapview.addAnnotations([route.endPoint, route.startPoint])
         routeCellMapview.setVisibleMapRect(polyline.boundingMapRect, edgePadding: UIEdgeInsets(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0), animated: false)
         let distance_visible_rect = routeCellMapview.camera.centerCoordinateDistance
     
@@ -88,8 +88,8 @@ class routeTableCell: UITableViewCell, MKMapViewDelegate {
         if let _ = annotation as? MKUserLocation {return nil}
         let view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "pin")
         var color = UIColor.gray
-        if let marker = annotation as? StopMarker {
-            color = marker.color
+        if let point = annotation as? Point {
+            color = point.color
         }
         view.markerTintColor = color
         return view

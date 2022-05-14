@@ -351,7 +351,6 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="HTV-XC-N1M" firstAttribute="top" secondItem="DAH-b4-ik3" secondAttribute="top" id="0e5-b3-uHE"/>
-                            <constraint firstItem="egd-Cf-b5q" firstAttribute="leading" secondItem="mCC-LT-K6P" secondAttribute="leading" constant="20" id="4dy-Aj-hLb"/>
                             <constraint firstItem="afu-9g-zS0" firstAttribute="leading" secondItem="mCC-LT-K6P" secondAttribute="leading" constant="20" id="6FV-KO-G4y"/>
                             <constraint firstItem="f8Y-Ip-VFT" firstAttribute="top" secondItem="egd-Cf-b5q" secondAttribute="bottom" constant="10" id="6LF-9H-8L5"/>
                             <constraint firstItem="HTV-XC-N1M" firstAttribute="width" secondItem="DAH-b4-ik3" secondAttribute="width" id="Ijd-DQ-xML"/>
@@ -362,6 +361,7 @@
                             <constraint firstItem="DAH-b4-ik3" firstAttribute="leading" secondItem="mCC-LT-K6P" secondAttribute="leading" constant="15" id="aCz-eE-Ds7"/>
                             <constraint firstItem="DAH-b4-ik3" firstAttribute="top" secondItem="mCC-LT-K6P" secondAttribute="top" id="d3x-hU-sz0"/>
                             <constraint firstAttribute="bottom" secondItem="f8Y-Ip-VFT" secondAttribute="bottom" id="j3b-9O-QGM"/>
+                            <constraint firstItem="egd-Cf-b5q" firstAttribute="leading" secondItem="afu-9g-zS0" secondAttribute="leading" id="okf-yw-A8C"/>
                             <constraint firstItem="mCC-LT-K6P" firstAttribute="trailing" secondItem="HTV-XC-N1M" secondAttribute="trailing" constant="30" id="prj-uo-aGY"/>
                             <constraint firstItem="mCC-LT-K6P" firstAttribute="trailing" secondItem="f8Y-Ip-VFT" secondAttribute="trailing" id="y9e-e2-I3x"/>
                         </constraints>

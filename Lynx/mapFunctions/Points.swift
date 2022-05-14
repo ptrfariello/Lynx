@@ -25,7 +25,7 @@ struct database_point: Codable{
 }
 
 struct storage_point: Codable{
-    var Time: Float64
+    var Time: Date
     var SOG: Float
     var COG: Float
     var Lat: Double
@@ -35,7 +35,7 @@ struct storage_point: Codable{
     var TWD: Float
     
     init(place: Point) {
-        self.Time = place.time.timeIntervalSince1970
+        self.Time = place.time
         self.SOG = place.sog
         self.COG = place.cog
         self.Lat = place.lat
@@ -44,7 +44,6 @@ struct storage_point: Codable{
         self.TWA = place.twa
         self.TWD = place.twd
     }
-    
 }
 
 class Point: NSObject, MKAnnotation {
@@ -62,6 +61,7 @@ class Point: NSObject, MKAnnotation {
     var temp: Float = 0.0
     var color: UIColor = UIColor.gray
     var to_print: String = ""
+    var locationName = ""
     
     public var coordinate: CLLocationCoordinate2D
     
@@ -97,7 +97,7 @@ class Point: NSObject, MKAnnotation {
     }
     
     init(point: storage_point){
-        self.time = Date(timeIntervalSince1970: point.Time)
+        self.time = point.Time
         self.twd = point.TWD
         self.twa = point.TWA
         self.tws = point.TWS
@@ -106,6 +106,11 @@ class Point: NSObject, MKAnnotation {
         self.cog = point.COG
         self.sog = point.SOG
         self.coordinate = CLLocationCoordinate2D(latitude: point.Lat, longitude: point.Long)
+    }
+    
+    func getLocationName(savedLocation: [geocodedLocation]){
+        if self.locationName.count > 3 {return}
+        self.locationName = select_location(point: self, locations: savedLocation)
     }
     
     
@@ -120,7 +125,7 @@ func distance(p1: Point, p2: Point)->Double{
 }
 
 func avgSpeed(p1: Point, p2: Point)->Double{
-    let dist = distance(p1: p1, p2: p2)*0.000539957
+    let dist = distance(p1: p1, p2: p2)*meters_to_nm
     var time = p2.time - p1.time
     if abs(time)*1000<1{return Double.infinity}
     time = time / (60 * 60)
@@ -188,4 +193,9 @@ func place_avg(places: [Point])-> Point{
     let coord = CLLocationCoordinate2D(latitude: avgLat, longitude: avgLon)
     let date = start.addingTimeInterval(avgInterval)
     return Point(time: date, coord: coord)
+}
+
+func select_points(points: [Point], from:Date, to:Date)->[Point]{
+        let out = points.filter{$0.time > from && $0.time < to}
+        return out
 }

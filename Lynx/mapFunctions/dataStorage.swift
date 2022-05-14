@@ -135,11 +135,6 @@ func get_saved_points()->[Point]{
     return out
 }
 
-func select_points(points: [Point], from:Date, to:Date)->[Point]{
-        let out = points.filter{$0.time > from && $0.time < to}
-        return out
-}
-
 func update_saved_points(points: [Point]) async throws -> Bool{
     let end = date_to_iso(date: Date.now)
     let start = date_to_iso(date: points.last?.time ?? Date.distantPast)
@@ -159,13 +154,13 @@ func update_saved_points(points: [Point]) async throws -> Bool{
     return true
 }
 
-
-
-func select_location(marker: StopMarker, locations: [geocodedLocation])->String{
-    let markerLocation = MKMapPoint(marker.coordinate)
-    for location in locations {
+func select_location(point: Point, locations: [geocodedLocation])->String{
+    let markerLocation = MKMapPoint(point.coordinate)
+    var locations = locations
+    locations.append(fast_sailing_location)
+    for location in locations.reversed() {
         let locCoord =  MKMapPoint(CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
-        if markerLocation.distance(to: locCoord)*0.000539957 < sameSpotDistance{
+        if markerLocation.distance(to: locCoord)*meters_to_nm < sameSpotDistance{
             return location.locationName
         }
     }
@@ -178,8 +173,16 @@ func get_saved_locations()->[geocodedLocation]{
     return locations
 }
 
-func update_saved_markers(marker: StopMarker){
-    var saved = get_saved_locations()
-    saved.append(geocodedLocation(marker: marker))
-    Storage.store(saved, to: .caches, as: markers_filename)
+func updateLocationNames(markers: [StopMarker]){
+    let markers = marker_return(markers: markers)
+    Task {
+        let saved = get_saved_locations()
+        for marker in markers.reversed() {
+            marker.getLocationName(savedLocation: saved)
+            if marker.locationName == "" {
+            marker.locationName = await geoCode(coordinate: marker.coordinate)
+            sleep(1)
+            }
+        }
+    }
 }

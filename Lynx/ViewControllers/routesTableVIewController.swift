@@ -7,23 +7,27 @@
 
 import UIKit
 
+let startColor = UIColor.red
+let endColor = UIColor.orange
+
 class routesTableVIewController: UITableViewController {
 
     var routes: [Route] = []
     var points: [Point] = []
+    var locationNames: [geocodedLocation] = get_saved_locations()
     var fastest = 0
     var longest = 0
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        for route in routes {
-            route.loadData()
-        }
         var maxSpeed: Float = 0.0, maxDist = 0.0
         for (i, route) in routes.enumerated() {
             if route.avgSpeed > maxSpeed {fastest = i; maxSpeed = route.avgSpeed}
             if route.length > maxDist{longest = i; maxDist = route.length}
+            route.startPoint.getLocationName(savedLocation: locationNames)
+            route.endPoint.getLocationName(savedLocation: locationNames)
+            route.loadData()
         }
     }
 
@@ -38,12 +42,12 @@ class routesTableVIewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return routes.count
     }
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection
                                 section: Int) -> String? {
         return "\(routes.count) Routes"
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "routeCell", for: indexPath) as? routeTableCell ?? routeTableCell(style: .default, reuseIdentifier: "routeCell")
 
@@ -53,15 +57,15 @@ class routesTableVIewController: UITableViewController {
         if indexPath.row == longest {title += " - LONGEST"}
         
         var description = ""
-        if route.startMarker.locationName != ""{
-            description = " in \(route.startMarker.locationName)"
+        if route.startPoint.locationName != ""{
+            description = " in \(route.startPoint.locationName)"
         }
-        description = "Started on \(print_date(date: route.start, hour: true)) \(description)\nFinished on \(print_date(date: route.end, hour: true))"
-        if route.endMarker.locationName != ""{
-            description += " in \(route.endMarker.locationName)"
+        description = "Started on \(print_date(date: route.start, hour: true))\(description)\nFinished on \(print_date(date: route.end, hour: true))"
+        if route.endPoint.locationName != ""{
+            description += " in \(route.endPoint.locationName)"
         }
         
-        route.startMarker.color = UIColor.green; route.endMarker.color = UIColor.blue
+        route.startPoint.color = startColor; route.endPoint.color = endColor
         cell.configure(name: title, description: description, route: route, points: points)
         return cell
     }

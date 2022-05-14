@@ -23,6 +23,7 @@ func add_to_string(base: String, add: String)->String{
 }
 
 func geoCode(coordinate: CLLocationCoordinate2D) async -> String{
+    var saved = get_saved_locations()
     var out = ""
     let geocoder = CLGeocoder()
     let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
@@ -32,13 +33,15 @@ func geoCode(coordinate: CLLocationCoordinate2D) async -> String{
             let sea = placemark.ocean ?? ""
             var name = placemark.name ?? ""
             var locality = placemark.locality ?? ""
-            let gr = placemark.isoCountryCode ?? ""
+            //let gr = placemark.isoCountryCode ?? ""
             if (locality == name){locality = ""}
             if (name == sea){name = ""}
             out = add_to_string(base: out, add: sea)
             out = add_to_string(base: out, add: name)
             out = add_to_string(base: out, add: locality)
             //out = add_to_string(base: out, add: gr)
+            saved.append(geocodedLocation(coord: coordinate, name: out))
+            Storage.store(saved, to: .caches, as: markers_filename)
         }
     }
     return out

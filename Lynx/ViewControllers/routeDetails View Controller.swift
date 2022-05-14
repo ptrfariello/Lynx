@@ -34,15 +34,18 @@ class routeDetailViewController: UIViewController, MKMapViewDelegate {
     }
     
     func startEndText(){
-        var text = "\(print_date(date: route.start, hour: true))\n\n\(route.startMarker.locationName)"
+        var text = "\(print_date(date: route.start, hour: true))\n\n\(route.startPoint.locationName)"
         startText.text = text
-        text = "\(print_date(date: route.end, hour: true))\n\n\(route.endMarker.locationName)"
+        text = "\(print_date(date: route.end, hour: true))\n\n\(route.endPoint.locationName)"
         endText.text = text
     }
     
     func speedText(){
-        
-        var text = "Max Speed: \(myRound(value: route.maxSpeed?.sog ?? 0, decimalPlaces: 1)) kts"
+        let maxSpeed = myRound(value: route.maxSpeed?.sog ?? 0, decimalPlaces: 1)
+        var text = ""
+        if maxSpeed != 0{
+         text = "Max Speed: \(myRound(value: route.maxSpeed?.sog ?? 0, decimalPlaces: 1)) kts"
+        }
         maxSpeedLabel.text = text
         
         text = "Average Speed: \(myRound(value: route.avgSpeed, decimalPlaces: 1)) kts"
@@ -58,8 +61,8 @@ class routeDetailViewController: UIViewController, MKMapViewDelegate {
     
     func drawRoute(route: Route) {
         mapClear()
-        route.startMarker.color = UIColor.green
-        route.endMarker.color = UIColor.blue
+        route.startPoint.color = startColor
+        route.endPoint.color = endColor
         let points = select_points(points: points, from: route.start, to: route.end)
         let path = points.map{ $0.getCoord()}
         let polyline = MKPolyline(coordinates: path, count: path.count)
@@ -68,7 +71,7 @@ class routeDetailViewController: UIViewController, MKMapViewDelegate {
        
         self.routeMapView?.addOverlay(polyline)
         
-        routeMapView.addAnnotations([route.startMarker, route.endMarker])
+        routeMapView.addAnnotations([route.startPoint, route.endPoint])
         
     }
     
@@ -87,8 +90,8 @@ class routeDetailViewController: UIViewController, MKMapViewDelegate {
         if let _ = annotation as? MKUserLocation {return nil}
         let view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "pin")
         var color = UIColor.gray
-        if let marker = annotation as? StopMarker {
-            color = marker.color
+        if let point = annotation as? Point {
+            color = point.color
         }
         view.markerTintColor = color
         return view

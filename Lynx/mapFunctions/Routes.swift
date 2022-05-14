@@ -9,52 +9,39 @@ import Foundation
 import UIKit
 
 class Route{
-    var startMarker: StopMarker
-    var endMarker: StopMarker
+    var startPoint: Point
+    var endPoint: Point
     var start: Date
     var end: Date
     var length: Double = 0.0
     var avgSpeed: Float = 0.0
     var maxSpeed: Point?
     
-    init(start: StopMarker, end: StopMarker, dist: Double){
-        self.startMarker = start
-        self.endMarker = end
-        self.start = start.departure[0]
-        self.end = end.arrival[0]
+    init(start: Point, end: Point, dist: Double){
+        self.startPoint = start
+        self.endPoint = end
+        self.start = start.time
+        self.end = end.time
         self.length = dist
-        self.startMarker.color = UIColor.green
-        self.endMarker.color = UIColor.blue
         var time = self.end - self.start
         time = time / (60 * 60)
         self.avgSpeed = Float(abs(self.length / time))
     }
     
+    
     func loadData(){
         let start_string = date_to_iso(date: self.start)
         let end_string = date_to_iso(date: self.end)
         Task{
-            do{
                 self.avgSpeed = try await getData(url: "avgSpeed", start: start_string, end: end_string)[0].sog
                 self.maxSpeed = try await getData(url: "maxSpeed", start: start_string, end: end_string)[0]
-            }
         }
     }
-    
- 
 }
 
 
-func getRoutes(markers: [StopMarker], lengths: [Double])->[Route]{
-    var routes: [Route] = []
-    if markers.count<2{
-        return routes
-    }
-    for i in 0...markers.count-3{
-        let route = Route(start: markers[i], end: markers[i+1], dist: lengths[i+1])
-        if route.length > 5{
-            routes.append(route)
-        }
-    }
-    return routes
+
+func select_routes(routes: [Route], from: Date, to: Date)->[Route]{
+        let out = routes.filter{$0.start > from && $0.end < to}
+        return out
 }

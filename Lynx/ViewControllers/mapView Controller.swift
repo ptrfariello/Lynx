@@ -11,6 +11,7 @@ import CoreLocationUI
 import CoreLocation
 
 let fast_sailing = CLLocationCoordinate2D(latitude: 37.695670, longitude: 24.060816)
+let fast_sailing_location = geocodedLocation(coord: fast_sailing, name: "Fast Sailing, Olyimpic Marine")
 
 class mapViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -37,6 +38,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     var start: Date = Date.now.addingTimeInterval(-3600*24*14)
     var end: Date = Date.now
     var points: [Point] = []
+    var markers: [StopMarker] = []
     var routes: [Route] = []
     var locations: [geocodedLocation] = []
     
@@ -68,13 +70,17 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         mapView?.delegate = self
         get_and_update()
         locations = get_saved_locations()
+        (markers, routes) = getMarkersRoutes(points: points)
+        updateLocationNames(markers: markers)
         main(points: points, start: start, end: end)
+        
         locationButtonFunc()
         show_compass()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if points.count < 3 {loadingWheel.startAnimating(); sleep(1); showDownloadingAlert(); }
     }
     
     func main(points: [Point], start: Date, end: Date){
@@ -83,17 +89,18 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         let points = select_points(points: points, from: start, to: end)
         let path = points.map{ $0.getCoord()}
         drawPath(path: path)
+
+        let (markers, routes) = selectMarkersRoutes(markers: markers, routes: routes, start: start, end: end)
         
-        let result = markers(points: points)
-        let markers = result.0
-        updateMarkers(markers: markers)
         let displayMarkers = marker_return(markers: markers)
         mapView?.addAnnotations(displayMarkers)
+        var tot_dist = 0.0
         
-        routes = getRoutes(markers: markers, lengths: result.1)
+        for route in routes {
+            tot_dist += route.length
+        }
         
-        let total_dist = Int(result.2)
-        milesLabel.text = "\(total_dist) miles"
+        milesLabel.text = "\(Int(tot_dist)) miles"
         milesLabel.isHidden = false
         
         drawBoat(points: points)
@@ -104,7 +111,6 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
             showNoDataAlert()
         }
         draw_data_points(disabled: points.count<3)
-        
     }
     
     func showDownloadingAlert() {
@@ -195,13 +201,14 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     
     func get_and_update(){
         points = get_saved_points()
-        if points.count < 3 {loadingWheel.startAnimating(); sleep(1); showDownloadingAlert(); }
         Task {
             do{
                 let last_point: Date = points.last?.time ?? Date.distantPast
                 let updated = try await update_saved_points(points: self.points)
                 if updated{
                     get_and_update()
+                    (self.markers, self.routes) = getMarkersRoutes(points: self.points)
+                    updateLocationNames(markers: markers)
                     if last_point < end && points.count > 3{
                         showReloadAlert()
                     }
@@ -210,14 +217,6 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func updateMarkers(markers: [StopMarker]){
-        DispatchQueue.global().async {
-            for marker in markers{
-                marker.getLocationName(savedLocation: self.locations)
-                usleep(1000000/2)
-            }
-        }
-    }
     
     func draw_data_points(disabled: Bool){
         if disabled {return}
@@ -290,7 +289,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         if (segue.identifier == "show_routes") {
             if let navController = segue.destination as? UINavigationController{
                 if let routes_view = navController.viewControllers[0] as? routesTableVIewController {
-                    routes_view.routes = routes
+                    routes_view.routes = select_routes(routes: routes, from: self.start, to: self.end)
                     routes_view.points = points
                 }
             }
@@ -319,6 +318,7 @@ extension mapViewController: MKMapViewDelegate {
             bottomLabel.text = ""
             Task{do{
                 stopMarker.getLocationName(savedLocation: locations)
+                stopMarker.locationName = await stopMarker.locationName != "" ? stopMarker.locationName : geoCode(coordinate: stopMarker.coordinate)
                 bottomLabel.text = stopMarker.locationName
                 active_Marker = stopMarker
                 hide_marker_info(opt: false)
