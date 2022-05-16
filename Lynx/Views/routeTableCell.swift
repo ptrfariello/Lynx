@@ -47,8 +47,8 @@ class routeTableCell: UITableViewCell, MKMapViewDelegate {
         let points = select_points(points: points, from: route.start, to: route.end)
         let path = points.map{ $0.getCoord()}
         
-        let start = path.first ?? fast_sailing
-        let end = path.last ?? fast_sailing
+        let start = path.first ?? Constants.shared.fast_sailing
+        let end = path.last ?? Constants.shared.fast_sailing
         
         let maxLat = Double(path.map(\.latitude).max() ?? 37.759779)
         let maxLong = Double(path.map(\.longitude).max() ?? 24.140416)

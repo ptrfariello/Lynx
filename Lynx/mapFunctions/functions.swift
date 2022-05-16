@@ -32,7 +32,14 @@ func myRound(value: Float, decimalPlaces: Float = 1.0)-> Float {
 func radiansToDegrees(radians: Double) -> Double { return radians * 180.0 / .pi }
 
 
+extension Array {
+    var middle: Element? {
+        guard count != 0 else { return nil }
+        let middleIndex = (count > 1 ? count - 1 : count) / 2
+        return self[middleIndex]
+    }
 
+}
 
 
 

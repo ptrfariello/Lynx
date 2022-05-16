@@ -11,11 +11,11 @@ import MapKit
 import CoreData
 
 
-let webSite_url = "http://windmaster.ai:3000/"
+
 
 
 func getData (url: String, start: String, end: String) async throws -> [Point] {
-    var url = webSite_url+url
+    var url = Constants.shared.webSite_url+url
     //var url = "http://10.0.16.17:3000/"+url
     url =  url + "?start=" + start + "&end=" + end
     var out: [Point] = []

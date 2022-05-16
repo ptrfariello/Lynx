@@ -22,11 +22,10 @@ func add_to_string(base: String, add: String)->String{
     return base
 }
 
-func geoCode(coordinate: CLLocationCoordinate2D) async -> String{
-    var saved = get_saved_locations()
+func geoCode(lat: Double, lon: Double) async -> String{
     var out = ""
     let geocoder = CLGeocoder()
-    let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+    let location = CLLocation(latitude: lat, longitude: lon)
     let placemarks = try? await geocoder.reverseGeocodeLocation(location)
     if placemarks != nil{
         for placemark in placemarks! {
@@ -40,9 +39,15 @@ func geoCode(coordinate: CLLocationCoordinate2D) async -> String{
             out = add_to_string(base: out, add: name)
             out = add_to_string(base: out, add: locality)
             //out = add_to_string(base: out, add: gr)
-            saved.append(geocodedLocation(coord: coordinate, name: out))
-            Storage.store(saved, to: .caches, as: markers_filename)
+            out = out == "" ? "Unknown" : out
+            if let index = select_location(coordinates: CLLocationCoordinate2D(latitude: lat, longitude: lon), locations: sharedData.shared.locations)?.0{
+                sharedData.shared.locations[index].locationName = out
+            }
+            
         }
     }
+    out = out == "" ? "Unknown" : out
     return out
 }
+
+

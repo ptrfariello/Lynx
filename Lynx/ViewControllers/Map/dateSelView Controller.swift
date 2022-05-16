@@ -10,8 +10,6 @@ import UIKit
 
 class dateSelController: UIViewController {
     
-    var start: Date = Date.now
-    var end: Date = Date.now
     
     
     @IBOutlet weak var startDatePicker: UIDatePicker!
@@ -26,8 +24,8 @@ class dateSelController: UIViewController {
     }
     
     override func viewDidLoad() {
-        startDatePicker.setDate(start, animated: false)
-        endDatePicker.setDate(end, animated: false)
+        startDatePicker.setDate(sharedData.shared.startDate, animated: false)
+        endDatePicker.setDate(sharedData.shared.endDate, animated: false)
         endDatePicker.maximumDate = Date.now.addingTimeInterval(3600*24*7)
         startDatePicker.maximumDate = endDatePicker.date
     }

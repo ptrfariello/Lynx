@@ -8,14 +8,13 @@
 import Foundation
 import MapKit
 
-let sameSpotDistance = 0.25 //nm
+
 
 
 
 class StopMarker: Point{
     var arrival: [Date]
     var departure: [Date]
-    var stays: Int = 1
     
     
     init(spot: Point, dep: Date) {
@@ -26,11 +25,11 @@ class StopMarker: Point{
     
     
     func print_info()->String{
-        
         var txt = ""
-        for (i, arrival) in arrival.enumerated() {
-            let stay = departure[i]-arrival
-            let date = arrival.addingTimeInterval(stay)
+        for (i, arr) in self.arrival.enumerated() {
+            let stay = departure[i]-arr
+            //let date = arrival.addingTimeInterval(stay/2)
+            let date = arr
             if stay/60 < 46.0 {return "Haven't left yet"}
             if stay>3600{
                 txt = txt + print_time(interval: stay, minutes: false)+" hours"
@@ -46,50 +45,40 @@ class StopMarker: Point{
     
 }
 
-struct geocodedLocation: Codable{
-    var lat = 0.0
-    var lon = 0.0
-    var locationName = ""
-    
-    init(coord: CLLocationCoordinate2D, name: String){
-        self.lat = coord.latitude
-        self.lon = coord.longitude
-        self.locationName = name
-    }
-}
+
+
 
 
 func marker_return(markers: [StopMarker])->[StopMarker]{
-    var markers = markers
-    var i = markers.count-1
-    while i > 0{
-        let marker1 = markers[i]
-        for k in (0...i-1).reversed(){
-            let marker2 = markers[k]
-            let dist = distance(p1: marker1, p2: marker2)*meters_to_nm
-            if dist < sameSpotDistance {
-                markers[i].arrival = markers[i].arrival + markers[k].arrival
-                markers[i].departure = markers[i].departure + markers[k].departure
-                i -= 1
-                markers.remove(at: k)
-                markers[i].stays += 1
-            }
-        }
-        i -= 1
-    }
+    var uniqueMarkers: [[Int]] = [[]]
+    var toReturn: [StopMarker] = []
+    
     for marker in markers {
-        let stays = marker.stays
-        marker.title = (stays>1) ? String(stays) : ""
+        uniqueMarkers.append(markers.indices.filter({distance(p1: marker, p2: markers[$0]) < Constants.shared.sameSpotDistance/Constants.shared.meters_to_nm}))
     }
-    //markers.last?.arrival.remove(at: 0)
-    //markers.last?.departure.remove(at: 0)
-    return markers
+    
+    for markersIndices in Array(Set(uniqueMarkers)) {
+        if markersIndices.count<1{continue}
+        let to_add = markers[markersIndices[0]]
+        var arrivals: [Date] = [], departures: [Date] = []
+        for index in markersIndices {
+            arrivals.append(markers[index].arrival[0])
+            departures.append(markers[index].departure[0])
+        }
+        to_add.arrival = arrivals
+        to_add.departure = departures
+        to_add.title = to_add.arrival.count > 1 ? "\(to_add.arrival.count)" : ""
+        toReturn.append(to_add)
+    }
+    return toReturn
 }
 
 func select_markers(markers: [StopMarker], from: Date, to: Date)->[StopMarker]{
         let out = markers.filter{$0.arrival[0] > from && $0.departure[0] < to}
         return out
 }
+
+
 
 
 

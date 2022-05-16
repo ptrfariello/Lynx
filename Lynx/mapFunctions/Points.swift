@@ -108,9 +108,11 @@ class Point: NSObject, MKAnnotation {
         self.coordinate = CLLocationCoordinate2D(latitude: point.Lat, longitude: point.Long)
     }
     
-    func getLocationName(savedLocation: [geocodedLocation]){
+    func getLocationName(savedLocation: [Location]){
         if self.locationName.count > 3 {return}
-        self.locationName = select_location(point: self, locations: savedLocation)
+        if let location = select_location(coordinates: self.coordinate, locations: savedLocation)?.1{
+            self.locationName = location.locationName
+        }
     }
     
     
@@ -125,15 +127,15 @@ func distance(p1: Point, p2: Point)->Double{
 }
 
 func avgSpeed(p1: Point, p2: Point)->Double{
-    let dist = distance(p1: p1, p2: p2)*meters_to_nm
+    let dist = distance(p1: p1, p2: p2)*Constants.shared.meters_to_nm
     var time = p2.time - p1.time
-    if abs(time)*1000<1{return Double.infinity}
+    if abs(time)*1000<1{return 0}
     time = time / (60 * 60)
     return abs(dist/time)
 }
 
 func sameSpot(p1: Point, p2: Point)->Bool{
-    return avgSpeed(p1: p1, p2: p2) < 1.5
+    return avgSpeed(p1: p1, p2: p2) < Constants.shared.sameSpotSpeed
 }
 
 

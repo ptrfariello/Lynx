@@ -7,14 +7,12 @@
 
 import UIKit
 
-let startColor = UIColor.red
-let endColor = UIColor.orange
 
-class routesTableVIewController: UITableViewController {
+
+class routesTableViewController: UITableViewController {
 
     var routes: [Route] = []
     var points: [Point] = []
-    var locationNames: [geocodedLocation] = get_saved_locations()
     var fastest = 0
     var longest = 0
 
@@ -25,8 +23,8 @@ class routesTableVIewController: UITableViewController {
         for (i, route) in routes.enumerated() {
             if route.avgSpeed > maxSpeed {fastest = i; maxSpeed = route.avgSpeed}
             if route.length > maxDist{longest = i; maxDist = route.length}
-            route.startPoint.getLocationName(savedLocation: locationNames)
-            route.endPoint.getLocationName(savedLocation: locationNames)
+            route.startPoint.getLocationName(savedLocation: sharedData.shared.locations)
+            route.endPoint.getLocationName(savedLocation: sharedData.shared.locations)
             route.loadData()
         }
     }
@@ -65,7 +63,7 @@ class routesTableVIewController: UITableViewController {
             description += " in \(route.endPoint.locationName)"
         }
         
-        route.startPoint.color = startColor; route.endPoint.color = endColor
+        route.startPoint.color = Constants.shared.startColor; route.endPoint.color = Constants.shared.endColor
         cell.configure(name: title, description: description, route: route, points: points)
         return cell
     }

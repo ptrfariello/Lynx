@@ -10,12 +10,9 @@ import MapKit
 import CoreLocationUI
 import CoreLocation
 
-let fast_sailing = CLLocationCoordinate2D(latitude: 37.695670, longitude: 24.060816)
-let fast_sailing_location = geocodedLocation(coord: fast_sailing, name: "Fast Sailing, Olyimpic Marine")
+
 
 class mapViewController: UIViewController, CLLocationManagerDelegate {
-    
-    let defaults = UserDefaults.standard
     
     // MARK: - Connections to StoryBoard
     @IBOutlet weak var milesLabel: UILabel!
@@ -33,16 +30,10 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var locationButtonView: UIView!
     @IBOutlet weak var compassView: UIView!
-    
-    var active_Marker: StopMarker?
-    var start: Date = Date.now.addingTimeInterval(-3600*24*14)
-    var end: Date = Date.now
-    var points: [Point] = []
-    var markers: [StopMarker] = []
-    var routes: [Route] = []
-    var locations: [geocodedLocation] = []
-    
+    //MARK: - UI Functions
     func locationButtonFunc(){
+        let locManager = CLLocationManager()
+        locManager.requestWhenInUseAuthorization()
         let locationButton = MKUserTrackingButton(mapView: mapView)
         buttonView.layer.cornerRadius = 10
         locationButtonView.addSubview(locationButton)
@@ -62,28 +53,47 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         compass.leadingAnchor.constraint(equalTo: compassView.leadingAnchor).isActive = true
         compassView.backgroundColor = UIColor.clear
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        start = defaults.object(forKey: "startDate") as? Date ?? start
-        end = defaults.object(forKey: "endDate") as? Date ?? end
-        mapView?.delegate = self
-        get_and_update()
-        locations = get_saved_locations()
-        (markers, routes) = getMarkersRoutes(points: points)
-        updateLocationNames(markers: markers)
-        main(points: points, start: start, end: end)
-        
-        locationButtonFunc()
-        show_compass()
+    func hide_marker_info(opt: Bool){
+        if opt {
+            bottomText.text = ""
+            bottomLabel.text = ""
+        }
+        bottomText.isHidden = opt
+        bottomLabel.isHidden = opt
+        mrkCloseBtn.isHidden = opt
     }
     
+    
+    //MARK: - Variable Declaration
+    var active_Marker: StopMarker?
+    
+    var points: [Point] = []
+    var markers: [StopMarker] = []
+    var routes: [Route] = []
+   
+    
+    //MARK: - Override View Functiona
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        sharedData.shared.startDate = defaults.object(forKey: "startDate") as? Date ?? sharedData.shared.startDate
+        sharedData.shared.endDate = defaults.object(forKey: "endDate") as? Date ?? sharedData.shared.endDate
+        mapView?.delegate = self
+        get_and_update()
+        (markers, routes) = getMarkersRoutes(points: points)
+        showTrip(points: points, start: sharedData.shared.startDate, end: sharedData.shared.endDate)
+        locationButtonFunc()
+        show_compass()
+        
+        createLocations(markers: markers)
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if points.count < 3 {loadingWheel.startAnimating(); sleep(1); showDownloadingAlert(); }
     }
     
-    func main(points: [Point], start: Date, end: Date){
+    
+    //MARK: - Main Function
+    func showTrip(points: [Point], start: Date, end: Date){
         mapClear()
         let data_present = points.count > 3
         let points = select_points(points: points, from: start, to: end)
@@ -93,9 +103,14 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         let (markers, routes) = selectMarkersRoutes(markers: markers, routes: routes, start: start, end: end)
         
         let displayMarkers = marker_return(markers: markers)
+        
+        for (index, marker) in markers.enumerated() {
+            if "\(marker.arrival)" == "[2021-08-08 15:25:33 +0000]"{
+                print(markers.count, index)
+            }
+        }
         mapView?.addAnnotations(displayMarkers)
         var tot_dist = 0.0
-        
         for route in routes {
             tot_dist += route.length
         }
@@ -113,6 +128,8 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         draw_data_points(disabled: points.count<3)
     }
     
+    
+    //MARK: - Alerts
     func showDownloadingAlert() {
         let alert = UIAlertController(title: "Downloading", message: "We are downloading data for the first time, this might take a little while", preferredStyle: UIAlertController.Style.alert)
         
@@ -121,7 +138,6 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         }))
         self.present(alert, animated: true, completion: nil)
     }
-    
     func showNoDataAlert() {
         let alert = UIAlertController(title: "No Data", message: "There is no data for the selected dates", preferredStyle: UIAlertController.Style.alert)
         
@@ -130,7 +146,6 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         }))
         self.present(alert, animated: true, completion: nil)
     }
-    
     func showReloadAlert() {
         let alert = UIAlertController(title: "New Data", message: "There is new available data for the selected dates", preferredStyle: UIAlertController.Style.alert)
         
@@ -138,11 +153,11 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
             //Cancel Action
         }))
         alert.addAction(UIAlertAction(title: "Reload", style: UIAlertAction.Style.default, handler: { [self](_: UIAlertAction!) in
-            self.main(points: self.points, start: self.start, end: self.end)
+            self.showTrip(points: self.points, start: sharedData.shared.startDate, end: sharedData.shared.endDate)
+            createLocations(markers: markers)
         }))
         self.present(alert, animated: true, completion: nil)
     }
-    
     func showOpenMapsAlert() {
         let alert = UIAlertController(title: "Open in Maps", message: "Open this location in Maps?", preferredStyle: UIAlertController.Style.alert)
         
@@ -156,28 +171,28 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func open_maps(){
-        let coordinate = active_Marker?.coordinate ?? fast_sailing
+        let coordinate = active_Marker?.coordinate ?? Constants.shared.fast_sailing
         let placemark = MKPlacemark(coordinate: coordinate)
         let map_item = MKMapItem(placemark: placemark)
         map_item.name = bottomLabel.text
         map_item.openInMaps()
     }
     
+    
+    //MARK: - Map Draw Functions
     func mapClear(){
         let overlays = mapView.overlays
         mapView.removeOverlays(overlays)
         let annotations = mapView.annotations
         mapView.removeAnnotations(annotations)
     }
-    
     func drawBoat(points: [Point]){
         let boat_place = points.last
         if points.last == nil{return}
         boat_place?.title = print_date(date: boat_place!.time, hour: true)
-        let boat = (boat_place ?? Point(time: Date.now, coord: fast_sailing)) as MKAnnotation
+        let boat = (boat_place ?? Point(time: Date.now, coord: Constants.shared.fast_sailing)) as MKAnnotation
         mapView.addAnnotation(boat)
     }
-    
     func drawPath(path: [CLLocationCoordinate2D]) {
         var path = path
         
@@ -188,46 +203,16 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         self.mapView?.addOverlay(polyline)
         
     }
-    
-    func hide_marker_info(opt: Bool){
-        if opt {
-            bottomText.text = ""
-            bottomLabel.text = ""
-        }
-        bottomText.isHidden = opt
-        bottomLabel.isHidden = opt
-        mrkCloseBtn.isHidden = opt
-    }
-    
-    func get_and_update(){
-        points = get_saved_points()
-        Task {
-            do{
-                let last_point: Date = points.last?.time ?? Date.distantPast
-                let updated = try await update_saved_points(points: self.points)
-                if updated{
-                    get_and_update()
-                    (self.markers, self.routes) = getMarkersRoutes(points: self.points)
-                    updateLocationNames(markers: markers)
-                    if last_point < end && points.count > 3{
-                        showReloadAlert()
-                    }
-                }
-            }
-        }
-    }
-    
-    
     func draw_data_points(disabled: Bool){
         if disabled {return}
-        let start_string = date_to_iso(date: start)
-        let end_string = date_to_iso(date: end)
+        let start_string = date_to_iso(date: sharedData.shared.startDate)
+        let end_string = date_to_iso(date: sharedData.shared.endDate)
         Task{
             do{
                 let fastest_speed = try await getData(url: "maxSpeed", start: start_string, end: end_string)[0]
                 
                 var title = "\(myRound(value: fastest_speed.sog, decimalPlaces: 1.0)) kts"
-                var to_print = "The fastest speed over a minute between \(print_date(date: start, hour: false)) and \(print_date(date: end, hour: false)) was \(title) on \(print_date(date: fastest_speed.time, hour: true)) with \(myRound(value: fastest_speed.tws, decimalPlaces: 1.0)) kts of wind"
+                var to_print = "The fastest speed over a minute between \(print_date(date: sharedData.shared.startDate, hour: false)) and \(print_date(date: sharedData.shared.endDate, hour: false)) was \(title) on \(print_date(date: fastest_speed.time, hour: true)) with \(myRound(value: fastest_speed.tws, decimalPlaces: 1.0)) kts of wind"
                 
                 fastest_speed.color = UIColor.green; fastest_speed.title = title
                 fastest_speed.to_print = to_print
@@ -236,14 +221,14 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
                 let fastest_wind = try await getData(url: "maxTWS", start: start_string, end: end_string)[0]
                 
                 title = "\(myRound(value: fastest_wind.tws, decimalPlaces: 1.0)) kts"
-                to_print = "The fastest True Wind Speed between \(print_date(date: start, hour: false)) and \(print_date(date: end, hour: false)) was \(title) on \(print_date(date: fastest_wind.time, hour: true))"
+                to_print = "The fastest True Wind Speed between \(print_date(date: sharedData.shared.startDate, hour: false)) and \(print_date(date: sharedData.shared.endDate, hour: false)) was \(title) on \(print_date(date: fastest_wind.time, hour: true))"
                 
                 fastest_wind.color = UIColor.blue; fastest_wind.title = title
                 fastest_wind.to_print = to_print
                 
                 let min_depth = try await getData(url: "depth", start: start_string, end: end_string)[0]
                 
-                to_print = "The minimum depth between \(print_date(date: start, hour: false)) and \(print_date(date: end, hour: false)) was \(title) on \(print_date(date: fastest_speed.time, hour: true))"
+                to_print = "The minimum depth between \(print_date(date: sharedData.shared.startDate, hour: false)) and \(print_date(date: sharedData.shared.endDate, hour: false)) was \(title) on \(print_date(date: fastest_speed.time, hour: true))"
                 title = "\(myRound(value: min_depth.depth, decimalPlaces: 1.0)) m"
                 
                 min_depth.color = UIColor.orange; min_depth.title = title
@@ -255,10 +240,27 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         }
         
     }
-
     
-    //MARK: - User Location
-
+    
+    //MARK: - Loading and Updating Saved Data
+    let defaults = UserDefaults.standard
+    func get_and_update(){
+        self.points = get_saved_points()
+        Task {
+            do{
+                let last_point: Date = self.points.last?.time ?? Date.distantPast
+                let updated = try await update_saved_points(points: self.points)
+                if updated{
+                    get_and_update()
+                    (self.markers, self.routes) = getMarkersRoutes(points: self.points)
+                    if last_point < sharedData.shared.endDate && self.points.count > 3{
+                        showReloadAlert()
+                    }
+                }
+            }
+        }
+    }
+    
     
     //MARK: - Segue Functions
     @IBAction func cancelToMapViewController(_ segue: UIStoryboardSegue) {
@@ -270,27 +272,21 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
             if let date_picker = segue.source as? dateSelController
             {
                 date_picker.dismiss(animated: true)
-                start = date_picker.startDatePicker.date
-                end = date_picker.endDatePicker.date
-                main(points: points, start: start, end: end)
-                defaults.set(start, forKey: "startDate")
-                defaults.set(end, forKey: "endDate")
+                sharedData.shared.startDate = date_picker.startDatePicker.date
+                sharedData.shared.endDate = date_picker.endDatePicker.date
+                showTrip(points: points, start: sharedData.shared.startDate, end: sharedData.shared.endDate)
+                defaults.set(sharedData.shared.startDate, forKey: "startDate")
+                defaults.set(sharedData.shared.endDate, forKey: "endDate")
             }
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "dates_to_picker") {
-            if let date_picker = segue.destination as? dateSelController {
-                date_picker.start = self.start
-                date_picker.end = self.end
-            }
-        }
         if (segue.identifier == "show_routes") {
             if let navController = segue.destination as? UINavigationController{
-                if let routes_view = navController.viewControllers[0] as? routesTableVIewController {
-                    routes_view.routes = select_routes(routes: routes, from: self.start, to: self.end)
-                    routes_view.points = points
+                if let routes_view = navController.viewControllers[0] as? routesTableViewController {
+                    routes_view.routes = select_routes(routes: self.routes, from: sharedData.shared.startDate, to: sharedData.shared.endDate)
+                    routes_view.points = select_points(points: self.points, from: sharedData.shared.startDate, to: sharedData.shared.endDate)
                 }
             }
         }
@@ -298,8 +294,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
 }
 
 
-
-
+//MARK: - Map View Delegate Extentions
 extension mapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -317,8 +312,8 @@ extension mapViewController: MKMapViewDelegate {
             bottomText.text = stopMarker.print_info()
             bottomLabel.text = ""
             Task{do{
-                stopMarker.getLocationName(savedLocation: locations)
-                stopMarker.locationName = await stopMarker.locationName != "" ? stopMarker.locationName : geoCode(coordinate: stopMarker.coordinate)
+                stopMarker.getLocationName(savedLocation: sharedData.shared.locations)
+                stopMarker.locationName = await stopMarker.locationName != "" ? stopMarker.locationName : geoCode(lat: stopMarker.coordinate.latitude, lon: stopMarker.coordinate.longitude)
                 bottomLabel.text = stopMarker.locationName
                 active_Marker = stopMarker
                 hide_marker_info(opt: false)

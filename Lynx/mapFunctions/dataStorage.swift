@@ -9,8 +9,7 @@ import Foundation
 import CoreLocation
 import MapKit
 
-let points_filename = "pointsData.json"
-let markers_filename = "markersData.json"
+
 
 public class Storage {
     
@@ -128,7 +127,7 @@ public class Storage {
 
 func get_saved_points()->[Point]{
     let defau: [storage_point] = []
-    let points = Storage.retrieve(points_filename, from: .caches, as: [storage_point].self) ?? defau
+    let points = Storage.retrieve(Constants.shared.points_filename, from: .caches, as: [storage_point].self) ?? defau
     var out: [Point] = []
     out.reserveCapacity(points.count)
     out = points.map{Point(point: $0)}
@@ -149,40 +148,19 @@ func update_saved_points(points: [Point]) async throws -> Bool{
     for point in points {
         to_save.append(storage_point(place: point))
     }
-    Storage.store(to_save, to: .caches, as: points_filename)
+    Storage.store(to_save, to: .caches, as: Constants.shared.points_filename)
     print("Saved")
     return true
 }
 
-func select_location(point: Point, locations: [geocodedLocation])->String{
-    let markerLocation = MKMapPoint(point.coordinate)
-    var locations = locations
-    locations.append(fast_sailing_location)
-    for location in locations.reversed() {
-        let locCoord =  MKMapPoint(CLLocationCoordinate2D(latitude: location.lat, longitude: location.lon))
-        if markerLocation.distance(to: locCoord)*meters_to_nm < sameSpotDistance{
-            return location.locationName
-        }
-    }
-    return ""
-}
 
-func get_saved_locations()->[geocodedLocation]{
-    let defau: [geocodedLocation] = []
-    let locations = Storage.retrieve(markers_filename, from: .caches, as: [geocodedLocation].self) ?? defau
+
+func get_saved_locations()->[Location]?{
+    let locations = Storage.retrieve(Constants.shared.locations_filename, from: .caches, as: [Location].self)
     return locations
 }
 
-func updateLocationNames(markers: [StopMarker]){
-    let markers = marker_return(markers: markers)
-    Task {
-        let saved = get_saved_locations()
-        for marker in markers.reversed() {
-            marker.getLocationName(savedLocation: saved)
-            if marker.locationName == "" {
-            marker.locationName = await geoCode(coordinate: marker.coordinate)
-            sleep(1)
-            }
-        }
-    }
-}
+
+
+
+

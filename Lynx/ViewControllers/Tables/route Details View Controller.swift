@@ -61,8 +61,8 @@ class routeDetailViewController: UIViewController, MKMapViewDelegate {
     
     func drawRoute(route: Route) {
         mapClear()
-        route.startPoint.color = startColor
-        route.endPoint.color = endColor
+        route.startPoint.color = Constants.shared.startColor
+        route.endPoint.color = Constants.shared.endColor
         let points = select_points(points: points, from: route.start, to: route.end)
         let path = points.map{ $0.getCoord()}
         let polyline = MKPolyline(coordinates: path, count: path.count)

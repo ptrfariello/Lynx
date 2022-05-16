@@ -6,18 +6,9 @@
 //
 
 import Foundation
+import MapKit
 
 
-let route_min_distance = 5.0
-let meters_to_nm = 0.00053996
-
-func getMarkersRoutes(points: [Point])->([StopMarker], [Route]){
-    var markers: [StopMarker], routes: [Route]
-    let result = markersRoutes(points: points)
-    markers = result.0
-    routes = result.1
-    return (markers, routes)
-}
 
 func selectMarkersRoutes(markers: [StopMarker], routes: [Route], start: Date, end: Date)->([StopMarker], [Route]){
     let markers = select_markers(markers: markers, from: start, to: end)
@@ -25,12 +16,12 @@ func selectMarkersRoutes(markers: [StopMarker], routes: [Route], start: Date, en
     return (markers, routes)
 }
 
-func markersRoutes(points: [Point])->([StopMarker], [Route]){
-    var dist = 0.0
+func getMarkersRoutes(points: [Point])->([StopMarker], [Route]){
     var routeDist = 0.0
     var j=0
     var routes: [Route] = []
     var startPoint: Point!
+    var notSameSpotCount = 0
     
     var spot = false
     var markers: [StopMarker] = []
@@ -40,38 +31,38 @@ func markersRoutes(points: [Point])->([StopMarker], [Route]){
     for i in 0...points.count-1-1 {
         let point = points[i]
         let nextPoint = points[i+1]
-        let distance = distance(p1: point, p2: nextPoint)
-        dist += distance; routeDist += distance
-        
+        let dist = distance(p1: point, p2: nextPoint)
+        routeDist += dist
         let basePoint = points[i-j]
         if sameSpot(p1: point, p2: nextPoint){
             let stay = (nextPoint.time - basePoint.time)/60
             j+=1
             if stay > 45 && !spot{
+                notSameSpotCount = 0
                 spot = true
-                routeDist = routeDist*meters_to_nm
-                if startPoint != nil && routeDist > route_min_distance{
+                routeDist = routeDist*Constants.shared.meters_to_nm
+                if startPoint != nil && routeDist > Constants.shared.route_min_distance{
                     routes.append(Route(start: startPoint, end: basePoint, dist: routeDist))
                 }
-                let place = StopMarker(spot: points[i-j/2], dep: point.time)
+                let place = StopMarker(spot: basePoint, dep: nextPoint.time)
                 markers.append(place)
                 routeDist = 0
             }
         }else{
+            notSameSpotCount += 1
             if spot{
                 startPoint = point
-                let place = StopMarker(spot: basePoint, dep: point.time)
-                _ = markers.popLast()
+                let place = StopMarker(spot: basePoint, dep: nextPoint.time)
+                markers.removeLast()
                 markers.append(place)
                 routeDist = 0
             }
+            if notSameSpotCount > 5{
             spot = false
             j = 0
+            }
         }
     }
-    let OlympicMarine = StopMarker(spot: Point(time: Date.now, coord: fast_sailing), dep: Date.now)
-    OlympicMarine.stays = 0
-    OlympicMarine.locationName = "Fast Sailing, Olympic Marine"
     markers.append(OlympicMarine)
     return (markers, routes)
 }
