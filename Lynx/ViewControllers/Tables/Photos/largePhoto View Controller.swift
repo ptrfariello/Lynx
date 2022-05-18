@@ -1,23 +1,34 @@
 //
-//  placePhoto.swift
+//  largePhoto.swift
 //  Lynx
 //
-//  Created by Pietro on 16/05/22.
+//  Created by Pietro on 17/05/22.
 //
 
-import Foundation
-import Photos
 import UIKit
+import Photos
 
+class largePhotoViewController: UIViewController {
 
-class PlaceCell{
-    var place: Location!
-    var photo: UIImage!
+    @IBOutlet weak var imageView: UIImageView!
+    var id: String!
     
-    init(place: Location){
-        self.place = place
+    override func viewDidLoad() {
+        super.viewDidLoad()
         fetchPhoto()
+        // Do any additional setup after loading the view.
     }
+    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
     
     func fetchPhoto() {
         let imgManager = PHImageManager.default()
@@ -25,23 +36,21 @@ class PlaceCell{
         requestOptions.isSynchronous = false
         requestOptions.isNetworkAccessAllowed = true
         let fetchOptions = PHFetchOptions()
-        var images: [UIImage] = []
-        let fetchResult: PHFetchResult = PHAsset.fetchAssets(withLocalIdentifiers: place.photoIDs, options: fetchOptions)
+        let fetchResult: PHFetchResult = PHAsset.fetchAssets(withLocalIdentifiers: [self.id], options: fetchOptions)
         // If the fetch result isn't empty,
         // proceed with the image request
         if fetchResult.count > 0 {
-            while images.count < 1{
+            for index in 0 ..< fetchResult.count{
             // Perform the image request
-                let index = Int.random(in: 0..<fetchResult.count)
                 let asset = fetchResult.object(at: index)
                 imgManager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: requestOptions, resultHandler: { (image, _) in
                     if let image = image {
                         // Add the returned image to your array
-                        images += [image]
-                        self.photo = image
+                        self.imageView.image = image
                     }
                 })
             }
         }
     }
+
 }

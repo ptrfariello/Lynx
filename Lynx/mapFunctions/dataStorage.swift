@@ -137,7 +137,7 @@ func get_saved_points()->[Point]{
 func update_saved_points(points: [Point]) async throws -> Bool{
     let end = date_to_iso(date: Date.now)
     let start = date_to_iso(date: points.last?.time ?? Date.distantPast)
-    let new_points = try await getData(url: "coords", start: start, end: end)
+    let new_points = try await getMapData(url: "coords", start: start, end: end)
     if new_points.count < 2{
         return false
     }

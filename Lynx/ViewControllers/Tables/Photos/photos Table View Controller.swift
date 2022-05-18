@@ -12,40 +12,21 @@ import MapKit
 
 
 
-func getUniqueWithPhotos(locations: [Location])->[Location]{
-    var locations = locations.filter({!$0.photoIDs.isEmpty})
-    var uniqueLocations: [Location] = []
-    var orderedLocations: [Location] = []
-    for var location in locations {
-        location.photoIDs = selectPhotosIDs(ids: location.photoIDs, start: sharedData.shared.startDate, end: sharedData.shared.startDate)
-        if location.locationName == Constants.shared.defaultLocationName {
-            uniqueLocations.append(location)
-            continue
-        }
-        if let new = locations.first(where: {$0.locationName == location.locationName}){
-            uniqueLocations.append(new)
-        }
-        locations.removeAll(where: {$0.locationName != Constants.shared.defaultLocationName && $0.locationName == location.locationName})
-    }
-    for point in select_points(points: sharedData.shared.points, from: sharedData.shared.startDate, to: sharedData.shared.endDate) {
-        if let (index, _) = select_location(coordinates: point.coordinate, locations: uniqueLocations){
-            orderedLocations.append(uniqueLocations.remove(at: index))
 
-        }
-    }
-    return orderedLocations
-}
 
 class photos_Table_View_Controller: UITableViewController {
 
-    var places: [PlaceCell] = []
     var locations: [Location] = sharedData.shared.locations
+    var old_start: Date!
+    var old_end: Date!
    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         locations = getUniqueWithPhotos(locations: locations)
         self.tableView.rowHeight = 200.0
+        self.old_start = sharedData.shared.startDate
+        self.old_end = sharedData.shared.endDate
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -56,13 +37,11 @@ class photos_Table_View_Controller: UITableViewController {
             locations = new
             self.tableView.reloadData()
         }
-        for place in places {
-            if place.place.locationName != Constants.shared.defaultLocationName {continue}
-            if let location = locations.first(where: {$0.lat == place.place.lat && $0.lon == place.place.lon}){
-                place.place.locationName = location.locationName
-            }
+        if self.old_start != sharedData.shared.startDate || self.old_end != sharedData.shared.endDate{
+            self.old_start = sharedData.shared.startDate
+            self.old_end = sharedData.shared.endDate
+            self.tableView.reloadData()
         }
-        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -90,11 +69,7 @@ class photos_Table_View_Controller: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "photosCell", for: indexPath) as! placePhotosCell
-        let i = indexPath.row
-        if i > places.count-1 {
-            places.append(PlaceCell(place: locations[i]))
-        }
-        cell.create(place: places[indexPath.row])
+        cell.create(place: locations[indexPath.row])
         return cell
     }
     

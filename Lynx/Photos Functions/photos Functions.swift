@@ -62,3 +62,28 @@ func selectPhotosIDs(ids: [String], start: Date, end: Date)->[String]{
     }
     return ids
 }
+
+func getUniqueWithPhotos(locations: [Location])->[Location]{
+    var locations = locations.filter({!$0.photoIDs.isEmpty})
+    locations = locations.filter({$0.name != Constants.shared.defaultLocationName})
+    var uniqueLocations: [Location] = []
+    var orderedLocations: [Location] = []
+    for var location in locations {
+        location.photoIDs = selectPhotosIDs(ids: location.photoIDs, start: sharedData.shared.startDate, end: sharedData.shared.startDate)
+        if location.name == Constants.shared.defaultLocationName {
+            uniqueLocations.append(location)
+            continue
+        }
+        if let new = locations.first(where: {$0.name == location.name}){
+            uniqueLocations.append(new)
+        }
+        locations.removeAll(where: {$0.name != Constants.shared.defaultLocationName && $0.name == location.name})
+    }
+    for point in select_points(points: sharedData.shared.points, from: sharedData.shared.startDate, to: sharedData.shared.endDate) {
+        if let (index, _) = select_location(coordinates: point.coordinate, locations: uniqueLocations){
+            orderedLocations.append(uniqueLocations.remove(at: index))
+
+        }
+    }
+    return orderedLocations
+}

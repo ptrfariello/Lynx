@@ -14,7 +14,8 @@ class Constants{
     
     let same_photo_place_distance = 1500.0
     let sameSpotDistance = 0.25 //nm
-    let webSite_url = "http://windmaster.ai:3000/"
+    let webSite_url = "http://windmaster.ai/"
+    //let webSite_url = "http://10.0.16.17:3000/"
     let points_filename = "pointsData.json"
     let locations_filename = "locations.json"
     let route_min_distance = 5.0
@@ -25,7 +26,6 @@ class Constants{
     let endColor = UIColor.orange
     let sameSpotSpeed = 1.3
     let defaultLocationName = "Unknown"
-    
     
     private init(){
         self.fast_sailing_location = Location(coord: self.fast_sailing, name: "Fast Sailing, Olyimpic Marine")

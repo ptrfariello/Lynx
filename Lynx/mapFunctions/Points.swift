@@ -111,7 +111,7 @@ class Point: NSObject, MKAnnotation {
     func getLocationName(savedLocation: [Location]){
         if self.locationName.count > 3 {return}
         if let location = select_location(coordinates: self.coordinate, locations: savedLocation)?.1{
-            self.locationName = location.locationName
+            self.locationName = location.name
         }
     }
     
@@ -202,3 +202,5 @@ func select_points(points: [Point], from:Date, to:Date)->[Point]{
         out = out.sorted(by: { $0.time < $1.time })
         return out
 }
+
+

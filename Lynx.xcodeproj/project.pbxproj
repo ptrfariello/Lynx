@@ -31,7 +31,7 @@
 		9B5D1C0B282A5E1D00E0A1B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B5D1C0A282A5E1D00E0A1B3 /* LaunchScreen.storyboard */; };
 		9B6BA0EA2834336F000A3FE5 /* Place Photos View Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6BA0E92834336F000A3FE5 /* Place Photos View Controller.swift */; };
 		9B6BA0EC28343476000A3FE5 /* photoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6BA0EB28343476000A3FE5 /* photoCell.swift */; };
-		9B6BA0EE283438B9000A3FE5 /* largePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6BA0ED283438B9000A3FE5 /* largePhoto.swift */; };
+		9B6BA0EE283438B9000A3FE5 /* largePhoto View Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6BA0ED283438B9000A3FE5 /* largePhoto View Controller.swift */; };
 		9BA03A882833AB3E00A80EDD /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF75F26282D7C8200D58E78 /* CoreLocation.framework */; };
 		9BA03A892833AB3E00A80EDD /* CoreLocationUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF75F28282D7CDE00D58E78 /* CoreLocationUI.framework */; };
 		9BA03A8A2833AB4400A80EDD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC7099C282B03D50064A969 /* MapKit.framework */; };
@@ -51,7 +51,6 @@
 		9BD4F3362832B2B000BE3EA2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4F3352832B2B000BE3EA2 /* Constants.swift */; };
 		9BD4F3382832B46D00BE3EA2 /* sharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4F3372832B46D00BE3EA2 /* sharedData.swift */; };
 		9BD4F33A2832B8D400BE3EA2 /* locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4F3392832B8D300BE3EA2 /* locations.swift */; };
-		9BD4F33C2832C22000BE3EA2 /* placePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4F33B2832C22000BE3EA2 /* placePhoto.swift */; };
 		9BF27DD32830012D005D88FA /* MRCalcSaveGet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF27DD22830012D005D88FA /* MRCalcSaveGet.swift */; };
 		9BF75F34282E64FE00D58E78 /* Markers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF75F33282E64FE00D58E78 /* Markers.swift */; };
 		9BF75F36282E657E00D58E78 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF75F35282E657E00D58E78 /* Routes.swift */; };
@@ -89,7 +88,7 @@
 		9B5D1C0A282A5E1D00E0A1B3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B6BA0E92834336F000A3FE5 /* Place Photos View Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Place Photos View Controller.swift"; sourceTree = "<group>"; };
 		9B6BA0EB28343476000A3FE5 /* photoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = photoCell.swift; sourceTree = "<group>"; };
-		9B6BA0ED283438B9000A3FE5 /* largePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = largePhoto.swift; sourceTree = "<group>"; };
+		9B6BA0ED283438B9000A3FE5 /* largePhoto View Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "largePhoto View Controller.swift"; sourceTree = "<group>"; };
 		9BAAF8BC28257B5F000EC8A5 /* geocoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = geocoder.swift; sourceTree = "<group>"; };
 		9BBD6E14282A6F8400E68312 /* webSiteView Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "webSiteView Controller.swift"; sourceTree = "<group>"; };
 		9BC7099C282B03D50064A969 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -111,7 +110,6 @@
 		9BD4F3352832B2B000BE3EA2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9BD4F3372832B46D00BE3EA2 /* sharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sharedData.swift; sourceTree = "<group>"; };
 		9BD4F3392832B8D300BE3EA2 /* locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locations.swift; sourceTree = "<group>"; };
-		9BD4F33B2832C22000BE3EA2 /* placePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = placePhoto.swift; sourceTree = "<group>"; };
 		9BF27DD22830012D005D88FA /* MRCalcSaveGet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRCalcSaveGet.swift; sourceTree = "<group>"; };
 		9BF75F26282D7C8200D58E78 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9BF75F28282D7CDE00D58E78 /* CoreLocationUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocationUI.framework; path = System/Library/Frameworks/CoreLocationUI.framework; sourceTree = SDKROOT; };
@@ -179,6 +177,25 @@
 			path = StoryBoards;
 			sourceTree = "<group>";
 		};
+		9B7AC0BB2834F4AE00332CAC /* Routes */ = {
+			isa = PBXGroup;
+			children = (
+				9BF75F40282E8FE200D58E78 /* routes Table View Controller.swift */,
+				9BF75F37282E740700D58E78 /* route Details View Controller.swift */,
+			);
+			path = Routes;
+			sourceTree = "<group>";
+		};
+		9B7AC0BC2834F4B800332CAC /* Photos */ = {
+			isa = PBXGroup;
+			children = (
+				9BD4F32F28319FA400BE3EA2 /* photos Table View Controller.swift */,
+				9B6BA0E92834336F000A3FE5 /* Place Photos View Controller.swift */,
+				9B6BA0ED283438B9000A3FE5 /* largePhoto View Controller.swift */,
+			);
+			path = Photos;
+			sourceTree = "<group>";
+		};
 		9BC7099B282B03D50064A969 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,9 +209,9 @@
 		9BC7E5C128244767002C7707 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				9BBD6E14282A6F8400E68312 /* webSiteView Controller.swift */,
 				9BD4F32E28319F7300BE3EA2 /* Map */,
 				9BD4F32D28319F6000BE3EA2 /* Tables */,
-				9BBD6E14282A6F8400E68312 /* webSiteView Controller.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -257,11 +274,8 @@
 		9BD4F32D28319F6000BE3EA2 /* Tables */ = {
 			isa = PBXGroup;
 			children = (
-				9BF75F40282E8FE200D58E78 /* routes Table View Controller.swift */,
-				9BF75F37282E740700D58E78 /* route Details View Controller.swift */,
-				9BD4F32F28319FA400BE3EA2 /* photos Table View Controller.swift */,
-				9B6BA0E92834336F000A3FE5 /* Place Photos View Controller.swift */,
-				9B6BA0ED283438B9000A3FE5 /* largePhoto.swift */,
+				9B7AC0BC2834F4B800332CAC /* Photos */,
+				9B7AC0BB2834F4AE00332CAC /* Routes */,
 			);
 			path = Tables;
 			sourceTree = "<group>";
@@ -279,7 +293,6 @@
 			isa = PBXGroup;
 			children = (
 				9BD4F3322831A06500BE3EA2 /* photos Functions.swift */,
-				9BD4F33B2832C22000BE3EA2 /* placePhoto.swift */,
 			);
 			path = "Photos Functions";
 			sourceTree = "<group>";
@@ -462,7 +475,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9BD4F33C2832C22000BE3EA2 /* placePhoto.swift in Sources */,
 				9BAAF8BD28257B5F000EC8A5 /* geocoder.swift in Sources */,
 				9BD4F33028319FA400BE3EA2 /* photos Table View Controller.swift in Sources */,
 				9A4CCD242828E95E005401B3 /* Points.swift in Sources */,
@@ -485,7 +497,7 @@
 				9BF75F41282E8FE200D58E78 /* routes Table View Controller.swift in Sources */,
 				9BF75F45282EA1A200D58E78 /* routesFunctions.swift in Sources */,
 				9A4CCD262828E9DD005401B3 /* extensions.swift in Sources */,
-				9B6BA0EE283438B9000A3FE5 /* largePhoto.swift in Sources */,
+				9B6BA0EE283438B9000A3FE5 /* largePhoto View Controller.swift in Sources */,
 				9BCFC10428232D6800A4CD4A /* SceneDelegate.swift in Sources */,
 				9BD4F3382832B46D00BE3EA2 /* sharedData.swift in Sources */,
 				9BBD6E15282A6F8400E68312 /* webSiteView Controller.swift in Sources */,

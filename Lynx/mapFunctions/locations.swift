@@ -9,16 +9,29 @@ import Foundation
 import MapKit
 
 
+
+struct database_Location: Codable{
+    var lat = 0.0
+    var lon = 0.0
+    var name = ""
+}
+
 struct Location: Codable{
     var lat = 0.0
     var lon = 0.0
-    var locationName = ""
+    var name = ""
     var photoIDs: [String] = []
     
     init(coord: CLLocationCoordinate2D, name: String){
         self.lat = coord.latitude
         self.lon = coord.longitude
-        self.locationName = name
+        self.name = name
+    }
+    
+    init(database: database_Location){
+        self.lat = database.lat
+        self.lon = database.lon
+        self.name = database.name
     }
 }
 
@@ -47,8 +60,22 @@ extension sharedData{
     
     func updateLocationNames() {
         Task{
-            for location in sharedData.shared.locations {
-                if location.locationName != Constants.shared.defaultLocationName {continue}
+            let database_locations = try? await getLocationsData()
+            for (index, location) in sharedData.shared.locations.enumerated() {
+                if location.name != Constants.shared.defaultLocationName {continue}
+                var newName = Constants.shared.defaultLocationName
+                if (database_locations != nil) {
+                    for database_location in database_locations! {
+                        if (location.lon == database_location.lon) && (location.lat == database_location.lat){
+                            newName = database_location.name
+                            break
+                        }
+                    }
+                }
+                if newName != Constants.shared.defaultLocationName{
+                    sharedData.shared.locations[index].name = newName
+                    continue
+                }
                 _ = await geoCode(lat: location.lat, lon: location.lon)
                 sleep(1)
             }

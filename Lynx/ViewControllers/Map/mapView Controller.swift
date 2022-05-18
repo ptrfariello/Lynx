@@ -85,8 +85,6 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         locationButtonFunc()
         show_compass()
         createLocations(markers: markers)
-        sharedData.shared.updateLocationPhotos(all: false)
-        sharedData.shared.updateLocationNames()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -152,6 +150,8 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         alert.addAction(UIAlertAction(title: "Reload", style: UIAlertAction.Style.default, handler: { [self](_: UIAlertAction!) in
             self.showTrip(points: sharedData.shared.points, start: sharedData.shared.startDate, end: sharedData.shared.endDate)
             createLocations(markers: markers)
+            sharedData.shared.updateLocationPhotos(all: true)
+            sharedData.shared.updateLocationNames()
         }))
         self.present(alert, animated: true, completion: nil)
     }
@@ -206,7 +206,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         let end_string = date_to_iso(date: sharedData.shared.endDate)
         Task{
             do{
-                let fastest_speed = try await getData(url: "maxSpeed", start: start_string, end: end_string)[0]
+                let fastest_speed = try await getMapData(url: "maxSpeed", start: start_string, end: end_string)[0]
                 
                 var title = "\(myRound(value: fastest_speed.sog, decimalPlaces: 1.0)) kts"
                 var to_print = "The fastest speed over a minute between \(print_date(date: sharedData.shared.startDate, hour: false)) and \(print_date(date: sharedData.shared.endDate, hour: false)) was \(title) on \(print_date(date: fastest_speed.time, hour: true)) with \(myRound(value: fastest_speed.tws, decimalPlaces: 1.0)) kts of wind"
@@ -215,7 +215,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
                 fastest_speed.to_print = to_print
                 
                 
-                let fastest_wind = try await getData(url: "maxTWS", start: start_string, end: end_string)[0]
+                let fastest_wind = try await getMapData(url: "maxTWS", start: start_string, end: end_string)[0]
                 
                 title = "\(myRound(value: fastest_wind.tws, decimalPlaces: 1.0)) kts"
                 to_print = "The fastest True Wind Speed between \(print_date(date: sharedData.shared.startDate, hour: false)) and \(print_date(date: sharedData.shared.endDate, hour: false)) was \(title) on \(print_date(date: fastest_wind.time, hour: true))"
@@ -223,7 +223,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
                 fastest_wind.color = UIColor.blue; fastest_wind.title = title
                 fastest_wind.to_print = to_print
                 
-                let min_depth = try await getData(url: "depth", start: start_string, end: end_string)[0]
+                let min_depth = try await getMapData(url: "depth", start: start_string, end: end_string)[0]
                 
                 to_print = "The minimum depth between \(print_date(date: sharedData.shared.startDate, hour: false)) and \(print_date(date: sharedData.shared.endDate, hour: false)) was \(title) on \(print_date(date: fastest_speed.time, hour: true))"
                 title = "\(myRound(value: min_depth.depth, decimalPlaces: 1.0)) m"

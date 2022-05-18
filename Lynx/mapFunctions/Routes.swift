@@ -33,8 +33,8 @@ class Route{
         let start_string = date_to_iso(date: self.start)
         let end_string = date_to_iso(date: self.end)
         Task{
-                self.avgSpeed = try await getData(url: "avgSpeed", start: start_string, end: end_string)[0].sog
-                self.maxSpeed = try await getData(url: "maxSpeed", start: start_string, end: end_string)[0]
+                self.avgSpeed = try await getMapData(url: "avgSpeed", start: start_string, end: end_string)[0].sog
+                self.maxSpeed = try await getMapData(url: "maxSpeed", start: start_string, end: end_string)[0]
         }
     }
 }
