@@ -63,6 +63,5 @@ func getMarkersRoutes(points: [Point])->([StopMarker], [Route]){
             }
         }
     }
-    markers.append(OlympicMarine)
     return (markers, routes)
 }

@@ -10,10 +10,13 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        updateLocationPhotos(all: true)
+        let (markers, _) = getMarkersRoutes(points: sharedData.shared.points)
+        createLocations(markers: markers)
+        sharedData.shared.updateLocationPhotos(all: true)
+        sharedData.shared.updateLocationNames()
         return true
     }
 
@@ -31,9 +34,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
+
+    
+    
+    func applicationWillResignActive(_ application: UIApplication) {
+      
+    }
+    
     func applicationWillTerminate(_ application: UIApplication) {
         Storage.store(sharedData.shared.locations, to: .caches, as: Constants.shared.locations_filename)
         print("Locations Saved")
     }
-
+    
+    
 }

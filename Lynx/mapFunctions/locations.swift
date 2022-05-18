@@ -8,6 +8,7 @@
 import Foundation
 import MapKit
 
+
 struct Location: Codable{
     var lat = 0.0
     var lon = 0.0
@@ -33,36 +34,38 @@ func select_location(coordinates: CLLocationCoordinate2D, locations: [Location])
 }
 
 func createLocations(markers: [StopMarker]){
-    if sharedData.shared.locations.isEmpty{
-        sharedData.shared.locations.append(Constants.shared.fast_sailing_location)
-    }
     let markers = marker_return(markers: markers)
     for marker in markers {
         if select_location(coordinates: marker.coordinate, locations: sharedData.shared.locations) != nil{continue}
-        sharedData.shared.locations.append(Location(coord: marker.coordinate, name: ""))
+        sharedData.shared.locations.append(Location(coord: marker.coordinate, name: Constants.shared.defaultLocationName))
     }
-    updateLocationPhotos(all: false)
-    updateLocationNames()
+    sharedData.shared.updateLocationPhotos(all: false)
 }
 
 
-func updateLocationNames(){
-    Task {
-        for location in sharedData.shared.locations.reversed() {
-            _ = await geoCode(lat: location.lat, lon: location.lat)
-            sleep(1)
+extension sharedData{
+    
+    func updateLocationNames() {
+        Task{
+            for location in sharedData.shared.locations {
+                if location.locationName != Constants.shared.defaultLocationName {continue}
+                _ = await geoCode(lat: location.lat, lon: location.lon)
+                sleep(1)
             }
         }
     }
-
-func updateLocationPhotos(all: Bool){
-    Task{
-        for i in sharedData.shared.locations.indices {
-            let location = sharedData.shared.locations[i]
-            let ids = getPhotoIDs(lat: location.lat, lon: location.lon, all: all)
-            if ids.isEmpty{continue}
-            sharedData.shared.locations[i].photoIDs.append(contentsOf: ids)
-            sharedData.shared.locations[i].photoIDs = Array(Set(sharedData.shared.locations[i].photoIDs))
+    
+    
+    
+    func updateLocationPhotos(all: Bool){
+        Task{
+            for i in locations.indices {
+                let location = locations[i]
+                let ids = getPhotoIDs(lat: location.lat, lon: location.lon, all: all)
+                if ids.isEmpty{continue}
+                locations[i].photoIDs.append(contentsOf: ids)
+                locations[i].photoIDs = Array(Set(locations[i].photoIDs))
+            }
         }
     }
 }

@@ -32,14 +32,28 @@ func getPhotoIDs(lat: Double, lon: Double, all: Bool)->[String] {
     }
     return ids
 }
-            
 
 
-func selectPhotosIDs(location: Location, start: Date, end: Date)->[String]{
+func getPhotosIDs(location: Location, start: Date, end: Date)->[String]{
     var ids: [String] = []
     let fetchOptions = PHFetchOptions()
     fetchOptions.predicate = NSPredicate(format: "creationDate > %@ AND creationDate < %@", start as CVarArg, end as CVarArg)
     let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: location.photoIDs, options: fetchOptions)
+    if fetchResult.count > 0 {
+        for index in 0  ..< fetchResult.count  {
+            let asset = fetchResult.object(at: index)
+            ids.append(asset.localIdentifier)
+        }
+    }
+    return ids
+}
+
+
+func selectPhotosIDs(ids: [String], start: Date, end: Date)->[String]{
+    var ids: [String] = []
+    let fetchOptions = PHFetchOptions()
+    fetchOptions.predicate = NSPredicate(format: "creationDate > %@ AND creationDate < %@", start as CVarArg, end as CVarArg)
+    let fetchResult = PHAsset.fetchAssets(withLocalIdentifiers: ids, options: fetchOptions)
     if fetchResult.count > 0 {
         for index in 0  ..< fetchResult.count  {
             let asset = fetchResult.object(at: index)

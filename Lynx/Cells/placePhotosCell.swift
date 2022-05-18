@@ -15,11 +15,12 @@ class placePhotosCell: UITableViewCell {
     
     var place: Location!
     
-    @IBOutlet weak var cellLabel: UILabel!
+    
+    @IBOutlet weak var cellText: UITextView!
     @IBOutlet weak var cellPhoto: UIImageView!
     func create(place: PlaceCell){
         self.place = place.place
-        self.cellLabel.text = place.place.locationName
+        self.cellText.text = place.place.locationName
         self.cellPhoto.image = place.photo
     }
     

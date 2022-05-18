@@ -198,6 +198,7 @@ func place_avg(places: [Point])-> Point{
 }
 
 func select_points(points: [Point], from:Date, to:Date)->[Point]{
-        let out = points.filter{$0.time > from && $0.time < to}
+        var out = points.filter{$0.time > from && $0.time < to}
+        out = out.sorted(by: { $0.time < $1.time })
         return out
 }

@@ -24,6 +24,7 @@ class Constants{
     let startColor = UIColor.red
     let endColor = UIColor.orange
     let sameSpotSpeed = 1.3
+    let defaultLocationName = "Unknown"
     
     
     private init(){

@@ -39,14 +39,13 @@ func geoCode(lat: Double, lon: Double) async -> String{
             out = add_to_string(base: out, add: name)
             out = add_to_string(base: out, add: locality)
             //out = add_to_string(base: out, add: gr)
-            out = out == "" ? "Unknown" : out
             if let index = select_location(coordinates: CLLocationCoordinate2D(latitude: lat, longitude: lon), locations: sharedData.shared.locations)?.0{
+                print("geocoded \(out) at \(index)/\(sharedData.shared.locations.count)")
                 sharedData.shared.locations[index].locationName = out
             }
             
         }
     }
-    out = out == "" ? "Unknown" : out
     return out
 }
 

@@ -67,10 +67,11 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     //MARK: - Variable Declaration
     var active_Marker: StopMarker?
     
-    var points: [Point] = []
     var markers: [StopMarker] = []
     var routes: [Route] = []
    
+    
+    
     
     //MARK: - Override View Functiona
     override func viewDidLoad() {
@@ -79,16 +80,17 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         sharedData.shared.endDate = defaults.object(forKey: "endDate") as? Date ?? sharedData.shared.endDate
         mapView?.delegate = self
         get_and_update()
-        (markers, routes) = getMarkersRoutes(points: points)
-        showTrip(points: points, start: sharedData.shared.startDate, end: sharedData.shared.endDate)
+        (markers, routes) = getMarkersRoutes(points: sharedData.shared.points)
+        showTrip(points: sharedData.shared.points, start: sharedData.shared.startDate, end: sharedData.shared.endDate)
         locationButtonFunc()
         show_compass()
-        
         createLocations(markers: markers)
+        sharedData.shared.updateLocationPhotos(all: false)
+        sharedData.shared.updateLocationNames()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if points.count < 3 {loadingWheel.startAnimating(); sleep(1); showDownloadingAlert(); }
+        if sharedData.shared.points.count < 3 {loadingWheel.startAnimating(); sleep(1); showDownloadingAlert(); }
     }
     
     
@@ -104,11 +106,6 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         
         let displayMarkers = marker_return(markers: markers)
         
-        for (index, marker) in markers.enumerated() {
-            if "\(marker.arrival)" == "[2021-08-08 15:25:33 +0000]"{
-                print(markers.count, index)
-            }
-        }
         mapView?.addAnnotations(displayMarkers)
         var tot_dist = 0.0
         for route in routes {
@@ -153,7 +150,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
             //Cancel Action
         }))
         alert.addAction(UIAlertAction(title: "Reload", style: UIAlertAction.Style.default, handler: { [self](_: UIAlertAction!) in
-            self.showTrip(points: self.points, start: sharedData.shared.startDate, end: sharedData.shared.endDate)
+            self.showTrip(points: sharedData.shared.points, start: sharedData.shared.startDate, end: sharedData.shared.endDate)
             createLocations(markers: markers)
         }))
         self.present(alert, animated: true, completion: nil)
@@ -245,15 +242,15 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     //MARK: - Loading and Updating Saved Data
     let defaults = UserDefaults.standard
     func get_and_update(){
-        self.points = get_saved_points()
+        sharedData.shared.points = get_saved_points()
         Task {
             do{
-                let last_point: Date = self.points.last?.time ?? Date.distantPast
-                let updated = try await update_saved_points(points: self.points)
+                let last_point: Date = sharedData.shared.points.last?.time ?? Date.distantPast
+                let updated = try await update_saved_points(points: sharedData.shared.points)
                 if updated{
                     get_and_update()
-                    (self.markers, self.routes) = getMarkersRoutes(points: self.points)
-                    if last_point < sharedData.shared.endDate && self.points.count > 3{
+                    (self.markers, self.routes) = getMarkersRoutes(points: sharedData.shared.points)
+                    if last_point < sharedData.shared.endDate && sharedData.shared.points.count > 3{
                         showReloadAlert()
                     }
                 }
@@ -274,7 +271,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
                 date_picker.dismiss(animated: true)
                 sharedData.shared.startDate = date_picker.startDatePicker.date
                 sharedData.shared.endDate = date_picker.endDatePicker.date
-                showTrip(points: points, start: sharedData.shared.startDate, end: sharedData.shared.endDate)
+                showTrip(points: sharedData.shared.points, start: sharedData.shared.startDate, end: sharedData.shared.endDate)
                 defaults.set(sharedData.shared.startDate, forKey: "startDate")
                 defaults.set(sharedData.shared.endDate, forKey: "endDate")
             }
@@ -286,7 +283,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
             if let navController = segue.destination as? UINavigationController{
                 if let routes_view = navController.viewControllers[0] as? routesTableViewController {
                     routes_view.routes = select_routes(routes: self.routes, from: sharedData.shared.startDate, to: sharedData.shared.endDate)
-                    routes_view.points = select_points(points: self.points, from: sharedData.shared.startDate, to: sharedData.shared.endDate)
+                    routes_view.points = select_points(points: sharedData.shared.points, from: sharedData.shared.startDate, to: sharedData.shared.endDate)
                 }
             }
         }
@@ -313,7 +310,7 @@ extension mapViewController: MKMapViewDelegate {
             bottomLabel.text = ""
             Task{do{
                 stopMarker.getLocationName(savedLocation: sharedData.shared.locations)
-                stopMarker.locationName = await stopMarker.locationName != "" ? stopMarker.locationName : geoCode(lat: stopMarker.coordinate.latitude, lon: stopMarker.coordinate.longitude)
+                stopMarker.locationName = await stopMarker.locationName != Constants.shared.defaultLocationName ? stopMarker.locationName : geoCode(lat: stopMarker.coordinate.latitude, lon: stopMarker.coordinate.longitude)
                 bottomLabel.text = stopMarker.locationName
                 active_Marker = stopMarker
                 hide_marker_info(opt: false)

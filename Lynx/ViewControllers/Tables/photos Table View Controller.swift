@@ -8,34 +8,73 @@
 import UIKit
 import Photos
 import PhotosUI
+import MapKit
 
 
+
+func getUniqueWithPhotos(locations: [Location])->[Location]{
+    var locations = locations.filter({!$0.photoIDs.isEmpty})
+    var uniqueLocations: [Location] = []
+    var orderedLocations: [Location] = []
+    for var location in locations {
+        location.photoIDs = selectPhotosIDs(ids: location.photoIDs, start: sharedData.shared.startDate, end: sharedData.shared.startDate)
+        if location.locationName == Constants.shared.defaultLocationName {
+            uniqueLocations.append(location)
+            continue
+        }
+        if let new = locations.first(where: {$0.locationName == location.locationName}){
+            uniqueLocations.append(new)
+        }
+        locations.removeAll(where: {$0.locationName != Constants.shared.defaultLocationName && $0.locationName == location.locationName})
+    }
+    for point in select_points(points: sharedData.shared.points, from: sharedData.shared.startDate, to: sharedData.shared.endDate) {
+        if let (index, _) = select_location(coordinates: point.coordinate, locations: uniqueLocations){
+            orderedLocations.append(uniqueLocations.remove(at: index))
+
+        }
+    }
+    return orderedLocations
+}
 
 class photos_Table_View_Controller: UITableViewController {
 
     var places: [PlaceCell] = []
     var locations: [Location] = sharedData.shared.locations
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locations = locations.filter({!$0.photoIDs.isEmpty})
-        var uniqueLocations = locations
-        for location in locations {
-            let locationName = location.locationName
-            print(locationName)
-            uniqueLocations.removeAll(where: {$0.locationName == locationName})
-        }
-        locations = uniqueLocations
+        locations = getUniqueWithPhotos(locations: locations)
+        self.tableView.rowHeight = 200.0
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        let old = locations.count
+        let new = getUniqueWithPhotos(locations: sharedData.shared.locations)
+        if new.count != old {
+            locations = new
+            self.tableView.reloadData()
+        }
+        for place in places {
+            if place.place.locationName != Constants.shared.defaultLocationName {continue}
+            if let location = locations.first(where: {$0.lat == place.place.lat && $0.lon == place.place.lon}){
+                place.place.locationName = location.locationName
+            }
+        }
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+      if let destination = segue.destination as? placePhotoViewController,
+        let indexPath = tableView.indexPathForSelectedRow {
+          destination.location = locations[indexPath.row]
+      }
     }
 
     // MARK: - Table view data source
