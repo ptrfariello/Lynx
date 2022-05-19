@@ -12,7 +12,7 @@ import UIKit
 class Constants{
     static let shared = Constants()
     
-    let same_photo_place_distance = 1500.0
+    let same_photo_place_distance = 2500.0
     let sameSpotDistance = 0.25 //nm
     let webSite_url = "http://windmaster.ai/"
     //let webSite_url = "http://10.0.16.17:3000/"

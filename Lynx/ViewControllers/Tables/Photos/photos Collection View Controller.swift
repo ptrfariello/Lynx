@@ -10,14 +10,14 @@ import Photos
 
 private let reuseIdentifier = "photoCell"
 
-class placePhotoViewController: UICollectionViewController {
+class photosCollectionViewController: UICollectionViewController {
     
     var location: Location!
     var photosIDs: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        photosIDs = location.photoIDs
+        photosIDs = selectPhotosIDs(ids: location.photoIDs, start: sharedData.shared.startDate, end: sharedData.shared.endDate)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -45,12 +45,13 @@ class placePhotoViewController: UICollectionViewController {
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if photosIDs.count<1{showNoPhotosAlert()}
         // #warning Incomplete implementation, return the number of items
         return photosIDs.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! photoCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! photoCollectionCell
     
         cell.create(id: location.photoIDs[indexPath.row])
     
@@ -58,13 +59,26 @@ class placePhotoViewController: UICollectionViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      if let destination = segue.destination as? largePhotoViewController,
-        let indexPath = collectionView.indexPathsForSelectedItems {
-          destination.id = location.photoIDs[indexPath[0].row]
-      }
+        if (segue.identifier == "show_photos") {
+            if let destination = segue.destination as? PhotoScrollViewController,
+                let indexPath = collectionView.indexPathsForSelectedItems {
+                destination.ids = location.photoIDs
+                destination.startID = indexPath[0].row
+            }
+        }
+//      if let destination = segue.destination as? largePhotoViewController,
+//        let indexPath = collectionView.indexPathsForSelectedItems {
+//          destination.id = location.photoIDs[indexPath[0].row]
+//      }
     }
     
-    
-   
+    func showNoPhotosAlert() {
+        let alert = UIAlertController(title: "No Photos to show", message: "There are no photos for the selected location", preferredStyle: UIAlertController.Style.alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
+            //Cancel Action
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
 
 }

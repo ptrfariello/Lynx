@@ -16,6 +16,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - Connections to StoryBoard
     @IBOutlet weak var milesLabel: UILabel!
+    @IBOutlet weak var markerPhotos: UIButton!
     @IBOutlet weak var mrkCloseBtn: UIButton!
     @IBOutlet private var mapView: MKMapView!
     @IBOutlet weak var bottomLabel: UILabel!
@@ -61,6 +62,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
         bottomText.isHidden = opt
         bottomLabel.isHidden = opt
         mrkCloseBtn.isHidden = opt
+        markerPhotos.isHidden = opt
     }
     
     
@@ -70,7 +72,6 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     var markers: [StopMarker] = []
     var routes: [Route] = []
    
-    
     
     
     //MARK: - Override View Functiona
@@ -203,7 +204,7 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
     func draw_data_points(disabled: Bool){
         if disabled {return}
         let start_string = date_to_iso(date: sharedData.shared.startDate)
-        let end_string = date_to_iso(date: sharedData.shared.endDate)
+        let end_string = date_to_iso(date: sharedData.shared.endDate.addingTimeInterval(-3600*24))
         Task{
             do{
                 let fastest_speed = try await getMapData(url: "maxSpeed", start: start_string, end: end_string)[0]
@@ -284,6 +285,13 @@ class mapViewController: UIViewController, CLLocationManagerDelegate {
                 if let routes_view = navController.viewControllers[0] as? routesTableViewController {
                     routes_view.routes = select_routes(routes: self.routes, from: sharedData.shared.startDate, to: sharedData.shared.endDate)
                     routes_view.points = select_points(points: sharedData.shared.points, from: sharedData.shared.startDate, to: sharedData.shared.endDate)
+                }
+            }
+        }
+        if (segue.identifier == "locationPhotos") {
+            if let destination = segue.destination as? photosCollectionViewController{
+                if let location = select_location(coordinates: active_Marker?.coordinate ?? Constants.shared.fast_sailing, locations: sharedData.shared.locations)?.1{
+                destination.location = location
                 }
             }
         }

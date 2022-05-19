@@ -11,7 +11,7 @@ import Photos
 
 
 
-class placePhotosCell: UITableViewCell {
+class placesPhotosTableCell: UITableViewCell {
     
     var place: Location!
     
@@ -34,13 +34,14 @@ class placePhotosCell: UITableViewCell {
     }
     
     func fetchPhoto() {
+        let ids = selectPhotosIDs(ids: place.photoIDs, start: sharedData.shared.startDate, end: sharedData.shared.endDate)
         let imgManager = PHImageManager.default()
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = false
         requestOptions.isNetworkAccessAllowed = true
         let fetchOptions = PHFetchOptions()
         var images: [UIImage] = []
-        let fetchResult: PHFetchResult = PHAsset.fetchAssets(withLocalIdentifiers: place.photoIDs, options: fetchOptions)
+        let fetchResult: PHFetchResult = PHAsset.fetchAssets(withLocalIdentifiers: ids, options: fetchOptions)
         // If the fetch result isn't empty,
         // proceed with the image request
         if fetchResult.count > 0 {

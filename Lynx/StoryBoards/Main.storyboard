@@ -54,7 +54,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="photosCell" rowHeight="250" id="ShN-km-1KC" customClass="placePhotosCell" customModule="Lynx" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="photosCell" rowHeight="250" id="ShN-km-1KC" customClass="placesPhotosTableCell" customModule="Lynx" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44.5" width="414" height="250"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ShN-km-1KC" id="JHT-4o-31h">
@@ -105,10 +105,10 @@
             </objects>
             <point key="canvasLocation" x="328" y="2006"/>
         </scene>
-        <!--Place Photo View Controller-->
+        <!--Photos Collection View Controller-->
         <scene sceneID="lXX-2t-u1J">
             <objects>
-                <collectionViewController id="i8a-3O-i5A" customClass="placePhotoViewController" customModule="Lynx" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="i8a-3O-i5A" customClass="photosCollectionViewController" customModule="Lynx" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="9mf-ql-oRs">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -120,7 +120,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="3xh-3e-LjV" customClass="photoCell" customModule="Lynx" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCell" id="3xh-3e-LjV" customClass="photoCollectionCell" customModule="Lynx" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="csl-jo-29i">
@@ -144,7 +144,7 @@
                                 </collectionViewCellContentView>
                                 <connections>
                                     <outlet property="image" destination="YAW-mY-rM0" id="MCS-4G-vFC"/>
-                                    <segue destination="4vE-NN-TzO" kind="show" id="pT8-G5-GVz"/>
+                                    <segue destination="EUq-FE-2MM" kind="show" identifier="show_photos" id="vis-fE-55z"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -157,7 +157,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uPU-U9-RBi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1390" y="2006"/>
+            <point key="canvasLocation" x="1378" y="2006"/>
         </scene>
         <!--Large Photo View Controller-->
         <scene sceneID="rfi-Fm-QOw">
@@ -168,7 +168,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xgh-P2-8oi">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="0uf-Mk-Wa8"/>
@@ -188,6 +188,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sqx-rG-AcN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2312" y="2006"/>
+        </scene>
+        <!--Photo Scroll View Controller-->
+        <scene sceneID="meu-pd-Qd5">
+            <objects>
+                <viewController id="EUq-FE-2MM" customClass="PhotoScrollViewController" customModule="Lynx" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kIi-Tr-ZBL">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d49-qj-q4J">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="kPl-cG-34r"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="VwO-GO-WnO"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="yMQ-zi-OUp"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="d49-qj-q4J" firstAttribute="leading" secondItem="yMQ-zi-OUp" secondAttribute="leading" id="51H-Ha-mvK"/>
+                            <constraint firstItem="yMQ-zi-OUp" firstAttribute="trailing" secondItem="d49-qj-q4J" secondAttribute="trailing" id="A6c-N9-gcN"/>
+                            <constraint firstItem="yMQ-zi-OUp" firstAttribute="bottom" secondItem="d49-qj-q4J" secondAttribute="bottom" id="DAg-p1-7hm"/>
+                            <constraint firstItem="d49-qj-q4J" firstAttribute="top" secondItem="kIi-Tr-ZBL" secondAttribute="top" constant="44" id="oaY-PU-Qwf"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="7il-xl-mw0"/>
+                    <connections>
+                        <outlet property="scrollView" destination="d49-qj-q4J" id="u6S-Lp-sCQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="STm-uz-FTG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2150.7246376811595" y="2768.9732142857142"/>
         </scene>
         <!--Photos-->
         <scene sceneID="NhY-ib-5Ce">
@@ -333,6 +365,15 @@
                                     <constraint firstAttribute="width" secondItem="H1M-hM-k7w" secondAttribute="height" id="FYQ-Wl-7Nq"/>
                                 </constraints>
                             </view>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MgL-hL-AY1">
+                                <rect key="frame" x="0.0" y="720" width="50" height="31"/>
+                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="photo" catalog="system"/>
+                                <connections>
+                                    <segue destination="i8a-3O-i5A" kind="show" identifier="locationPhotos" id="6C6-QA-EFz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="o6f-Uc-Rsz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -356,10 +397,13 @@
                             <constraint firstItem="o6f-Uc-Rsz" firstAttribute="bottom" secondItem="hpz-ag-SWQ" secondAttribute="bottom" id="d1D-47-KFW"/>
                             <constraint firstItem="qAN-EC-fNs" firstAttribute="centerX" secondItem="yVu-oA-M0N" secondAttribute="centerX" id="goT-Vl-UOG"/>
                             <constraint firstItem="FgI-lR-Ojb" firstAttribute="centerX" secondItem="uHq-JL-FUB" secondAttribute="centerX" id="hCE-aN-2e6"/>
+                            <constraint firstItem="qAN-EC-fNs" firstAttribute="top" secondItem="MgL-hL-AY1" secondAttribute="bottom" id="hKn-2r-LYR"/>
                             <constraint firstItem="H1M-hM-k7w" firstAttribute="width" secondItem="mp8-UW-fDV" secondAttribute="width" id="hUI-Kk-gKa"/>
                             <constraint firstItem="H1M-hM-k7w" firstAttribute="top" secondItem="mp8-UW-fDV" secondAttribute="bottom" constant="15" id="hZp-yL-bQg"/>
+                            <constraint firstItem="MgL-hL-AY1" firstAttribute="leading" secondItem="o6f-Uc-Rsz" secondAttribute="leading" id="ub9-KI-dT6"/>
                             <constraint firstItem="yVu-oA-M0N" firstAttribute="leading" secondItem="uHq-JL-FUB" secondAttribute="leading" id="yyw-ah-wD2"/>
                             <constraint firstItem="mp8-UW-fDV" firstAttribute="centerX" secondItem="H1M-hM-k7w" secondAttribute="centerX" id="zsw-KX-iuu"/>
+                            <constraint firstItem="07d-Qz-CyS" firstAttribute="height" secondItem="MgL-hL-AY1" secondAttribute="height" id="zuQ-D5-Y6Q"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map" catalog="system" selectedImage="map" id="62B-xZ-HkU"/>
@@ -374,6 +418,7 @@
                         <outlet property="loadingWheel" destination="FgI-lR-Ojb" id="VM0-rf-BtF"/>
                         <outlet property="locationButtonView" destination="ml1-nc-9jI" id="ncH-rA-7zy"/>
                         <outlet property="mapView" destination="hpz-ag-SWQ" id="hPf-hh-c4O"/>
+                        <outlet property="markerPhotos" destination="MgL-hL-AY1" id="f8C-9q-ZLs"/>
                         <outlet property="milesLabel" destination="OU1-Ux-zg4" id="CxP-7c-hJl"/>
                         <outlet property="mrkCloseBtn" destination="07d-Qz-CyS" id="Gtv-Fw-2gO"/>
                     </connections>
@@ -684,11 +729,15 @@
             <point key="canvasLocation" x="0.0" y="-625"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="GfM-6h-M8a"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="IMG_5061" width="1008" height="1344"/>
         <image name="calendar" catalog="system" width="128" height="106"/>
         <image name="globe" catalog="system" width="128" height="121"/>
         <image name="map" catalog="system" width="128" height="110"/>
+        <image name="photo" catalog="system" width="128" height="93"/>
         <image name="photo.on.rectangle" catalog="system" width="128" height="97"/>
         <image name="point.filled.topleft.down.curvedto.point.bottomright.up" catalog="system" width="121" height="128"/>
         <image name="x.circle.fill" catalog="system" width="128" height="121"/>
