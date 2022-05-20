@@ -27,12 +27,10 @@
 		9A4CCD282828F9FE005401B3 /* dateSelView Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CCD272828F9FE005401B3 /* dateSelView Controller.swift */; };
 		9A4CE26E2828744F00FBA993 /* dataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4CE26D2828744F00FBA993 /* dataStorage.swift */; };
 		9B05DE35282518AB00FEDE47 /* functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B05DE34282518AB00FEDE47 /* functions.swift */; };
-		9B4579682836C5CD001C030D /* Photo Scroll ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4579672836C5CD001C030D /* Photo Scroll ViewController.swift */; };
 		9B5D1BFE282A5BCE00E0A1B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B5D1BFD282A5BCE00E0A1B3 /* Main.storyboard */; };
 		9B5D1C0B282A5E1D00E0A1B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B5D1C0A282A5E1D00E0A1B3 /* LaunchScreen.storyboard */; };
 		9B6BA0EA2834336F000A3FE5 /* photos Collection View Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6BA0E92834336F000A3FE5 /* photos Collection View Controller.swift */; };
 		9B6BA0EC28343476000A3FE5 /* photoCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6BA0EB28343476000A3FE5 /* photoCollectionCell.swift */; };
-		9B6BA0EE283438B9000A3FE5 /* largePhoto View Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6BA0ED283438B9000A3FE5 /* largePhoto View Controller.swift */; };
 		9BA03A882833AB3E00A80EDD /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF75F26282D7C8200D58E78 /* CoreLocation.framework */; };
 		9BA03A892833AB3E00A80EDD /* CoreLocationUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BF75F28282D7CDE00D58E78 /* CoreLocationUI.framework */; };
 		9BA03A8A2833AB4400A80EDD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC7099C282B03D50064A969 /* MapKit.framework */; };
@@ -52,6 +50,8 @@
 		9BD4F3362832B2B000BE3EA2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4F3352832B2B000BE3EA2 /* Constants.swift */; };
 		9BD4F3382832B46D00BE3EA2 /* sharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4F3372832B46D00BE3EA2 /* sharedData.swift */; };
 		9BD4F33A2832B8D400BE3EA2 /* locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD4F3392832B8D300BE3EA2 /* locations.swift */; };
+		9BECC99E2837C10500152AFB /* photos Zoom View Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BECC99D2837C10500152AFB /* photos Zoom View Controller.swift */; };
+		9BECC9A22837C5C000152AFB /* photo Swipe View Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BECC9A12837C5C000152AFB /* photo Swipe View Controller.swift */; };
 		9BF27DD32830012D005D88FA /* MRCalcSaveGet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF27DD22830012D005D88FA /* MRCalcSaveGet.swift */; };
 		9BF75F34282E64FE00D58E78 /* Markers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF75F33282E64FE00D58E78 /* Markers.swift */; };
 		9BF75F36282E657E00D58E78 /* Routes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BF75F35282E657E00D58E78 /* Routes.swift */; };
@@ -85,12 +85,10 @@
 		9A4CCD272828F9FE005401B3 /* dateSelView Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "dateSelView Controller.swift"; sourceTree = "<group>"; };
 		9A4CE26D2828744F00FBA993 /* dataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataStorage.swift; sourceTree = "<group>"; };
 		9B05DE34282518AB00FEDE47 /* functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = functions.swift; sourceTree = "<group>"; };
-		9B4579672836C5CD001C030D /* Photo Scroll ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo Scroll ViewController.swift"; sourceTree = "<group>"; };
 		9B5D1BFD282A5BCE00E0A1B3 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9B5D1C0A282A5E1D00E0A1B3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B6BA0E92834336F000A3FE5 /* photos Collection View Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "photos Collection View Controller.swift"; sourceTree = "<group>"; };
 		9B6BA0EB28343476000A3FE5 /* photoCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = photoCollectionCell.swift; sourceTree = "<group>"; };
-		9B6BA0ED283438B9000A3FE5 /* largePhoto View Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "largePhoto View Controller.swift"; sourceTree = "<group>"; };
 		9BAAF8BC28257B5F000EC8A5 /* geocoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = geocoder.swift; sourceTree = "<group>"; };
 		9BBD6E14282A6F8400E68312 /* webSiteView Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "webSiteView Controller.swift"; sourceTree = "<group>"; };
 		9BC7099C282B03D50064A969 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -112,6 +110,8 @@
 		9BD4F3352832B2B000BE3EA2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9BD4F3372832B46D00BE3EA2 /* sharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sharedData.swift; sourceTree = "<group>"; };
 		9BD4F3392832B8D300BE3EA2 /* locations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locations.swift; sourceTree = "<group>"; };
+		9BECC99D2837C10500152AFB /* photos Zoom View Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "photos Zoom View Controller.swift"; sourceTree = "<group>"; };
+		9BECC9A12837C5C000152AFB /* photo Swipe View Controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "photo Swipe View Controller.swift"; sourceTree = "<group>"; };
 		9BF27DD22830012D005D88FA /* MRCalcSaveGet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MRCalcSaveGet.swift; sourceTree = "<group>"; };
 		9BF75F26282D7C8200D58E78 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		9BF75F28282D7CDE00D58E78 /* CoreLocationUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocationUI.framework; path = System/Library/Frameworks/CoreLocationUI.framework; sourceTree = SDKROOT; };
@@ -193,8 +193,8 @@
 			children = (
 				9BD4F32F28319FA400BE3EA2 /* photos Table View Controller.swift */,
 				9B6BA0E92834336F000A3FE5 /* photos Collection View Controller.swift */,
-				9B6BA0ED283438B9000A3FE5 /* largePhoto View Controller.swift */,
-				9B4579672836C5CD001C030D /* Photo Scroll ViewController.swift */,
+				9BECC99D2837C10500152AFB /* photos Zoom View Controller.swift */,
+				9BECC9A12837C5C000152AFB /* photo Swipe View Controller.swift */,
 			);
 			path = Photos;
 			sourceTree = "<group>";
@@ -489,19 +489,19 @@
 				9A4CCD282828F9FE005401B3 /* dateSelView Controller.swift in Sources */,
 				9A4CCD222828E94C005401B3 /* dateFunctions.swift in Sources */,
 				9BCFC10228232D6800A4CD4A /* AppDelegate.swift in Sources */,
-				9B4579682836C5CD001C030D /* Photo Scroll ViewController.swift in Sources */,
+				9BECC9A22837C5C000152AFB /* photo Swipe View Controller.swift in Sources */,
 				9BF75F38282E740700D58E78 /* route Details View Controller.swift in Sources */,
 				9BF27DD32830012D005D88FA /* MRCalcSaveGet.swift in Sources */,
 				9B6BA0EA2834336F000A3FE5 /* photos Collection View Controller.swift in Sources */,
 				9BD4F33A2832B8D400BE3EA2 /* locations.swift in Sources */,
 				9BD4F3332831A06500BE3EA2 /* photos Functions.swift in Sources */,
 				9BF75F43282E974800D58E78 /* routeTableCell.swift in Sources */,
+				9BECC99E2837C10500152AFB /* photos Zoom View Controller.swift in Sources */,
 				9BF75F36282E657E00D58E78 /* Routes.swift in Sources */,
 				9BC7E5BE28244476002C7707 /* database.swift in Sources */,
 				9BF75F41282E8FE200D58E78 /* routes Table View Controller.swift in Sources */,
 				9BF75F45282EA1A200D58E78 /* routesFunctions.swift in Sources */,
 				9A4CCD262828E9DD005401B3 /* extensions.swift in Sources */,
-				9B6BA0EE283438B9000A3FE5 /* largePhoto View Controller.swift in Sources */,
 				9BCFC10428232D6800A4CD4A /* SceneDelegate.swift in Sources */,
 				9BD4F3382832B46D00BE3EA2 /* sharedData.swift in Sources */,
 				9BBD6E15282A6F8400E68312 /* webSiteView Controller.swift in Sources */,

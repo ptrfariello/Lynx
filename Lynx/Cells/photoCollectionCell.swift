@@ -24,7 +24,7 @@ class photoCollectionCell: UICollectionViewCell {
         requestOptions.isNetworkAccessAllowed = true
         let fetchOptions = PHFetchOptions()
         let fetchResult: PHFetchResult = PHAsset.fetchAssets(withLocalIdentifiers: [self.id], options: fetchOptions)
-        let size = CGSize(width: 150, height: 150)
+        let size = CGSize(width: 250, height: 250)
         // If the fetch result isn't empty,
         // proceed with the image request
         if fetchResult.count > 0 {

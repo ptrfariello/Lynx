@@ -59,24 +59,29 @@ class photosCollectionViewController: UICollectionViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "show_photos") {
-            if let destination = segue.destination as? PhotoScrollViewController,
-                let indexPath = collectionView.indexPathsForSelectedItems {
-                destination.ids = location.photoIDs
-                destination.startID = indexPath[0].row
-            }
+//        if (segue.identifier == "show_photos") {
+//            if let destination = segue.destination as? PhotoScrollViewController,
+//                let indexPath = collectionView.indexPathsForSelectedItems {
+//                destination.ids = location.photoIDs
+//                destination.startID = indexPath[0].row
+//            }
+//        }
+        if let destination = segue.destination as? PhotoSwipeViewController,
+          let indexPath = collectionView.indexPathsForSelectedItems {
+            destination.currentIndex = indexPath[0].row
+            destination.ids = location.photoIDs
         }
-//      if let destination = segue.destination as? largePhotoViewController,
-//        let indexPath = collectionView.indexPathsForSelectedItems {
-//          destination.id = location.photoIDs[indexPath[0].row]
-//      }
+      if let destination = segue.destination as? PhotoZoomViewController,
+        let indexPath = collectionView.indexPathsForSelectedItems {
+          destination.id = location.photoIDs[indexPath[0].row]
+      }
     }
     
     func showNoPhotosAlert() {
         let alert = UIAlertController(title: "No Photos to show", message: "There are no photos for the selected location", preferredStyle: UIAlertController.Style.alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { _ in
-            //Cancel Action
+            self.dismiss(animated: true, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)
     }
